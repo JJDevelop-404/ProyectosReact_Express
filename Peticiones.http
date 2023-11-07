@@ -1,4 +1,13 @@
 ### PETICIONES HTTP PARA Usuarios
+### Traer todos los usuarios
+GET http://localhost:3003/usuarios/getUsuarios
+
+### Traer usuario por id
+GET http://localhost:3003/usuarios/getUsuario/5
+
+### Traer usuario que sea mesero
+GET http://localhost:3003/usuarios/getMeseros
+
 ### Crear un Usuario
 POST http://localhost:3003/usuarios/createUsuario
 Content-Type: application/json
@@ -43,4 +52,33 @@ Content-Type: application/json
 
 {
     "MesaId": 21
+}
+
+### |------------------------------|
+### PETICIONES HTTP PARA PEDIDOS
+### Obtener los productos
+GET http://localhost:3003/productos/getProductos
+
+### Obtener un producto por id
+GET http://localhost:3003/productos/getProducto/2
+
+### Crear un Producto
+POST http://localhost:3003/productos/createProducto
+Content-Type: application/json
+
+{
+    "Nombre": "Pizza Mexicana",
+    "Descripcion": "Pizza con maiz y carne molida para 4 personas",
+    "Precio": 33000,
+    "Categoria": "Comida"
+}
+
+### Actualizar un Producto
+PUT http://localhost:3003/productos/updateProducto/112
+Content-Type: application/json
+
+{
+    "Nombre": "Costillas BBQ",
+    "Descripcion": "12 costillas BBQ para 4 personas",
+    "Precio": 35000
 }

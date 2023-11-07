@@ -1,6 +1,8 @@
 import express, { json } from "express";
-import routerUsuario from "./router/Usuario.js";
 import cors from "cors";
+
+import routerUsuario from "./router/Usuarios.js";
+import routerProductos from "./router/Productos.js";
 import routerMesas from "./router/Mesas.js";
 
 const app = express();
@@ -11,6 +13,7 @@ app.use(cors());
 
 app.use('/usuarios', routerUsuario);
 app.use('/mesas', routerMesas);
+app.use('/productos', routerProductos);
 
 app.use((req,res)=>{
     res.status(404).json({Error: "No se encontro la ruta"});

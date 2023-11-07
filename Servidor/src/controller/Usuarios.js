@@ -55,7 +55,7 @@ export const getUsuarioById = async (req, res) => {
     console.log("\n\nFuncion: getUsuarioById()");
     try {
         const id = req.params.id;
-        const usuario = await pool.query('SELECT * FROM usuarios WHERE id = $1', [id]);
+        const usuario = await pool.query('SELECT * FROM usuarios WHERE usuarioId = ?', [id]);
         console.log(usuario);
         res.status(200).json(usuario);
     } catch (error) {
@@ -105,6 +105,7 @@ export const updateUsuario = async (req, res) => {
         const { UsuarioId } = req.params;
         const { Nombres, Apellidos, TipoUsuario } = req.body;
         if (Nombres || Apellidos || TipoUsuario) {
+            //El COALESCE() es para que si el campo viene vacio, no lo actualice
             const result = await pool.query('UPDATE usuarios SET ' +
                 'Nombres = COALESCE(?, Nombres), Apellidos = COALESCE(?, Apellidos), TipoUsuario = COALESCE(?,TipoUsuario) ' +
                 'WHERE usuarioId = ?', [Nombres, Apellidos, TipoUsuario, UsuarioId]);
