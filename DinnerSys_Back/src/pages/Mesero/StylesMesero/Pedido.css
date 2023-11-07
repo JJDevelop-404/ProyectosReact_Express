@@ -1,0 +1,86 @@
+.formSinMesa {
+  width: 30%;
+}
+
+.container-formulariosPP {
+  display: flex; 
+}
+
+.formPedidos, .formlstProductos{
+  position: absolute;
+  margin: 1%;
+  top: 50%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  &::-webkit-scrollbar{
+    display: none;
+  }
+}
+
+.formPedidos{
+  left: 35%;
+}
+
+.formlstProductos{
+  margin-left: 15%;
+  width: 20%;
+  height: 50%;
+}
+
+.formPedidos .Linealh2 {
+  margin-bottom: 10%;
+  font-size: 25px;
+}
+
+.formPedidos .user-box{
+  position: relative;
+}
+
+.user-box select:valid~label,
+.user-box select:focus~label {
+    top: -25px;
+    color: burlywood;
+    font-size: 16px;
+}
+
+.formlstProductos .carrusel-pedidos{
+  position: absolute;
+  top: 35%;
+  border: 3px solid rgba(222, 184, 135, 0.2);
+  background-color: rgba(222, 184, 135, 0.064);
+  border-radius: 10px;
+  padding: 10px 15px;
+  max-height: 40%;
+  margin: 0 auto;
+  text-align: left;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.formlstProductos .carrusel-pedidos label{
+  word-wrap: break-word;
+  width: 100%;
+  border-bottom: 1px solid gray;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.formlstProductos .carrusel-pedidos input[type="checkbox"] {
+  flex: 1 0 auto;
+  appearance: none;
+  margin: 25px 4px auto;
+  padding: 5px;
+  border: 2px solid rgb(219, 184, 138);
+  background-color: transparent;
+  border-radius: 20%;
+}
+
+.formlstProductos .carrusel-pedidos input[type="checkbox"]:hover, label:hover{
+  cursor: pointer;
+}
+
+.formlstProductos .carrusel-pedidos input[type="checkbox"]:checked{
+  background-color: burlywood;
+}

@@ -1,0 +1,31 @@
+.formMesero {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: 50px;
+    max-width: 420px;
+    transform: translate(-50%, -50%);
+}
+
+.formMesero .Linealh2 {
+    text-align: left;
+}
+
+.formMesero .lblMesas {
+    margin-left: 16px;
+    text-align: left;
+    white-space: pre-wrap;
+}
+
+.formMesero .input-mesas {
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    color: black;
+    background-color: burlywood;
+    border-radius: 8px;
+    border-color: transparent;
+    margin-left: 4px;
+    width: 20px;
+    height: 15px;
+}

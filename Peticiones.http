@@ -1,0 +1,46 @@
+### PETICIONES HTTP PARA Usuarios
+### Crear un Usuario
+POST http://localhost:3003/usuarios/createUsuario
+Content-Type: application/json
+
+{
+    "Cedula": "1120465721",
+    "Nombres": "Karol",
+    "Apellidos": "Diaz Diaz",
+    "TipoUsuario": "Mesero"
+}
+
+### Actualizar un Usuario
+PUT http://localhost:3003/usuarios/updateUsuario/9
+Content-Type: application/json
+
+{
+    "Nombres": "Sofia Andrea",
+    "Apellidos": "Diaz"
+}
+
+### Eliminar un Usuario
+DELETE http://localhost:3003/usuarios/deleteUsuario/8
+
+
+### PETICIONES HTTP PARA Mesas
+### Crear una Mesa
+POST http://localhost:3003/mesas/createMesa
+
+
+### Asignar Mesa a Usuario Tipo Mesero
+POST http://localhost:3003/mesas/asignarMesa/
+Content-Type: application/json
+
+{
+    "MesaId": 21,
+    "MeseroId": 8
+}
+
+### Liberar mesa, quitar el mesero asignado a la mesa
+PUT http://localhost:3003/mesas/liberarMesa
+Content-Type: application/json
+
+{
+    "MesaId": 21
+}

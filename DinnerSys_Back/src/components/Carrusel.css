@@ -1,0 +1,160 @@
+.carrusel {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    width: 27%;
+    height: 200px;
+    border: 3px solid gray;
+    border-radius: 20px;
+    background-color: #222;
+    left: 17%;
+    top: 90px;
+    padding: 10px 0;
+    margin: 0 0 50px;
+    transform: translate(-50%);
+    align-items: center;
+    scroll-behavior: smooth;
+    transition: .1s ease-in;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    &::-webkit-scrollbar {
+        display: none;
+        /* Para ocultar la barra de navegación */
+    }
+}
+
+.carrusel .mesas-title {
+    position: sticky;
+    left: 20px;
+}
+
+.carrusel .mesas-title h3 {
+    text-wrap: nowrap;
+    position: absolute;
+    top: -98px;
+    margin: 0 auto;
+}
+
+.carrusel .circulo-container {
+    top: 12px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: aliceblue;
+    font-size: 4%;
+    flex: 1 0 auto;
+    margin: 0 20px;
+    width: 120px;
+    height: 120px;
+    border: none;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: rgb(255, 127, 80, .15);
+    transition: .3s all;
+}
+
+.carrusel input[type="checkbox"] {
+    display: none;
+}
+
+.carrusel .circulo-container .icon-mesas {
+    position: relative;
+    color: black;
+    -webkit-text-stroke: 1px;
+    top: 30%;
+    font-size: 80px;
+}
+
+.carrusel .circulo-container p {
+    margin-top: 38px;
+    text-align: center;
+    width: 100%;
+    background-color: lightcoral;
+    color: black;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 600;
+}
+
+.carrusel input[type="checkbox"]:checked+.circulo-container {
+    background-color: rgba(199, 241, 180, .2);
+    transform: scale(105%);
+    
+    & p {
+        background-color: lightgreen;
+    };
+}
+
+.carrusel input[type="checkbox"]:hover+.circulo-container {
+    transform: scale(105%);
+}
+
+
+/* Para lograr que el boton quede fijo, el sticky funciona solo cuando el lado que vamos a fijar, esta en 0, en mi caso, queria fijar el boton a la derecha, entonces le doy un right de 0 y la position sticky */
+.container-dz {
+    position: sticky;
+    text-align: right;
+    margin-left: 27px;
+    right: 0;
+    z-index: 1;
+    height: 110%;
+    width: 100%;
+}
+
+/* Me toco agregarle un margin-left ya que este quedaba como con un margen a la derecha que no quedaba bien puesto que se veia el boton no a la derecha del todo, sino como un poco a la izquierda */
+.desplazar,
+.desplazarLeft {
+    right: 0;
+    height: 50%;
+    background-color: #333;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px;
+    color: #999;
+    border: none;
+}
+
+.desplazar {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0;
+    position: absolute;
+    border-bottom: 2px solid #444;
+}
+
+.desplazarLeft {
+    position: absolute;
+    top: 50%;
+    border-top: 2px solid #444;
+}
+
+/* Clase del contenedor del boton */
+/* Para alinear donde queramos */
+.carrusel-container-btn {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    top: 20px;
+    text-align: center;
+    align-items: center;
+}
+
+.carrusel-container-btn .btnCarrusel {
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+    border: none;
+    width: 50%;
+    background-color: rgba(199, 241, 180, .6);
+    transition: 1s all;
+}
+
+.btnCarrusel:hover,
+.btnCarrusel:focus {
+    box-shadow: inset -2.5em 0 0 0 lightgreen,
+        inset 2.5em 0 0 0 lightgreen;
+}

@@ -1,0 +1,45 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: auto;
+    z-index: 2;
+    background-color: #333;
+    width: 100%;
+}
+
+.ul-navbar {
+    list-style-type: none;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.ul-navbar li {
+    float: left;
+}
+
+.ul-navbar li a {
+    height: 100%;
+    display: block;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.ul-navbar .li-button {
+    background-color: burlywood;
+    border: none;
+    float: right;
+}
+
+.ul-navbar li:hover {
+    background-color: rgb(222, 184, 135, .6);
+}
+
+.content {
+    margin-top: 50px;
+}

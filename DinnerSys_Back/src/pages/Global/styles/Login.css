@@ -1,0 +1,99 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css');
+/* Este import es para el icono de usuario */
+
+/* Para realizar el circulo */
+.circle {
+    position: relative;
+    margin: auto;
+    z-index: 2;
+    bottom: 50px;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background-color: #7c6951;
+    box-shadow: 2px 2px burlywood,
+    2px 2px burlywood, 2px 2px burlywood;
+}
+/* Para acomodar bien y centrar el icono */
+.circle i{
+    margin-top: 15px;
+    justify-content: center;
+    font-size: 100px;
+}
+
+/* Acomodamos el formulario a nuestro gusto */
+.formLogin {
+    padding-top: 0;
+    padding: 0 25px;
+    width: 20%;
+    text-align: center;
+    border: 6px solid #d3d3d392;
+    border-radius: 50px;
+}
+/* Acomodamos también el h2 a nuestro gusto */
+.formLogin .Linealh2 {
+    font-family: 'Pixelify Sans', cursive; 
+    /* El import de este tipo de letra está en el index.css */
+    display: inline-block;
+    color: lightgray;
+    text-shadow: 0 0 5px #252525;
+    padding: 0 15px;
+    background-color: hsla(33, 21%, 40%, 0.632);
+    border-radius: 20px;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 30px;
+    border-bottom: none;
+}
+
+/* A partir de aqui, es para acomodar todo lo que vendría siendo el input junto al label */
+.user-box {
+    position: relative;
+}
+
+.user-box input {
+    box-sizing: content-box;
+    width: 80%;
+    display: inline;
+    padding: 10px 10px;
+    font-size: 17px;
+    color: darkgray;
+    margin-bottom: 50px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid lightgray;
+    background: transparent;
+}
+
+.user-box label {
+    font-weight: bold;
+    position: absolute;
+    top: 0;
+    left: 9px;
+    padding: 10px 20px;
+    font-size: 17px;
+    color: burlywood;
+    pointer-events: none;
+    transition: .5s;
+}
+
+
+/* Esto para que cuando hagamos click en el input, el label se desplace hacia arriba */
+.user-box input:valid~label,
+.user-box input:focus~label {
+    top: -25px;
+    color: burlywood;
+    font-size: 16px;
+}
+
+/* Para alinear el botón al centro */
+.botonCen {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Personalizamos el boton a nuestro gusto */
+.botonCen .btnFormularios{
+    font-weight: bold;
+    font-size: 18px;
+}
