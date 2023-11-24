@@ -1,0 +1,16 @@
+.img-tillas {
+    position: relative;
+    width: 80px;
+    padding: 0;
+    transition: .7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.img-tillas:hover {
+    transform: scale(1.2);
+}
+
+.lst-productos .btn{
+    padding: 0 8px;
+    margin: 3px 10px;
+    font-size: 17px;
+}

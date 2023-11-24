@@ -1,0 +1,17 @@
+.card-img-top{
+    max-height: 200px;
+}
+.btn-shopping-cart{
+    outline: none;
+    border: none;
+    display: flex;
+    float: right;
+    border-radius: 6px;
+    padding: 5px;
+    border: 3px solid black;
+}
+.ShoppingCart{
+    display: inline;
+    float: right;
+    font-size: 20px;
+}

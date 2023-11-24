@@ -1,0 +1,131 @@
+import './styles/CrearProducto.css';
+import { useFormik } from 'formik';
+import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExclamationTriangle, faCheck } from '@fortawesome/free-solid-svg-icons';
+import * as Yup from 'yup';
+import { AgregarProducto, ModificarProducto } from '../../../API/APIProductos';
+import { useParams } from 'react-router-dom';
+
+export default function CrearProducto({ titulo, producto, accion='crear' }) {
+  const {ProductoId} = useParams();
+  const [inputActivo, setInputActivo] = useState(''); // Para el manejo del mensaje de error de los inputs
+  const [image, setImage] = useState(null); // Para el manejo de la imagen
+
+
+
+  const formik = useFormik({
+    initialValues: initialValues(),
+    validationSchema: Yup.object(validationSchema()),
+    onSubmit: (formData) => {
+      
+      if (image) { // Si existe una imagen entonces se envia el formulario
+        
+        const newProducto = new FormData();
+        newProducto.append('nombre', formData.nombre);
+        newProducto.append('descripcion', formData.descripcion);
+        newProducto.append('precio', formData.precio);
+        newProducto.append('image', image);
+        // Agregamos todos nuestros datos al objeto newProducto que es un FormData ya que este contiene una imagen 
+        // y la imagen no se puede enviar en formato JSON
+
+        switch (accion) {
+          case 'crear': {
+            console.log('Crear');
+            AgregarProducto(newProducto)
+              .then((response) => {
+                console.log(response);
+              }).catch((error) => {
+                console.log(error);
+              })
+            break;
+          }
+          case 'modificar': {
+            console.log('Modificar');
+            ModificarProducto(newProducto, ProductoId).then((response) => {
+              console.log(response);
+            }).catch((error) => {
+              console.log(error);
+            })
+            break;
+          }
+
+        }
+      }
+    }
+  });
+
+  return (
+    <div className="crearProducto">
+      <div className="d-flex justify-content-center align-items-center"> {/* Esto es para centrar el contenido  */}
+        <div className='col-md-4'> {/* Esto es para el tamño de los input  */}
+          <h1 className="form-title"> {titulo ? titulo.EncabezadoFormulario : 'Nuevo Producto'} </h1>
+          <form onSubmit={formik.handleSubmit} encType='multipart'>
+
+            <div className="form-group">
+              <input type="text" className="form-control" name="nombre" required defaultValue={producto ? producto.Nombre : ''}
+                onFocus={() => setInputActivo('nombre')}
+                onBlur={() => setInputActivo('')}
+                onChange={formik.handleChange}
+              />
+
+              <label className="form-label">Nombre {formik.errors.nombre ? <FontAwesomeIcon className='error' icon={faExclamationTriangle} beat /> : <FontAwesomeIcon className='ok' icon={faCheck} />} </label>
+              {inputActivo === 'nombre' && <span className="error-msj"> {formik.errors.nombre} </span>}
+            </div>
+
+            <div className="form-group">
+              <input type="text" className="form-control" name="descripcion" required defaultValue={producto ? producto.Descripcion : ''}
+                onFocus={() => setInputActivo('descripcion')}
+                onBlur={() => setInputActivo('')}
+                onChange={formik.handleChange}
+              />
+              <label className="form-label">Descripción {formik.errors.descripcion ? <FontAwesomeIcon className='error' icon={faExclamationTriangle} beat /> : <FontAwesomeIcon className='ok' icon={faCheck} />}  </label>
+              {inputActivo === 'descripcion' && <span className="error-msj"> {formik.errors.descripcion} </span>}
+            </div>
+
+            <div className="form-group">
+              <input type="text" className="form-control" name="precio" required defaultValue={producto ? producto.Precio : 0}
+                onFocus={() => setInputActivo('precio')}
+                onBlur={() => setInputActivo('')}
+                onChange={formik.handleChange}
+              />
+              <label className="form-label">Precio {formik.errors.precio ? <FontAwesomeIcon className='error' icon={faExclamationTriangle} beat /> : <FontAwesomeIcon className='ok' icon={faCheck} />} </label>
+              {inputActivo === 'precio' && <span className="error-msj"> {formik.errors.precio} </span>}
+            </div>
+
+            <div className="form-group">
+              <input type="file" className="form-control form-control-sm" name="url_imagen" required
+                onFocus={() => setInputActivo('url_imagen')}
+                onBlur={() => setInputActivo('')}
+                onChange={(ev) => { formik.handleChange(ev); setImage(ev.target.files[0]) }}
+              />
+              <label className="form-label-file">URL Imagen {formik.errors.url_imagen ? <FontAwesomeIcon className='error' icon={faExclamationTriangle} beat /> : <FontAwesomeIcon className='ok' icon={faCheck} />} </label>
+              {inputActivo === 'url_imagen' && <span className="error-msj"> {formik.errors.url_imagen} </span>}
+            </div>
+
+            <button type='submit' className='btn btn-success'> {titulo ? titulo.BotonSubmit : 'Agregar Producto'} </button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+
+  function initialValues() {
+    return {
+      nombre: producto ? producto.Nombre : '',
+      descripcion: producto ? producto.Descripcion : '',
+      precio: producto ? producto.Precio : 0,
+      url_imagen: producto ? producto.URLImagen : null,
+    };
+  }
+
+  function validationSchema() {
+    return {
+      nombre: Yup.string().required("Este campo es obligatorio"),
+      descripcion: Yup.string().required("Este campo es obligatorio"),
+      precio: Yup.number().typeError("Este campo debe contener valores numericos").required("Este campo es obligatorio"),
+      url_imagen: Yup.string().required("Este campo es obligatorio"),
+    };
+  }
+}

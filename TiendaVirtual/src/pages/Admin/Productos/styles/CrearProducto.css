@@ -1,0 +1,26 @@
+.crearProducto .form-control {
+    padding: auto;
+}
+
+.crearProducto .form-label-file {
+    display: block;
+    text-align: left;
+}
+/* Para darle estilos al input tipo file */
+.crearProducto .form-control[type="file"] {
+    font-weight: bold;
+}
+
+.crearProducto .form-control[type="file"]::-webkit-file-upload-button {
+    border: none;
+    border-radius: 9px;
+    background-color: lightblue;
+}
+
+.crearProducto .form-control[type="file"]{
+    &:hover {
+        &::-webkit-file-upload-button {
+            background-color: rgb(89, 191, 225);
+        }
+    }
+}

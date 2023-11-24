@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Belanosima&display=swap');
+
+body {
+  background-color: #C5CAC4 !important;
+  font-family: 'Belanosima', sans-serif;
+}
+
+
+.title-basic {
+  font-family: 'Tilt Neon', sans-serif;
+  color: black;
+  background-color: #232323;
+  border-radius: 30px;
+  text-align: center;
+  color: transparent;
+  -webkit-text-stroke: .7px white;
+  font-size: 50px;
+  border-bottom: 2px solid #232323;
+  overflow: hidden;
+}
+
+/* ESTILOS GLOBALES PARA LAS TARJETAS */
+.card {
+  margin-bottom: 10%;
+  border-radius: 10px 10px 10px 10px !important;
+}
+
+/* Ponemos borde a nuestro cuerpo de las tarjetas */
+.card-body {
+  border-radius: 0 0 10px 10px;
+  background-color: #99999930 !important;
+}
+
+/* FIN ESTILOS GLOBALES PARA TARJETAS */
+
+
+/* ESTILOS PARA LOS FORMULARIOS */
+.d-flex {
+  height: 90vh;
+  max-width: 98%;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+}
+
+.form-title {
+  font-size: 30px;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  position: relative;
+}
+
+/* Esto es para darle estilo a todo el formulario en si */
+.col-md-4 {
+  text-align: center;
+  color: white;
+  background-color: #464646;
+  border-radius: 10px;
+  padding: 40px;
+}
+
+/* Esto es para darle estilo a los label del formulario */
+.form-label {
+  width: 100%;
+  font-size: 20px;
+  position: absolute;
+  text-align: left;
+  top: 17px;
+  left: 0;
+  font-size: 15px;
+  color: white;
+  pointer-events: none;
+  transition: .7s;
+}
+
+/* Esto es para darle estilo a los inputs */
+.form-control {
+  font-size: 15px;
+  color: white;
+  margin-top: 20px;
+  padding: 10px;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid white;
+  outline: none;
+  background: transparent;
+}
+
+/* Para manejar el autocompletado de los inputs que no me cambie los estilos */
+.form-control:-webkit-autofill,
+.form-control:-webkit-autofill:hover,
+.form-control:-webkit-autofill:focus,
+.form-control:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: white;
+}
+
+/* Esto es para cuando se haga click en un input, el label se ponga encima */
+.form-control:focus~.form-label,
+.form-control:valid~.form-label {
+  top: -10px;
+  left: 0;
+  color: white;
+  font-size: 14px;
+}
+
+/* Para desactivar el coso azul de los input */
+.form-control:focus,
+.form-control:active {
+  color: white;
+  background-color: transparent;
+  outline: none;
+  border-bottom: 2px solid white;
+  box-shadow: none;
+}
+
+/* HASTA AQUI LLEGA LA CREACION DE FORMULARIOS */
+
+/* ESTILO A LAS TABLAS */
+
+/* Estilo a la tabla global */
+.table {
+  text-align: center;
+  align-items: center;
+}
+
+.table thead th{
+  padding: 17px;
+  font-size: 20px;
+}
+.table tbody td{
+  font-size: 17px;
+  padding: 13px;
+}
+
+/* HASTA AQUI LLEGA ESTILOS A LAS TABLA */
+
+/* Para darle estilo a los botones de bootstrap */
+.btn {
+  margin: 20px;
+  font-size: 18px;
+}
+
+/* Mensaje de bien */
+.ok {
+  font-size: 20px;
+  color: lightgreen;
+}
+
+/* Mensaje de error */
+.error {
+  font-size: 20px;
+  color: red;
+}
+
+.error-msj {
+  display: block;
+  text-align: left;
+  font-family: sans-serif;
+  font-size: 13px;
+  margin-left: 10px;
+  color: red;
+
+}
