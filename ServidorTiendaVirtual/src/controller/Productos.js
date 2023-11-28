@@ -71,21 +71,47 @@ export const updateProducto = async (req, res) => {
         const { id } = req.params
         console.log(req.body);
         const { nombre, descripcion, precio } = req.body;
-        const image = 'http://localhost:3000/images/productos/'.concat(req.file.originalname);
+        let image = req.file;
+        if(image === undefined){
+            console.log("No se envio archivo tipo imagen, solo se envio la ruta de la imagen");
+            image = null;
+        }else{
+            image = 'http://localhost:3000/images/productos/'.concat(req.file.originalname);
+        }
         //El COALESCE ES PARA QUE SI NO SE ENVIA UN PARAMETRO, NO SE MODIFIQUE
-        const isUpdate = await pool.query('UPDATE Productos SET Nombre = COALESCE(?, Nombre), Descripcion = COALESCE(?, Descripcion), ' 
+        const isUpdate = await pool.query('UPDATE Productos SET Nombre = COALESCE(?, Nombre), Descripcion = COALESCE(?, Descripcion), '
             + ' Precio = COALESCE(?, Precio), URLImagen = COALESCE(?,URLImagen) WHERE ProductoId = ?', [nombre, descripcion, precio, image, id]);
-        
-        if(isUpdate.affectedRows === 1){
+
+        if (isUpdate.affectedRows === 1) {
             console.log("Producto modificado correctamente");
             res.status(201).json({ message: "Producto modificado correctamente" });
-        }else{
+        } else {
             console.log("No se pudo modificar el producto");
             res.status(200).json({ message: "No se pudo modificar el producto" });
         }
 
     } catch (error) {
         console.log("Error en updateProducto(): " + error.message);
+        res.status(500).json({ Error: "Error en el servidor: " + error.message });
+    }
+}
+
+// METODO DELETE --- DELETE
+// productos/deleteProducto/:id --> Funcion para eliminar un producto
+export const deleteProducto = async (req, res) => {
+    console.log("\n\nFuncion: deleteProducto()");
+    try {
+        const { id } = req.params;
+        const isDeleted = await pool.query('DELETE FROM productos WHERE id = ?', [id]);
+        if (isDeleted.affectedRows === 1) {
+            console.log("Producto eliminado correctamente");
+            res.status(200).json({ message: "Producto eliminado correctamente" });
+        } else {
+            console.log("No se pudo eliminar el producto");
+            res.status(200).json({ message: "No se pudo eliminar el producto" });
+        }
+    } catch (error) {
+        console.log("Error en deleteProducto(): " + error.message);
         res.status(500).json({ Error: "Error en el servidor: " + error.message });
     }
 }
