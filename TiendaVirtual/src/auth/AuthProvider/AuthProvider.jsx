@@ -25,7 +25,7 @@ export function AuthProvider({ children }) { // Proveedor de autenticación
     console.log(Rol);
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, Rol }}>
+        <AuthContext.Provider value={{ isAuthenticated, Rol, setIsAuthenticated }}>
             {children}
         </AuthContext.Provider>
     )

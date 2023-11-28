@@ -22,8 +22,12 @@ export default function ListarProductos() {
     }, [])
 
     const onHandleClickEdit = (producto) => {
-        return navigate(`/admin/productos/${producto.ProductoId}`, {state: producto});
+        return navigate(`/admin/productos/${producto.ProductoId}`, { state: producto });
         //El {state: producto} es para enviar el producto al componente ModificarProducto
+    }
+
+    const onHandleClickDelete = (idProducto) => {
+        console.log(idProducto);
     }
 
     return (
@@ -49,7 +53,10 @@ export default function ListarProductos() {
                                 <td>{producto.Descripcion}</td>
                                 <td>{producto.Precio}</td>
                                 <td><img className="img-tillas" src={producto.URLImagen} /> </td>
-                                <td> <button className="btn btn-primary" onClick={()=>onHandleClickEdit(producto)}>Editar</button> <button className="btn btn-danger"> Borrar </button> </td>
+                                <td>
+                                    <button className="btn btn-primary" onClick={() => onHandleClickEdit(producto)}>Editar</button>
+                                    <button className="btn btn-danger" onClick={()=> onHandleClickDelete(producto.ProductoId)}> Borrar </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

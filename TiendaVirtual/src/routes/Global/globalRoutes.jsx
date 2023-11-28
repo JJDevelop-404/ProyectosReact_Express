@@ -8,7 +8,7 @@ export const globalRoutes = [
         element: <PageError/>
     },
     {
-        path: 'Home',
+        path: '/',
         element: <App />
     },
     {
@@ -19,6 +19,4 @@ export const globalRoutes = [
         path: "/AdminLog/AccesToAdmin",
         element: <Login/>
     },
-
-
 ]

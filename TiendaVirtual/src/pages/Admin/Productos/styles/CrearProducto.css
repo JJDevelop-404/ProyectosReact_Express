@@ -6,21 +6,47 @@
     display: block;
     text-align: left;
 }
-/* Para darle estilos al input tipo file */
-.crearProducto .form-control[type="file"] {
-    font-weight: bold;
+
+/* ESTILOS AL INPUT TYPE FILE */
+
+/* Vamos a darle estilos personalizados a nuestra seccion de subir imagenes */
+/* Estilo al contenedor de toda nuestra seccion para subir la imagen*/
+.crearProducto .form-group.drag-drop-image {
+    display: inline-block;
+    margin-top: 25px;
+    margin-bottom: 5px;
+    height: 100px;
+    width: 120px;
+    border: 2px solid gray;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
-.crearProducto .form-control[type="file"]::-webkit-file-upload-button {
+.crearProducto .form-group.drag-drop-image:hover,
+.crearProducto .form-group.drag-drop-image-dragging {
+    background-color: transparent;
+    border: 2px dashed gray;
+}
+
+/* Estilo al boton, lo desaparecemos pero seguimos con la funcionalidad */
+.crearProducto .form-group.drag-drop-image .form-control[type="file"] {
+    position: absolute;
     border: none;
-    border-radius: 9px;
-    background-color: lightblue;
+    outline: none;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
 }
 
-.crearProducto .form-control[type="file"]{
-    &:hover {
-        &::-webkit-file-upload-button {
-            background-color: rgb(89, 191, 225);
-        }
-    }
+/* Estilo al texto detro del drag and drop */
+.crearProducto .form-group.drag-drop-image .text-upload {
+    
+    color: gray;
+}
+.crearProducto .form-group.drag-drop-image .img-drop{
+    width: 120px; /* Ancho deseado del contenedor */
+    height: 100px; /* Altura deseada del contenedor */
 }

@@ -21,7 +21,7 @@ export default function Login() {
         },
         validationSchema: Yup.object(validationSchema()),
         onSubmit: (formData) => {
-            if (formData.usuario === 'administrador@admin.com' && formData.clave === '123456') {
+            if (formData.usuario === 'admin' && formData.clave === 'hola') {
                 localStorage.setItem('Admin', JSON.stringify({ Rol: 'Admin' }));
                 window.location.reload();
                 navigate('/Admin/Productos');

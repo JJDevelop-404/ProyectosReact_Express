@@ -4,28 +4,22 @@ import { useAuth } from '../../auth/AuthProvider/AuthProvider';
 
 export default function Navbar() {
     const { Rol } = useAuth();
-    
-    if (Rol === null) {
-        return (
-            <>
-                <nav className="navbar navbar-expand-lg">
-                    <div className="container-fluid">
-                        <a className="navbar-brand" href="/"> Inicio  </a>
-                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="true" aria-label="Toggle navigation">
-                            <span className="navbar-toggler-icon"></span>
-                        </button>
-                        <div className="collapse navbar-collapse" id="navbarNavDropdown">
-                            <ul className="navbar-nav">
-                                <li className="nav-item">
-                                    <Link to="/Home" className="nav-link">
-                                        Home
-                                    </Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link to="/Mmmm" className="nav-link">
-                                        Mmmm
-                                    </Link>
-                                </li>
+
+    return (
+        <>
+            <nav className="navbar navbar-expand-lg">
+                <div className="container-fluid">
+                    {Rol === null ?
+                        <>
+                            <a className="navbar-brand" href="/"> Inicio  </a>
+                            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="true" aria-label="Toggle navigation">
+                                <span className="navbar-toggler-icon"></span>
+                            </button>
+                        </>
+                        : null}
+                    <div className="collapse navbar-collapse" id="navbarNavDropdown">
+                        <ul className="navbar-nav">
+                            {Rol === null ?
                                 <li className="nav-item dropdown">
                                     <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Marcas
@@ -48,36 +42,7 @@ export default function Navbar() {
                                         </li>
                                     </ul>
                                 </li>
-                                <li className="nav-item last">
-                                    <Link to="/Nosotros" className="nav-link">
-                                        Nosotros
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-                <section>
-                    <Outlet></Outlet>
-                </section>
-            </>
-        );
-    } else if (Rol === 'Admin') {
-        return (
-            <>
-                <nav className="navbar navbar-expand-lg">
-                    <div className="container-fluid">
-                        <a className="navbar-brand" href="/"> Inicio  </a>
-                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="true" aria-label="Toggle navigation">
-                            <span className="navbar-toggler-icon"></span>
-                        </button>
-                        <div className="collapse navbar-collapse" id="navbarNavDropdown">
-                            <ul className="navbar-nav">
-                                <li className="nav-item">
-                                    <Link to="/Home" className="nav-link">
-                                        Home
-                                    </Link>
-                                </li>
+                                :
                                 <li className="nav-item dropdown">
                                     <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Productos
@@ -85,7 +50,7 @@ export default function Navbar() {
                                     <ul className="dropdown-menu">
                                         <li>
                                             <Link to="/Admin/Productos" className="dropdown-item">
-                                                Ver Productos 
+                                                Ver Productos
                                             </Link>
                                         </li>
                                         <li>
@@ -95,20 +60,19 @@ export default function Navbar() {
                                         </li>
                                     </ul>
                                 </li>
-                                <li className="nav-item last">
-                                    <Link to="/Nosotros" className="nav-link">
-                                        Nosotros
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
+                            }
+                            <li className="nav-item last">
+                                <Link to="/Nosotros" className="nav-link">
+                                    Nosotros
+                                </Link>
+                            </li>
+                        </ul>
                     </div>
-                </nav>
-                <section>
-                    <Outlet></Outlet>
-                </section>
-            </>
-        );
-
-    }
+                </div>
+            </nav>
+            <section>
+                <Outlet></Outlet>
+            </section>
+        </>
+    );
 }

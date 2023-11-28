@@ -39,8 +39,7 @@ body {
 .d-flex {
   height: 90vh;
   max-width: 98%;
-  margin-left: auto;
-  margin-right: auto;
+  margin: auto;
   color: white;
 }
 
@@ -55,6 +54,7 @@ body {
 
 /* Esto es para darle estilo a todo el formulario en si */
 .col-md-4 {
+  box-sizing: content-box;
   text-align: center;
   color: white;
   background-color: #464646;
@@ -127,11 +127,12 @@ body {
   align-items: center;
 }
 
-.table thead th{
+.table thead th {
   padding: 17px;
   font-size: 20px;
 }
-.table tbody td{
+
+.table tbody td {
   font-size: 17px;
   padding: 13px;
 }

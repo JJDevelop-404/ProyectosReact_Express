@@ -7,20 +7,45 @@ import * as Yup from 'yup';
 import { AgregarProducto, ModificarProducto } from '../../../API/APIProductos';
 import { useParams } from 'react-router-dom';
 
-export default function CrearProducto({ titulo, producto, accion='crear' }) {
-  const {ProductoId} = useParams();
+export default function CrearProducto({ titulo, producto, accion = 'crear' }) {
+
+  const { ProductoId } = useParams();//Obtenemos el id del producto que se va a modificar
+
   const [inputActivo, setInputActivo] = useState(''); // Para el manejo del mensaje de error de los inputs
-  const [image, setImage] = useState(null); // Para el manejo de la imagen
 
+  const [image, setImage] = useState(producto ? producto.URLImagen : null); // Para el manejo del archivo de la imagen
+  /*Esto lo hacemos para que si existe un producto y no se va a modificar la imagen, tenga ya la ruta guardada y es lo que enviaremos, no el archivo de la imagen
+  sino la ruta de la imagen, repito, solo para modificar*/
 
+  //Esta variable se usará para mostrar la imagen en pantalla
+  const [contentUpload, setContentUpload] = useState(producto ? producto.URLImagen : 'Arrastra o selecciona una imagen'); // Para el manejo del texto del drag and drop
+
+  //Esta funcion es para mostrar la imagen en pantalla y se activara cuando se haga click en el input tipo file
+  const onHandleDrag = (ev) => {
+
+    if (ev.target.files[0]) {//Preguntamos si existe una imagen
+      setImage(ev.target.files[0]); // Se obtiene la imagen
+      // Si existe una imagen entonces se muestra en pantalla
+      const reader = new FileReader(); // Se crea un objeto de tipo FileReader
+      /* Esto es para que se lea el archivo de la imagen y se convierta en binario
+      y se pueda mostrar en pantalla */
+      reader.readAsDataURL(ev.target.files[0]);
+      reader.onload = (ev) => {
+        ev.preventDefault();
+        setContentUpload(ev.target.result); // le damos el binario de la imagen para mostrarla en pantalla
+      };
+    } else {
+      //En caso de que no exista nada, enviamos null a image, y el mensaje de arrastra o selecciona una imagen
+      setContentUpload('Arrastra o selecciona una imagen');
+    }
+  };
 
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: Yup.object(validationSchema()),
     onSubmit: (formData) => {
-      
+      console.log(formData);
       if (image) { // Si existe una imagen entonces se envia el formulario
-        
         const newProducto = new FormData();
         newProducto.append('nombre', formData.nombre);
         newProducto.append('descripcion', formData.descripcion);
@@ -43,7 +68,9 @@ export default function CrearProducto({ titulo, producto, accion='crear' }) {
           case 'modificar': {
             console.log('Modificar');
             ModificarProducto(newProducto, ProductoId).then((response) => {
-              console.log(response);
+              if(response){
+                alert("Producto Modificado");
+              }
             }).catch((error) => {
               console.log(error);
             })
@@ -84,7 +111,7 @@ export default function CrearProducto({ titulo, producto, accion='crear' }) {
             </div>
 
             <div className="form-group">
-              <input type="text" className="form-control" name="precio" required defaultValue={producto ? producto.Precio : 0}
+              <input type="text" className="form-control" name="precio" required defaultValue={producto ? producto.Precio : null}
                 onFocus={() => setInputActivo('precio')}
                 onBlur={() => setInputActivo('')}
                 onChange={formik.handleChange}
@@ -93,15 +120,19 @@ export default function CrearProducto({ titulo, producto, accion='crear' }) {
               {inputActivo === 'precio' && <span className="error-msj"> {formik.errors.precio} </span>}
             </div>
 
-            <div className="form-group">
-              <input type="file" className="form-control form-control-sm" name="url_imagen" required
+            <div className="form-group drag-drop-image">
+              <input type='file' className="form-control form-control-sm" name="url_imagen" required={!formik.values.url_imagen} accept="image/png, image/jpeg, image/jpg"
                 onFocus={() => setInputActivo('url_imagen')}
                 onBlur={() => setInputActivo('')}
-                onChange={(ev) => { formik.handleChange(ev); setImage(ev.target.files[0]) }}
+                onChange={(ev) => { formik.handleChange(ev); onHandleDrag(ev); }}
               />
-              <label className="form-label-file">URL Imagen {formik.errors.url_imagen ? <FontAwesomeIcon className='error' icon={faExclamationTriangle} beat /> : <FontAwesomeIcon className='ok' icon={faCheck} />} </label>
-              {inputActivo === 'url_imagen' && <span className="error-msj"> {formik.errors.url_imagen} </span>}
+              <div className="text-upload">
+                {formik.values.url_imagen ? <img src={contentUpload} alt="Imagen" className='img-drop' /> : <p> {contentUpload} </p>}
+              </div>
             </div>
+            
+            <label className="form-label-file"> Imagen {formik.errors.url_imagen ? <FontAwesomeIcon className='error' icon={faExclamationTriangle} beat /> : <FontAwesomeIcon className='ok' icon={faCheck} />} </label>
+            {inputActivo === 'url_imagen' && <span className="error-msj"> {formik.errors.url_imagen} </span>}
 
             <button type='submit' className='btn btn-success'> {titulo ? titulo.BotonSubmit : 'Agregar Producto'} </button>
 
@@ -113,9 +144,9 @@ export default function CrearProducto({ titulo, producto, accion='crear' }) {
 
   function initialValues() {
     return {
-      nombre: producto ? producto.Nombre : '',
-      descripcion: producto ? producto.Descripcion : '',
-      precio: producto ? producto.Precio : 0,
+      nombre: producto ? producto.Nombre : null,
+      descripcion: producto ? producto.Descripcion : null,
+      precio: producto ? producto.Precio : null,
       url_imagen: producto ? producto.URLImagen : null,
     };
   }

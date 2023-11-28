@@ -11,6 +11,7 @@ export const MostrarProductos = async () => {
     }
 }
 
+// Funcion para agregar un nuevo producto
 export const AgregarProducto = async (producto) => {
     try {
         const response = await axios.post(`${BACK_URL}/productos/createProducto`, producto); // Realizamos la peticion POST
@@ -20,10 +21,13 @@ export const AgregarProducto = async (producto) => {
     }
 }
 
+// Funcion para modificar un producto
 export const ModificarProducto = async (newProducto, id) => {
     try {
         const response = await axios.put(`${BACK_URL}/productos/updateProducto/${id}`, newProducto); // Realizamos la peticion PUT
-        console.log(response.data);
+        if (response.status === 201) {
+            return response.data; // Si la peticion es exitosa, retornamos la respuesta del servidor
+        }
     } catch (error) {
         console.log(error); // En caso de error, lo mostramos en consola
     }
