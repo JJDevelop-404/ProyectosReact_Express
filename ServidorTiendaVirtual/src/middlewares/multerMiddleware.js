@@ -16,11 +16,19 @@ const fileFilter = (req, file, cb) => {
     if (mimetype && extname) {
         return cb(null, true);
     }
+    console.log("hola");
     cb("Error: El archivo debe ser una imagen valida");
+}
+
+const fileSize = (req, file, cb) => {
+    if (file.size > 2000000) {
+        return cb("Error: El archivo debe ser menor a 2MB");
+    }
+    cb(null, true);
 }
 
 export const multerMiddleware = multer({
     storage: storage,
-    limits: {fileSize: 200000}, //Esto es para limitar el tamaño del archivo en bytes
-    fileFilter: fileFilter
+    limits: fileSize, //Esto es para limitar el tamaño del archivo en bytes
+    fileFilter: fileFilter //Esto es para limitar el tipo de archivo
 }).single('image');

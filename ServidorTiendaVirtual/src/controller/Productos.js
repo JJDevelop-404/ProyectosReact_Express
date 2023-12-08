@@ -12,7 +12,7 @@ export const createProducto = async (req, res) => {
             'VALUES (?,?,?,?)', [nombre, descripcion, precio, image]);
         if (isInserted.affectedRows === 1) { // Si se inserto un registro
             console.log("Producto agregado correctamente");
-            res.status(200).json({ message: "Producto agregado correctamente" });
+            res.status(201).json({ message: "Producto agregado correctamente" });
         } else { // No se agrego el producto
             console.log("No se pudo agregar el producto");
             res.status(200).json({ message: "No se pudo agregar el producto" });
@@ -46,8 +46,8 @@ export const getProductos = async (req, res) => {
 export const getProductoById = async (req, res) => {
     console.log("\n\nFuncion: getProductoById()");
     try {
-        const { id } = req.params;
-        const producto = await (pool.query('SELECT * FROM productos WHERE id = ?', [id]));
+        const { ProductoId } = req.params;
+        const producto = await (pool.query('SELECT * FROM productos WHERE id = ?', [ProductoId]));
         console.log(producto);
         if (producto.length > 0) {
             res.status(200).json(producto)
@@ -68,7 +68,7 @@ export const getProductoById = async (req, res) => {
 export const updateProducto = async (req, res) => {
     console.log("\n\nFuncion: updateProducto()");
     try {
-        const { id } = req.params
+        const { ProductoId } = req.params
         console.log(req.body);
         const { nombre, descripcion, precio } = req.body;
         let image = req.file;
@@ -80,7 +80,7 @@ export const updateProducto = async (req, res) => {
         }
         //El COALESCE ES PARA QUE SI NO SE ENVIA UN PARAMETRO, NO SE MODIFIQUE
         const isUpdate = await pool.query('UPDATE Productos SET Nombre = COALESCE(?, Nombre), Descripcion = COALESCE(?, Descripcion), '
-            + ' Precio = COALESCE(?, Precio), URLImagen = COALESCE(?,URLImagen) WHERE ProductoId = ?', [nombre, descripcion, precio, image, id]);
+            + ' Precio = COALESCE(?, Precio), URLImagen = COALESCE(?,URLImagen) WHERE ProductoId = ?', [nombre, descripcion, precio, image, ProductoId]);
 
         if (isUpdate.affectedRows === 1) {
             console.log("Producto modificado correctamente");

@@ -2,6 +2,7 @@ import express, { json } from 'express';
 import cors from 'cors';
 
 import {routerProductos}  from './router/Productos.js';
+import {routerUsuarios}  from './router/Usuarios.js';
 
 const app = express();
 const port = 3000;
@@ -11,6 +12,7 @@ app.use(json());
 
 app.use('/images/productos', express.static('./src/public/images/productos'));
 app.use('/productos', routerProductos);
+app.use('/usuarios', routerUsuarios);
 
 app.use((req, res) => {
     console.log("Ruta no encontrada");

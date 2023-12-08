@@ -1,3 +1,12 @@
+### PETICIONES PARA TABLA PRODUCTOS
 ### MOSTRAR PRODUCTOS
 
 GET http://localhost:3000/productos/getProductos
+
+
+### PETICIONES PARA TABLA USUARIOS
+### MOSTRAR TODOS LOS USUARIOS
+GET http://localhost:3000/usuarios/getUsuarios
+
+### MOSTRAR UN USUARIO POR ID
+GET http://localhost:3000/usuarios/getUsuarioById/3

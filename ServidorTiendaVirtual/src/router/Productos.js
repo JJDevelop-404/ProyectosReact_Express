@@ -9,7 +9,7 @@ const routerProductos = Router();
 // El multerMiddleware lo que nos sirve es para el manejo de imagenes, para que este las pueda subir al servidor y demás 
 routerProductos.get('/getProductos', getProductos);
 routerProductos.post('/createProducto', multerMiddleware, createProducto);
-routerProductos.put('/updateProducto/:id', multerMiddleware, updateProducto);
+routerProductos.put('/updateProducto/:ProductoId', multerMiddleware, updateProducto);
 // routerProductos.post('/nuevoProducto', multerMiddleware, nuevoProducto);
 
 
