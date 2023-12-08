@@ -29,7 +29,8 @@ body {
 /* Ponemos borde a nuestro cuerpo de las tarjetas */
 .card-body {
   border-radius: 0 0 10px 10px;
-  background-color: #99999930 !important;
+  background-color: rgba(39, 38, 38, 0.814) !important;
+  color: white;
 }
 
 /* FIN ESTILOS GLOBALES PARA TARJETAS */

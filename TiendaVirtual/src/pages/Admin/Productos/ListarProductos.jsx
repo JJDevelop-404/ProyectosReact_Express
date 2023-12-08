@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { MostrarProductos } from "../../../API/APIProductos";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './styles/ListarProductos.css';
 import ModificarProducto from "./ModificarProducto";
 
@@ -60,6 +60,7 @@ export default function ListarProductos() {
                             </tr>
                         ))}
                     </tbody>
+                    <Link to="/Admin/Productos/CrearProducto" className="btn btn-success">Crear Producto</Link>
                 </table>
             </div>
         </div>

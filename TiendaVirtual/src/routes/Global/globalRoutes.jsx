@@ -12,11 +12,11 @@ export const globalRoutes = [
         element: <App />
     },
     {
-        path: 'Nosotros',
+        path: '/Nosotros',
         element: <h1>Acerca de Nosotros</h1>
     },
     {
-        path: "/AdminLog/AccesToAdmin",
+        path: "/InicioSesion",
         element: <Login/>
     },
 ]

@@ -5,9 +5,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle, faCheck } from '@fortawesome/free-solid-svg-icons';
 import * as Yup from 'yup';
 import { AgregarProducto, ModificarProducto } from '../../../API/APIProductos';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function CrearProducto({ titulo, producto, accion = 'crear' }) {
+
+  const navigate = useNavigate(); // Para navegar entre paginas
 
   const { ProductoId } = useParams();//Obtenemos el id del producto que se va a modificar
 
@@ -59,9 +61,10 @@ export default function CrearProducto({ titulo, producto, accion = 'crear' }) {
             console.log('Crear');
             AgregarProducto(newProducto)
               .then((response) => {
-                console.log(response);
-              }).catch((error) => {
-                console.log(error);
+                if(response){
+                  alert("Producto Creado");
+                  navigate('/admin/productos'); 
+                }
               })
             break;
           }
@@ -70,6 +73,8 @@ export default function CrearProducto({ titulo, producto, accion = 'crear' }) {
             ModificarProducto(newProducto, ProductoId).then((response) => {
               if(response){
                 alert("Producto Modificado");
+                navigate('/admin/productos');
+
               }
             }).catch((error) => {
               console.log(error);

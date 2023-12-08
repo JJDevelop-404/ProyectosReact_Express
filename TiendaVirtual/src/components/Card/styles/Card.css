@@ -1,6 +1,25 @@
-.card-img-top{
-    max-height: 200px;
+.card{
+    overflow: hidden;
 }
+
+.img-contenedor{
+    background-color: #66666630;
+}
+.card-img-top{
+    align-items: center;
+    justify-content: center;
+    width: 18rem;
+    height: 12rem;
+    object-fit: cover;
+    filter: drop-shadow(0px 4px 4px black);
+}
+
+.card-title{
+    border-bottom: 2px solid #fff;
+    padding-bottom: 2px;
+    width: fit-content;
+}
+
 .btn-shopping-cart{
     outline: none;
     border: none;

@@ -5,7 +5,9 @@ import axios from 'axios'; // Importamos axios para realizar peticiones HTTP
 export const MostrarProductos = async () => {
     try {
         const response = await axios.get(`${BACK_URL}/productos/getProductos`); // Realizamos la peticion GET 
-        return response.data; // Retornamos la respuesta del servidor
+        if (response.status === 200) {
+            return response.data; // Si la peticion es exitosa, retornamos la respuesta del servidor
+        }
     } catch (error) {
         console.log(error); // En caso de error, lo mostramos en consola
     }
@@ -15,7 +17,9 @@ export const MostrarProductos = async () => {
 export const AgregarProducto = async (producto) => {
     try {
         const response = await axios.post(`${BACK_URL}/productos/createProducto`, producto); // Realizamos la peticion POST
-        return response.data; // Retornamos la respuesta del servidor
+        if (response.status === 201) {
+            return response.data; // Retornamos la respuesta del servidor
+        }
     } catch (error) {
         console.log(error); // En caso de error, lo mostramos en consola
     }

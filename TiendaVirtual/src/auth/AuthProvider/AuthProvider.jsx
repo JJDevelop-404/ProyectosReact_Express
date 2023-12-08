@@ -13,7 +13,9 @@ export function AuthProvider({ children }) { // Proveedor de autenticación
         !!localStorage.getItem('Admin')
     );
 
-    console.log(isAuthenticated);
+    if(!isAuthenticated) {
+        localStorage.removeItem("Admin");
+    }
 
     function getRol() {
         const user = JSON.parse(localStorage.getItem('Admin'));
@@ -25,7 +27,7 @@ export function AuthProvider({ children }) { // Proveedor de autenticación
     console.log(Rol);
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, Rol, setIsAuthenticated }}>
+        <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, Rol }}>
             {children}
         </AuthContext.Provider>
     )

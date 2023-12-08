@@ -7,7 +7,7 @@ import ModificarProducto from "../../pages/Admin/Productos/ModificarProducto";
 export const adminRoutes = [
     {
         path: "/Admin",
-        element: <ProtectedRoute RedirectTo="/Home" />,
+        element: <ProtectedRoute RedirectTo="/" />,
         children: [
             {
                 path: "/Admin/Productos",

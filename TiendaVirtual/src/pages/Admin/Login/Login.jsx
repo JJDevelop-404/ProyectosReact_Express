@@ -21,7 +21,7 @@ export default function Login() {
         },
         validationSchema: Yup.object(validationSchema()),
         onSubmit: (formData) => {
-            if (formData.usuario === 'admin' && formData.clave === 'hola') {
+            if (formData.usuario === 'admin@admin.com' && formData.clave === 'juanjose') {
                 localStorage.setItem('Admin', JSON.stringify({ Rol: 'Admin' }));
                 window.location.reload();
                 navigate('/Admin/Productos');
@@ -34,7 +34,7 @@ export default function Login() {
     if (!isAuthenticated) {
         return (
             <div className="d-flex justify-content-center align-items-center"> {/* Esto es para centrar el contenido  */}
-                <div className='col-md-3'> {/* Esto es para el tamño de los input  */}
+                <div className='col-md-4'> {/* Esto es para el tamño de los input  */}
                     <h1 className='login-title'>Iniciar Sesión</h1>
                     <form onSubmit={formik.handleSubmit}>
                         <div className='form-group'>

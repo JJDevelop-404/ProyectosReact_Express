@@ -2,11 +2,13 @@
 .navbar {
     font-family: 'Tilt Neon', sans-serif !important;
     background-color: #222;
-    top: 0; /* Para que se quede fijo en la parte superior */
-    position: sticky; /* Para que se quede fijo en la parte superior */
+    top: 0;
+    /* Para que se quede fijo en la parte superior */
+    position: sticky;
+    /* Para que se quede fijo en la parte superior */
     width: 100%;
     z-index: 2;
-    transition: 4s all ease-in;
+    transition: .4s all ease-in;
 }
 
 /* La barra de navegación global */
@@ -61,12 +63,12 @@
     }
 }
 
-.nav-link.active{
+.nav-link.active {
     -webkit-text-stroke: 0.5px white;
     color: transparent !important;
-        text-shadow: 0 0 3px #F9128F,
-            0 0 6px #F9128F,
-            0 0 8px #F9128F;
+    text-shadow: 0 0 3px #F9128F,
+        0 0 6px #F9128F,
+        0 0 8px #F9128F;
 }
 
 /* Este es el dropdowm menu, es decir, el desplegable por asi decirlo */
@@ -98,6 +100,32 @@
     }
 }
 
+
+/* VAMOS A MANIPULAR EL BOTON DE INICIO Y CIERRE DE SESIÓN */
+.nav.sys-log{
+    text-wrap: nowrap;
+    flex: 1 auto;
+    justify-content: flex-end;
+    float: left;
+}
+
+.nav-item.li-sys-log .nav-log{
+    text-decoration: none;
+    border: 2px solid #F9128F;
+    border-radius: 10px;
+    color: white;
+    outline: none;
+    font-size: 18px;
+    background-color: rgb(249, 16, 140, .2);
+    padding: 3px 4px;
+    transition: .2s all ease-in-out;
+    &:hover{
+        background-color: rgb(249, 16, 140, .7);
+    }
+}
+
+
+
 /* VAMOS A MANIPULAR LOS ICONOS QUE HAY EN EL NAVBAR */
 /* Manipulamos el tamaño de nuestra clase icon */
 
@@ -111,7 +139,7 @@
     font-size: 30px;
 }
 
-.icon-Puma{
-    font-size: 50px;
+.icon-Puma {
+    font-size: 30px;
     color: white;
 }

@@ -4,18 +4,20 @@ import './styles/Card.css';
 
 //Componente de tarjeta de producto
 
-export default function Card({ product }) {
+export default function Card({ producto }) {
     return (
         <div className='col'>
-            <div className="card" style={{ width: '18rem' }} >
-                <img className="card-img-top" src={product.image} alt="Card image cap" />
+            <div className="card" >
+                <div className="img-contenedor">
+                    <img className="card-img-top" src={producto.URLImagen} alt="img-shoes" />
+                </div>
                 <div className="card-body">
-                    <h5 className="card-title"> {product.name} </h5>
-                    <p className="card-text"> {product.description} <br /> ${product.price}
+                    <h5 className="card-title"> {producto.Nombre} </h5>
+                    <p className="card-text"> {producto.Descripcion} <br /> ${producto.Precio}
                         <button className='btn-shopping-cart'>
                             <FontAwesomeIcon className='ShoppingCart' icon={faShoppingCart}>
                             </FontAwesomeIcon>
-                                <FontAwesomeIcon  icon={faPlus} />
+                            <FontAwesomeIcon icon={faPlus} />
                         </button>
                     </p>
                 </div>
