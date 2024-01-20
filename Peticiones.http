@@ -1,3 +1,6 @@
+### |---------------------------------------------------------------|
+### |---------------------------------------------------------------|
+
 ### PETICIONES HTTP PARA Usuarios
 ### Traer todos los usuarios
 GET http://localhost:3003/usuarios/getUsuarios
@@ -32,7 +35,13 @@ Content-Type: application/json
 DELETE http://localhost:3003/usuarios/deleteUsuario/8
 
 
+### |---------------------------------------------------------------|
+### |---------------------------------------------------------------|
+
 ### PETICIONES HTTP PARA Mesas
+### Traer todas las mesas
+GET http://localhost:3003/mesas/getMesas
+
 ### Crear una Mesa
 POST http://localhost:3003/mesas/createMesa
 
@@ -42,20 +51,51 @@ POST http://localhost:3003/mesas/asignarMesa/
 Content-Type: application/json
 
 {
-    "MesaId": 21,
-    "MeseroId": 8
+    "MesaId": 20,
+    "MeseroId": 3
 }
 
-### Liberar mesa, quitar el mesero asignado a la mesa
+### Quitar el mesero asignado a la mesa y dejar la mesa sin un mesero encargado 
+PUT http://localhost:3003/mesas/desasignarMesa
+Content-Type: application/json
+
+{
+    "MesaId": 20
+}
+
+### Liberar la mesa, dejando la cantidad de clientes en 0
 PUT http://localhost:3003/mesas/liberarMesa
 Content-Type: application/json
 
 {
-    "MesaId": 21
+    "MesaId": 20,
+    "MsroId": 3
 }
 
-### |------------------------------|
+### |---------------------------------------------------------------|
+### |---------------------------------------------------------------|
+
+### PETICIONES HTTP PARA DETALLEMESASMESEROS
+### Actualizar la cantidad de clientes en una mesa
+PUT http://localhost:3003/mesas/updateCantidadClientes
+
+### |---------------------------------------------------------------|
+### |---------------------------------------------------------------|
+
 ### PETICIONES HTTP PARA PEDIDOS
+### Obetener todos los pedidos
+GET http://localhost:3003/pedidos/getPedidos
+
+### Obtener el pedido de una mesa mandando el id de la mesa
+GET http://localhost:3003/pedidos/getPedidosXMesaId/20
+
+
+
+### |---------------------------------------------------------------|
+### |---------------------------------------------------------------|
+
+
+### PETICIONS HTTP PARA PRODUCTOS
 ### Obtener los productos
 GET http://localhost:3003/productos/getProductos
 

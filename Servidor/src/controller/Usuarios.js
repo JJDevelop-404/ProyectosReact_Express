@@ -4,7 +4,7 @@ import { pool } from '../conexion/conexion.js';
 //METODO PARA VERFICAR LAS CREDENCIALES Y DARLE ACCESO AL USUARIO
 //Funcion para obtener las credenciales de un usuario y usarlas en la funcion de loggin, es con un post porque se envia el usuario por el body
 export const verificarCredenciales = async (req, res) => {
-    console.log("\n\nFuncion: getCredenciales()");
+    console.log("\n\nFuncion: getCredenciales()"); 
     try {
         const usuario = req.body.usuario;
         const clave = req.body.clave;

@@ -99,7 +99,7 @@ INSERT INTO Usuarios (Nombres, Apellidos,  Cedula, TipoUsuario) VALUES
 ('Juan Jose', 'Marin', '1202957603', 'Mesero'),
 ('John David', 'Doe', '319457302', 'Mesero'),
 ('Laura Cristina', 'Lopez Acosta', '583024841', 'Mesero'),
-('Sofia Geraldine', 'Montano', '315285014', 'Mesero'),
+('Sofia', 'Castillo', '315285014', 'Mesero'),
 ('Andres Steven', 'Vivas', '1340589420' ,'Mesero');
 
 INSERT INTO Productos (Nombre, Descripcion, Precio, Categoria) VALUES 

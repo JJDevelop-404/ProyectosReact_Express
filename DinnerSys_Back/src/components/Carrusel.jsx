@@ -1,16 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import './Carrusel.css';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { DeletePedido, UpdateMesa, getPedidosXMesaId } from "../API/RestauranteApi";
+import { getPedidoDeUnaMesa } from "../API/Pedidos";
+import { LiberarMesa, getMesasByMesero } from "../API/Mesas";
 
-export default function Carrusel({ Mesas }) {
-    const { UserId: MsroId } = useAuth();
-    //Para saber cual mesa se seleccionó y que solo se pueda seleccionar una mesa
-    const [MesaATomarPedido, setMesaATomarPedido] = useState(null);
+export default function Carrusel() {
+
     const navigate = useNavigate();
 
+    const { UserId: MsroId } = useAuth();
+
+    const [Mesas, setMesas] = useState([]); //Para la lista de mesas que traera el backend
+
+    useEffect(()=>{
+        getMesasByMesero(MsroId)
+        .then((response) => {
+            if(response.length > 0){
+                setMesas(response);
+            }
+        }).catch((error) => {
+            alert("Error al obtener las mesas")
+            console.log("Error al obtener las mesas", error);
+        })
+    },[]);
+
+    //Para saber cual mesa se seleccionó y que solo se pueda seleccionar una mesa
+    const [MesaATomarPedido, setMesaATomarPedido] = useState(null);
+
+    //Esta funcion hace de seleccionar o deseleccionar la mesa
     const MesaCheckeada = (id) => {
         if (MesaATomarPedido === id) {
             setMesaATomarPedido(null);
@@ -21,45 +39,20 @@ export default function Carrusel({ Mesas }) {
         }
     };
 
-    const queryClient = useQueryClient();
-    
-    // Para actualizar (CantidadClientes===0) la mesa que estaba ocupada y que fue seleccionada
-    const LiberarMesa = useMutation({
-        mutationFn: UpdateMesa,
-        onSuccess: () => {
-            queryClient.invalidateQueries('Mesas');
-            // alert("Modificado");
-        },
-        onError: (error) => {
-            alert(`error: ${error}`);
-        }
-    });
-
-    const EliminarPedidoXMesaId = useMutation({
-        mutationFn: DeletePedido,
-        onSuccess: () => {
-            queryClient.invalidateQueries('Pedidos');
-        },
-        onError: (error) => {
-            alert(`error: ${error}`);
-        }
-    });
+    // Para actualizar (CantidadClientes===0) la mesa que estaba ocupada y que fue seleccionada 
 
     const OnHandleClickLiberar = async (Mesa) => {
-        /* Creamos la mesa y le ponemos todos los atributos que tiene la mesa que solicitamos y solo actualizamos el 
-        CantidadClientes*/
-        let NewMesa = {
-            ...Mesa,
-            CantidadClientes: 0,
-        }
+        /* Pasos para liberar la mesa:
+        1. Actualizar la mesa que fue seleccionada y ponerle que su estado ahora es libre
+        2. Eliminar el pedido por el Id de la Mesa Seleccionada
+        */
 
-        LiberarMesa.mutate(NewMesa);
-
-        /* Ahora, procedemos a eliminar el pedido por el Id de la Mesa Seleccionada */
-        const Pedido = await getPedidosXMesaId(Mesa.MesaId);
-        console.log(Pedido[0].id);
-
-        EliminarPedidoXMesaId.mutate(Pedido[0].id);
+       
+       LiberarMesa(Mesa.MesaId, MsroId).then((response) => {
+               console.log("Mesa Liberada", response);
+           setMesas(Mesas.map(m => (m.MesaId === Mesa.MesaId ? { ...m, CantidadClientes: 0 } : m)));
+           });
+           
     };
 
     function OnOrdenar(Mesa) {

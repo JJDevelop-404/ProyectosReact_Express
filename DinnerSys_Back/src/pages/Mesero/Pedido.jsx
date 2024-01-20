@@ -1,9 +1,10 @@
 import './StylesMesero/Pedido.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { CreatePedido, UpdateMesa, getProductos } from '../../API/RestauranteApi';
+import { CreatePedido, UpdateMesa } from '../../API/RestauranteApi';
 import { useAuth } from '../../auth/AuthProvider';
 import { useNavigate } from 'react-router-dom';
+import { getProductos } from '../../API/Productos';
 
 export default function Pedido() {
 
@@ -11,7 +12,7 @@ export default function Pedido() {
   const navigate = useNavigate();
 
   const [Mesa] = useState(localStorage.getItem("Mesa"));
-  const [NMesa] = useState(Mesa ? (JSON.parse(Mesa).id) : null);
+  const [NMesa] = useState(Mesa ? (JSON.parse(Mesa).MesaId) : null);
 
   const [NombreCliente, setNombreCliente] = useState('');
   const [CantidadClientes, setCantidadClientes] = useState(0);
@@ -19,10 +20,16 @@ export default function Pedido() {
 
   // Empezamos a traer los datos del JSON
   //  Traemos primeramente todos los productos 
-  const { data: lstProductos } = useQuery({
-    queryKey: ['Productos'],
-    queryFn: getProductos,
-  });
+  const [lstProductos, setLstProductos] = useState([]);
+  useEffect(() => {
+    getProductos()
+      .then((response) => {
+        setLstProductos(response);
+      }).catch((error) => {
+        alert("Error al obtener los productos")
+        console.log("Error al obtener los productos", error);
+      })
+  }, [])
 
   // Creamos las variables para manipular el Precio y la lista de ids de los productos que se seleccionan
   const [PrecioTotal, setPrecioTotal] = useState(0);
@@ -117,9 +124,9 @@ export default function Pedido() {
             <h2 className="Linealh2">Listado Productos</h2>
             <div className="carrusel-pedidos">
               {lstProductos && lstProductos.map(producto => (
-                <div key={producto.id}>
-                  <label htmlFor={`producto${producto.id}`} > {producto.Producto + ': $'}<b> {producto.Precio} </b>  </label>
-                  <input id={`producto${producto.id}`} type='checkbox' onClick={(ev) => getPrecioTotal(producto, ev.target.checked)} />
+                <div key={producto.ProductoId}>
+                  <label htmlFor={`producto${producto.ProductoId}`} > {producto.Nombre + ': $'}<b> {producto.Precio} </b>  </label>
+                  <input id={`producto${producto.ProductoId}`} type='checkbox' onClick={(ev) => getPrecioTotal(producto, ev.target.checked)} />
                   <br />
                 </div>
               ))}

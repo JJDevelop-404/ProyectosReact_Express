@@ -1,10 +1,11 @@
 import axios from 'axios';
+import { BACK_URL } from '../utils/Constants';
 
 const RestauranteAPI = axios.create({
     baseURL: 'http://localhost:3001'
 })
 
-const Backend_URL = 'http://localhost:3003';
+
 
 // CRUD PARA MESAS
 // GetMesas --> Obtener todas las mesas
@@ -17,12 +18,6 @@ export const getMesas = async () => {
 export const getMesasXMesero = async (Id_Mesero) => {
     const MesasXMesero = await RestauranteAPI.get(`/Mesas/?MeseroId=${Id_Mesero}`);
     return MesasXMesero.data;
-}
-
-//GetMesasByMesero --> Obtener todas las mesas que tiene un Mesero
-export const getMesasByMesero = async (MeseroId) => {
-    const MesasByMesero = await axios.get(`${Backend_URL}/Mesas/getMesasByMesero/${MeseroId}`);
-    return MesasByMesero.data;
 }
 
 //UpdateMesa --> Para actualizar Mesa por una NuevaMesa
@@ -39,14 +34,8 @@ export const getMesero = async () => {
     return Meseros.data;
 }
 
-//GetMeserosId --> Obtener Mesero por Id
-export const getMeseroId = async (id) => {
-    const Mesero = await axios.get(`${Backend_URL}/usuarios/get/${id}`);
-    return Mesero.data;
-}
-
 export const VerifyLoggin = async (usuario, clave) => {
-    const Mesero = await axios.post(`${Backend_URL}/usuarios/loggin`, {usuario: usuario, clave: clave})
+    const Mesero = await axios.post(`${BACK_URL}/usuarios/loggin`, {usuario: usuario, clave: clave})
         .then((response) => {
             // console.log(response.data);
             return response.data;
@@ -97,11 +86,7 @@ export const getPedidosXMeseroId = async (MsroId) => {
     return lstPedidosXMesero.data;
 };
 
-//GetPedidosXMesaId --> Obtener Todos Los Pedidos Por MesaId
-export const getPedidosXMesaId = async (MesaId) => { 
-    const lstPedidosXMesaId = await RestauranteAPI.get(`/Pedidos/?MesaId=${MesaId}`);
-    return lstPedidosXMesaId.data;
-};
+//Se elimino funcion getPedidosXMesaId
 
 //UpdatePedido --> Actualizar Un Pedido Por Un Nuevo Pedido
 export const UpdatePedido = (newPedido) => RestauranteAPI.put(`/Pedidos/${newPedido.id}`,newPedido);
