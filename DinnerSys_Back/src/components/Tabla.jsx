@@ -17,29 +17,20 @@ export default function Tabla({ Titulo, Th1, Th2, Th3, TextoBoton, Mesas, NMesa 
                             </tr>
                             <tr className="dps-ttlo">
                                 <th> {Th1} </th>
-                                <th> {Th2} </th>
                                 <th> {Th3} </th>
                             </tr>
                         </thead>
                         <tbody>
-                            {/* El Mesas.filter((mesa)=>mesa.MeseroId === IdMesero) se hace para que
-                        traiga solo las mesas que tiene el mesero, haciendo una relacion entre estos dos datos, Mesa y Mesero*/}
-                            {Mesas.filter(m => m.CantidadClientes >= 0).map(mesas => (
+                            {Mesas.filter(m => m.Estado === 1).map(mesas => (
                                 <tr key={mesas.MesaId}>
                                     <td> {mesas.MesaId} </td>
-                                    <td> {mesas.CantidadClientes} </td>
-                                    <td> <input type='checkbox' defaultChecked={mesas.CantidadClientes > 0} disabled readOnly /> </td>
+                                    <td> <input type='checkbox' defaultChecked={mesas.Estado === 1} disabled readOnly /> </td>
                                 </tr>
                             ))}
                             
                         </tbody>
                     </table>
                 </div>
-                {/* <div className='tabla-container-btn'>
-                    <Link to="/Pedido">
-                        <button type='button' className="btnFormularios"> {TextoBoton + ` En La Mesa ${NMesa}`} </button>
-                    </Link>
-                </div> */}
             </div>
         </>
     )
