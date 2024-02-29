@@ -30,28 +30,18 @@ CREATE TABLE IF NOT EXISTS Mesas(
     Estado BOOLEAN DEFAULT 0
 );
 
-CREATE TABLE IF NOT EXISTS DetalleMesasMeseros(
-    MesasMeseroId INT PRIMARY KEY AUTO_INCREMENT,
-    MesaId INT NOT NULL,
-    MeseroId INT NOT NULL,
-    CantidadClientes INT DEFAULT 0,
-    FechaAsignacion DATETIME DEFAULT NOW() NOT NULL,
-    FechaDesasignacion DATETIME DEFAULT NULL,
-    FOREIGN KEY (MesaId) REFERENCES Mesas(MesaId) ON DELETE CASCADE,
-    FOREIGN KEY (MeseroId) REFERENCES Usuarios(usuarioId) ON DELETE CASCADE
-);
 
 CREATE TABLE IF NOT EXISTS Pedidos (
     pedidoId INT PRIMARY KEY AUTO_INCREMENT,
-    NombreCliente varchar(50) NOT NULL,
+    FechaPedido DATETIME DEFAULT NOW() NOT NULL,
+    MeseroId INT, /* MeseroId puede ser NULL por si se elimina entonces para que no se pierda la info */
     MesaId INT NOT NULL,
-    MeseroId INT NOT NULL,
-    FOREIGN KEY (MesaId) REFERENCES Mesas(MesaId) ON DELETE CASCADE,
-    FOREIGN KEY (MeseroId) REFERENCES Usuarios(usuarioId) ON DELETE CASCADE
+    FOREIGN KEY (MeseroId) REFERENCES Usuarios(UsuarioId) ON DELETE SET NULL,
+    FOREIGN KEY (MesaId) REFERENCES Mesas(MesaId) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS DetallePedidosProducto(
-    PedidosProducto INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS DetallePedidoProducto(
+    PedidoProductoId INT PRIMARY KEY AUTO_INCREMENT,
     PedidoId INT NOT NULL,
     ProductoId INT NOT NULL,
     Cantidad INT NOT NULL,
@@ -71,30 +61,11 @@ BEGIN
 END$$
 DELIMITER ;
 
-/* TRIGGER PARA ACTUALIZAR EL ESTADO A 1 DE UNA MESA CUANDO SE AGREGUE A LA TABLA DetalleMesasMeseros */
-DELIMITER $$
-CREATE TRIGGER ActualizarEstadoMesa AFTER INSERT ON DetalleMesasMeseros
-FOR EACH ROW
-BEGIN
-    UPDATE Mesas SET Estado = 1 WHERE MesaId = NEW.MesaId;
-END$$
-DELIMITER ;
 
-
-/* TRIGGER PARA ACTUALIZAR EL ESTADO A 0 A UNA MESA CUANDO SE MODIFIQUE EL CAMPO FechaDesignacion EN LA TABLA DetalleMesasMeseros */
-DELIMITER $$
-CREATE TRIGGER ActualizarEstadoMesaDesasignacion AFTER UPDATE ON DetalleMesasMeseros
-FOR EACH ROW
-BEGIN
-    IF NEW.FechaDesasignacion IS NOT NULL THEN
-        UPDATE Mesas SET Estado = 0 WHERE MesaId = NEW.MesaId;
-    END IF;
-END$$
-DELIMITER ;
 
 /* INSERCIONES DE PRUEBA */
 INSERT INTO Usuarios (Nombres, Apellidos,  Cedula, TipoUsuario) VALUES 
-('Austin Richard', 'Post', '1103857395', 'Administrador'),
+('Austin', 'Post', '123456789', 'Administrador'),
 ('Jerson Andres', 'Herrera', '1731805852', 'Administrador'),
 ('Juan Jose', 'Marin', '1202957603', 'Mesero'),
 ('John David', 'Doe', '319457302', 'Mesero'),
@@ -115,11 +86,11 @@ INSERT INTO Productos (Nombre, Descripcion, Precio, Categoria) VALUES
 ('Cafe', 'Cafe 500ml', 2000, 'Bebida'),
 ('Te', 'Te 500ml', 2000, 'Bebida');
 
+INSERT INTO Mesas (MesaId, Estado) VALUES 
+(1, 1),
+(2, 1),
+(3, 1);
+
 INSERT INTO Mesas (MesaId) VALUES 
-(1),(2),(3),(4),(5),(6),(7),(8),(9),(10),
+(4),(5),(6),(7),(8),(9),(10),
 (11),(12),(13),(14),(15),(16),(17),(18),(19),(20);
-
-INSERT INTO DetalleMesasMeseros (MesaId, MeseroId) VALUES 
-(1, 3),(2, 7),(3, 5),(4, 7),(5, 3),(6, 7),(7, 5),(8, 6),(9, 3),(10, 4),
-(11, 5),(12, 6),(13, 3),(14, 4),(15, 5),(16, 6),(17, 3),(18, 4),(19, 5),(20, 7);
-

@@ -45,39 +45,9 @@ GET http://localhost:3003/mesas/getMesas
 ### Crear una Mesa
 POST http://localhost:3003/mesas/createMesa
 
-
-### Asignar Mesa a Usuario Tipo Mesero
-POST http://localhost:3003/mesas/asignarMesa/
-Content-Type: application/json
-
-{
-    "MesaId": 20,
-    "MeseroId": 3
-}
-
-### Quitar el mesero asignado a la mesa y dejar la mesa sin un mesero encargado 
-PUT http://localhost:3003/mesas/desasignarMesa
-Content-Type: application/json
-
-{
-    "MesaId": 20
-}
-
 ### Liberar la mesa, dejando la cantidad de clientes en 0
-PUT http://localhost:3003/mesas/liberarMesa
-Content-Type: application/json
+PUT http://localhost:3003/mesas/liberarMesa/2
 
-{
-    "MesaId": 20,
-    "MsroId": 3
-}
-
-### |---------------------------------------------------------------|
-### |---------------------------------------------------------------|
-
-### PETICIONES HTTP PARA DETALLEMESASMESEROS
-### Actualizar la cantidad de clientes en una mesa
-PUT http://localhost:3003/mesas/updateCantidadClientes
 
 ### |---------------------------------------------------------------|
 ### |---------------------------------------------------------------|
@@ -89,6 +59,25 @@ GET http://localhost:3003/pedidos/getPedidos
 ### Obtener el pedido de una mesa mandando el id de la mesa
 GET http://localhost:3003/pedidos/getPedidosXMesaId/20
 
+### Crear un Pedido
+POST http://localhost:3003/pedidos/createPedido
+Content-Type: application/json
+
+{
+    "MeseroId": 6,
+    "MesaId": 2,
+    "lstProductos":[
+        {
+            "ProductoId": 1,
+            "Cantidad": 2
+        },
+        {
+            "ProductoId": 2,
+            "Cantidad": 1
+        }
+    
+    ]
+}
 
 
 ### |---------------------------------------------------------------|
