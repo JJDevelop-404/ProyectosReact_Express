@@ -21,7 +21,7 @@ export default function Tabla({ Titulo, Th1, Th2, Th3, TextoBoton, Mesas, NMesa 
                             </tr>
                         </thead>
                         <tbody>
-                            {Mesas.filter(m => m.Estado === 1).map(mesas => (
+                            {Mesas && Mesas.filter(m => m.Estado === 1).map(mesas => (
                                 <tr key={mesas.MesaId}>
                                     <td> {mesas.MesaId} </td>
                                     <td> <input type='checkbox' defaultChecked={mesas.Estado === 1} disabled readOnly /> </td>

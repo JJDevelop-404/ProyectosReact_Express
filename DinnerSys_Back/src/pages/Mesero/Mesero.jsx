@@ -26,17 +26,17 @@ export default function Mesero() {
 
       <Carrusel Mesas={Mesas} />
 
-      <form className="formMesero">
+      {/* <form className="formMesero">
         <h2 className="Linealh2" data-after-content={NombreMesero}> Mesero: </h2>
         <label className="lblMesas">Mesas
           <br />   Asignadas: </label>
-        <input className="input-mesas" value={Mesas.length} readOnly />
+        <input className="input-mesas" value={Mesas && Mesas.length} readOnly /> */}
         {/* Este input muestra la cantidad de mesas que tiene el mesero asignadas */}
 
-        <Tabla Titulo={"Mesa a Cargo:"} Th1={"N°Mesa"} Th3={"Ocupada"}
+        {/* <Tabla Titulo={"Mesa a Cargo:"} Th1={"N°Mesa"} Th3={"Ocupada"}
           TextoBoton={"Tomar Pedido"} Mesas={Mesas}
         />
-      </form>
+      </form> */}
     </div>
   )
 }
