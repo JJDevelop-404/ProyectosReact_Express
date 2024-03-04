@@ -41,7 +41,7 @@ export const verificarCredenciales = async (req, res) => {
 export const getUsuarios = async (req, res) => {
     console.log("\n\nFuncion: getUsuarios()");
     try {
-        const usuarios = await pool.query('SELECT * FROM usuarios');
+        const usuarios = await pool.query('SELECT * FROM usuarios U WHERE U.Inactivo = 0;');
         console.log(usuarios);
         res.status(200).json(usuarios);
     } catch (error) {
@@ -68,7 +68,7 @@ export const getUsuarioById = async (req, res) => {
 export const getMeseros = async (req, res) => {
     console.log("\n\nFuncion: getMeseros()");
     try {
-        const Meseros = await pool.query('SELECT * FROM usuarios WHERE TipoUsuario = "Mesero"');
+        const Meseros = await pool.query('SELECT * FROM usuarios WHERE UPPER(TipoUsuario) LIKE "%MESERO"');
         console.log(Meseros);
         res.status(200).json(Meseros);
     } catch (error) {
@@ -133,8 +133,8 @@ export const deleteUsuario = async (req, res) => {
     console.log("\n\nFuncion: deleteUsuario()");
     try {
         const { UsuarioId } = req.params;
-        const response = await pool.query('DELETE FROM usuarios WHERE usuarioId = ? ', UsuarioId);
-        if (response.affectedRows > 0) {//Tiene que ser siempre 1
+        const response = await pool.query('UPDATE usuarios SET Inactivo = 1 WHERE usuarioId = ? ', UsuarioId);
+        if (response.affectedRows === 1) {//Tiene que ser siempre 1
             console.log("Usuario eliminado correctamente || ", response.affectedRows, "--> filas afectadas");
             res.status(200).json({ Message: 'Usuario eliminado correctamente' });
         } else {

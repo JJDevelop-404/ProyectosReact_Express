@@ -1,17 +1,15 @@
 import { Router } from "express";
 const routerMesas = Router();
 
-import { createMesaVacia, deleteMesa, getMesas, getMesasByMesero, liberarMesa } from "../controller/Mesas.js";
+import { createMesa, deleteMesa, getMesas, liberarMesa } from "../controller/Mesas.js";
 
 //PETICIONES GET
-routerMesas.get('/getMesas', getMesas);
-routerMesas.get('/getMesasByMesero/:MeseroId', getMesasByMesero);
+routerMesas.get('/getMesas', getMesas);//Obtener todas las mesas
 //PETICIONES POST
-routerMesas.post('/createMesa', createMesaVacia);
+routerMesas.post('/createMesa', createMesa); //Para crear una mesa
 //PETICIONES PUT
-routerMesas.put('/updateCntdClientes');
-routerMesas.put('/liberarMesa/:MesaId', liberarMesa);
+routerMesas.put('/liberarMesa/:MesaId', liberarMesa); //Para cambiar el estado de mesa a 0, es decir, libre
 //PETICIONES DELETE
-routerMesas.delete('/deleteMesa/:MesaId', deleteMesa);
+routerMesas.delete('/deleteMesa/:MesaId', deleteMesa); //Para eliminar una mesa
 
 export default routerMesas;

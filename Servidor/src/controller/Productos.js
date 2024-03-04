@@ -5,7 +5,7 @@ import { pool } from "../conexion/conexion.js";
 export const getProductos = async (req, res) => {
     console.log("\n\nFuncion getProductos():");
     try {
-        const Productos = await pool.query('SELECT * FROM Productos');
+        const Productos = await pool.query('SELECT * FROM Productos WHERE Inactivo = 0');
         if (Productos.length > 0) {
             console.log("Productos: ", Productos);
             res.status(200).json(Productos);
@@ -125,7 +125,8 @@ export const deleteProducto = async (req, res) => {
     console.log("\n\nFuncion deleteProducto():");
     try {
         const { ProductoId } = req.params;
-        const isDelete = await pool.query('DELETE FROM Productos WHERE ProductoId = ?', [ProductoId]);
+        // Inhabilitamos el producto con el campo Inactivo para que no se muestre en la lista de productos
+        const isDelete = await pool.query('UPDATE Productos SET Inactivo = 1 WHERE ProductoId = ?', [ProductoId]);
         if (isDelete.affectedRows === 1) {
             console.log("Producto eliminado correctamente");
             res.status(200).json({ Message: 'Producto eliminado correctamente' });

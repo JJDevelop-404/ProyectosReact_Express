@@ -1,0 +1,140 @@
+### |---------------------------------------------------------------|
+### |---------------------------------------------------------------|
+
+### PETICIONES HTTP PARA Usuarios
+### Traer todos los usuarios
+GET http://localhost:3003/usuarios/getUsuarios
+
+### Traer usuario por id
+GET http://localhost:3003/usuarios/getUsuario/5
+
+### Traer usuario que sea mesero
+GET http://localhost:3003/usuarios/getMeseros
+
+### Crear un Usuario
+POST http://localhost:3003/usuarios/createUsuario
+Content-Type: application/json
+
+{
+    "Cedula": "1120465721",
+    "Nombres": "Karol",
+    "Apellidos": "Diaz Diaz",
+    "TipoUsuario": "Mesero"
+}
+
+### Actualizar un Usuario
+PUT http://localhost:3003/usuarios/updateUsuario/9
+Content-Type: application/json
+
+{
+    "Nombres": "Sofia Andrea",
+    "Apellidos": "Diaz"
+}
+
+### Eliminar un Usuario
+DELETE http://localhost:3003/usuarios/deleteUsuario/5
+
+
+### |---------------------------------------------------------------|
+### |---------------------------------------------------------------|
+
+### PETICIONES HTTP PARA Mesas
+### Traer todas las mesas
+GET http://localhost:3003/mesas/getMesas
+
+### Crear una Mesa
+POST http://localhost:3003/mesas/createMesa
+
+### Liberar la mesa, dejando la cantidad de clientes en 0
+PUT http://localhost:3003/mesas/liberarMesa/2
+
+### Eliminar una mesa
+DELETE http://localhost:3003/mesas/deleteMesa/18
+
+
+### |---------------------------------------------------------------|
+### |---------------------------------------------------------------|
+
+### PETICIONES HTTP PARA PEDIDOS
+### Obetener todos los pedidos
+GET http://localhost:3003/pedidos/getPedidos
+
+### Obtener los pedido de una mesa mandando el id de la mesa
+GET http://localhost:3003/pedidos/getPedidosXMesaId/20
+
+### Obtener todos los datos de un pedido: n°mesa, mesero, fecha, producto, precio unitario, cantidad, precio total
+GET http://localhost:3003/pedidos/getTotalPedido/2
+
+### Crear un Pedido
+POST http://localhost:3003/pedidos/createPedido
+Content-Type: application/json
+
+{
+    "MeseroId": 6,
+    "MesaId": 2,
+    "lstProductos":[
+        {
+            "ProductoId": 1,
+            "Cantidad": 2
+        },
+        {
+            "ProductoId": 2,
+            "Cantidad": 1
+        }
+    ]
+}
+
+### Actualizar un Pedido
+PUT http://localhost:3003/pedidos/updatePedido/2
+Content-Type: application/json
+
+{
+    "lstProductos":[
+        {
+            "ProductoId": 1,
+            "Cantidad": 2
+        },
+        {
+            "ProductoId": 5,
+            "Cantidad": 3
+        }
+    ]
+}
+
+### Eliminar un pedido
+DELETE httP://localhost:3003/pedidos/deletePedido/3
+
+### |---------------------------------------------------------------|
+### |---------------------------------------------------------------|
+
+
+### PETICIONS HTTP PARA PRODUCTOS
+### Obtener los productos
+GET http://localhost:3003/productos/getProductos
+
+### Obtener un producto por id
+GET http://localhost:3003/productos/getProducto/2
+
+### Crear un Producto
+POST http://localhost:3003/productos/createProducto
+Content-Type: application/json
+
+{
+    "Nombre": "Pizza Mexicana",
+    "Descripcion": "Pizza con maiz y carne molida para 4 personas",
+    "Precio": 33000,
+    "Categoria": "Comida Rapida"
+}
+
+### Actualizar un Producto
+PUT http://localhost:3003/productos/updateProducto/2
+Content-Type: application/json
+
+{
+    "Nombre": "Costillas BBQ",
+    "Descripcion": "12 costillas BBQ para 4 personas",
+    "Precio": 35000
+}
+
+### Eliminar Productos
+DELETE http://localhost:3003/productos/deleteProducto/4

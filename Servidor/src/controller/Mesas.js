@@ -16,26 +16,11 @@ export const getMesas = async (req, res) => {
     }
 }
 
-//Funcion para traer todas las mesas atendidas por un mesero
-export const getMesasByMesero = async (req, res) => {
-    console.log("\nFuncion getMesasByMesero():");
-    try {
-        const { MeseroId } = req.params;
-        console.log(MeseroId);
-        const Mesas = await pool.query('SELECT MesaId FROM Mesas ', [MeseroId]);
-        console.log("Mesas: ", Mesas);
-        res.status(200).json(Mesas);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ Error: 'Error del servidor ', error });
-    }
-}
-
 /* -------------------------------------------------------------------------------------------------------------- */
 
 // METODOS CREATE
 //Funcion para crear una mesa vacia
-export const createMesaVacia = async (req, res) => {
+export const createMesa = async (req, res) => {
     console.log("\nFuncion createMesa():");
     try {
         await pool.query('INSERT INTO Mesas (MesaId) VALUES (NULL)');

@@ -4,13 +4,23 @@ import { pool } from "../conexion/conexion.js";
 //Funcion para traer todos los pedidos
 export const getPedidos = async (req, res) => {
     console.log("\nFuncion getPedidos():");
+    const { isMesero } = req.body;
     try {
-        const Pedidos = await pool.query('SELECT * FROM Pedidos');
-        console.log(Pedidos);
-        res.status(200).json(Pedidos)
+        if (isMesero) {
+
+        } else {
+            const Pedidos = await pool.query('SELECT * FROM Pedidos');
+            if (Pedidos) {
+                console.log("Pedidos: ", Pedidos);
+                res.status(200).json(Pedidos)
+            } else {
+                console.log("Error en el servidor o servidor desconectado");
+                res.statu(500).json({ Error: 'Error del servidor:  +,servidor desconectado' });
+            }
+        }
     } catch (error) {
         console.log(error);
-        res.status(500).json('Error del servidor', error);
+        res.status(500).json('Error del servidor: ', error);
     }
 }
 
@@ -29,12 +39,71 @@ export const getPedidoXMesaId = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json('Error del servidor', error);
+        res.status(500).json('Error del servidor: ', error);
     }
 }
 
+//Funcion para traer el total de un pedido
+export const getTotalPedido = async (req, res) => {
+    console.log("\nFuncion getTotalPedido():");
+    try {
+        const { pedidoId } = req.params;
+        if (pedidoId) {
+            let pedido = await pool.query('SELECT ' +
+                'Pe.pedidoId, ' +
+                'Pe.FechaPedido, ' +
+                'M.MesaId as N_Mesa, ' +
+                'U.Nombres as Mesero, ' +
+                'Pr.ProductoId, ' +
+                'Pr.Nombre AS NombreProducto, ' +
+                'Pr.Precio as PrecioUnitario, ' +
+                'DPP.Cantidad, ' +
+                '(Pr.Precio * DPP.Cantidad) as PrecioTotal ' +
+                'FROM Pedidos Pe ' +
+                'INNER JOIN detallepedidoproducto DPP ON DPP.PedidoId = Pe.pedidoId ' +
+                'INNER JOIN productos Pr ON Pr.ProductoId = DPP.ProductoId ' +
+                'INNER JOIN usuarios U ON U.usuarioId = Pe.MeseroId ' +
+                'INNER JOIN mesas M ON M.MesaId = Pe.MesaId ' +
+                'WHERE Pe.PedidoId = ?', [pedidoId]);
+            if (pedido.length > 0) {//Llego algo
+                let precioTotal = castearPropiedadAFloatYRetornaSuma(pedido, 'PrecioTotal'); 
+                //Casteamos a float y obtenemos el precio total
+                let lstProductos = []; //Para agregar al objeto pedido
+                for(let i of pedido){
+                    lstProductos.push({//Agregamos todos los atributos del producto a nuestra lista
+                        Producto: i.NombreProducto,
+                        PrecioUnitario: i.PrecioUnitario,
+                        Cantidad: i.Cantidad,
+                        PrecioTotal: i.PrecioTotal
+                    });
+                }
+                const objPedido = { //Creamos nuestro objeto pedido con todos los datos
+                    PedidoId : pedido[0].pedidoId,
+                    Fecha: pedido[0].FechaPedido,
+                    Mesa: pedido[0].N_Mesa,
+                    Mesero: pedido[0].Mesero,
+                    lstProductos: lstProductos,
+                    PrecioTotalPedido: precioTotal
+                }
+
+                console.log(objPedido);
+                res.status(200).json({ objPedido });
+            } else {
+                console.log("No hay ningun pedido con el id ", pedidoId);
+                res.status(404).json({ Error: 'No hay ningún pedido con el id ', pedidoId })
+            }
+        } else {
+            console.log("No se recibió el ID del pedido");
+            res.status(400).json({ Error: 'No se recibió el ID del pedido' });
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ Error: 'Error del servidor: ' + error });
+    }
+};
+
 //METODO POST
-//Funcion para agregar un pedido
+//Funcion para crear un pedido NUEVO
 export const createPedido = async (req, res) => {
     console.log("\nFuncion createPedido():");
     let { MeseroId, MesaId, lstProductos } = req.body;
@@ -60,13 +129,10 @@ export const createPedido = async (req, res) => {
                                     cantidadInserciones++;
                                 }
                             }
-                            if (cantidadInserciones === lstProductos.length) {
-                                console.log("Pedido creado correctamente");
-                                res.status(201).json({ Message: 'Pedido creado correctamente' });
-                            }
+                            verificarCantidadInserciones(res, cantidadInserciones, lstProductos, "creado")
                         } else {
-                            console.log("No fue posible obtener el ID del pedido");
-                            res.status(400).json({ Error: 'No fue posible obtener el ID del pedido' });
+                            console.log("La mesa no tiene un pedido asociado]");
+                            res.status(400).json({ Error: "La mesa no tiene un pedido asociado" });
                         }
                     } else {
                         console.log("No fue posible crear el pedido");
@@ -76,7 +142,7 @@ export const createPedido = async (req, res) => {
                     console.log("No fue posible actualizar el estado de la mesa");
                     res.status(400).json({ Error: 'No fue posible actualizar el estado de la mesa' });
                 }
-            }else{
+            } else {
                 console.log("La mesa ya está ocupada");
                 res.status(409).json({ Error: 'La mesa ya está ocupada' });
             }
@@ -86,6 +152,115 @@ export const createPedido = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json('Error del servidor', error);
+        res.status(500).json('Error del servidor: ', error);
     }
+};
+
+//Funcion para agregar productos a un pedido ya existente
+export const agregarNuevosProductosAlPedido = async (req, res) => {
+    console.log("\nFuncion agregarNuevosProductosAlPedido():");
+    try {
+        const { pedidoId } = req.params;
+        const { lstProductos } = req.body;
+        //La idea esque esto sea una lista de objetos de productos pero que solo tenga el ID del producto y la cantidad
+        if (pedidoId) {
+            if (lstProductos) {
+                for (var producto of lstProductos) {
+                    const isInsert = await pool.query('INSERT INTO DetallePedidoProducto (PedidoId, ProductoId, Cantidad) VALUES (?,?)', [pedidoId, producto.ProductoId, producto.Cantidad]);
+
+                }
+            } else {
+                console.log("No se recibieron los productos a agregar al pedido");
+                res.status(400).json({ Error: 'No se recibieron los productos a agregar al pedido' });
+            }
+        } else {
+            console.log("No se recibió el ID del pedido");
+            res.status(400).json({ Error: 'No se recibió el ID del pedido' });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ Error: 'Error del servidor: ', error });
+    }
+};
+
+//METODO PUT
+//Actualizar un pedido
+export const updatePedido = async (req, res) => {
+    console.log("\nFuncion updatePedido():");
+    try {
+        const { pedidoId } = req.params;
+        const { lstProductos } = req.body;
+        if (pedidoId) {
+            if (lstProductos) {
+                let cantidadInserciones = 0;
+                for (var producto of lstProductos) {
+                    const isUpdate = await pool.query('UPDATE DetallePedidoProducto SET ProductoId = ?, Cantidad = ? WHERE PedidoId = ? AND ProductoId = ?',
+                        [producto.ProductoId, producto.Cantidad, pedidoId, producto.ProductoId]);
+                    if (isUpdate.affectedRows === 1) { //Es decir, se insertó correctamente
+                        cantidadInserciones++; //Sumamos 1 a la cantidad de inserciones
+                    }
+                }
+                verificarCantidadInserciones(res, cantidadInserciones, lstProductos, "actualizado");
+            } else {
+                res.status(400).json({ Error: 'No se recibieron los datos necesarios' });
+            }
+        } else {
+            res.status(400).json({ Error: 'No se recibió el ID del pedido' });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ Error: 'Error del servidor: ', error });
+    }
+};
+
+
+//METODO DELETE
+export const deletePedido = async (req, res) => {
+    console.log("\nFuncion deletePedido():");
+    try {
+        const { pedidoId } = req.params;
+        if (pedidoId) {
+            const isDelete = await pool.query('DELETE FROM Pedidos WHERE PedidoId = ?', [pedidoId]);
+            if (isDelete.affectedRows === 1) { //Siempre debe ser 1 fila afectada
+                res.status(200).json({ Message: 'Pedido eliminado correctamente' });
+            } else {
+                res.status(400).json({ Error: 'No se pudo eliminar el pedido' });
+            }
+        } else {
+            res.status(400).json({ Error: 'No se recibió el ID del pedido' });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ Error: "Error del servidor: ", error });
+    }
+};
+
+
+
+//FUNCIONES APARTE
+//Funcion para verificar que la cantidad de inserciones sea igual al tamaño de la lista:
+const verificarCantidadInserciones = (res, cantidadInserciones, lstProductos, tipoPeticion) => {
+    // console.log(cantidadInserciones, lstProductos.length);
+    if (cantidadInserciones === lstProductos.length) {//Debe ser IGUAL SIEMPRE al length de la lista
+        console.log(`Pedido ${tipoPeticion} correctamente`);
+        res.status(201).json({ Message: `Pedido ${tipoPeticion} correctamente` });
+    } else if (cantidadInserciones === 0) {
+        console.log("No se insertaron productos al pedido");
+        res.status(400).json({ Error: 'No se insertaron productos al pedido' });
+    } else {
+        console.log("No se insertaron todos los productos algunos al pedido PERO SI algunos");
+        res.status(400).json({ Error: 'No se insertaron todos los productos al pedido PERO SI algunos ' });
+    }
+}
+
+//Función para castear a float una propiedad
+const castearPropiedadAFloatYRetornaSuma = (lstObjetos, propiedad) => {
+    /*Esta función es la encargada de castear a float todos los datos 
+    de tipo BigInt de una propiedad que está en una lista de objetos*/
+    let suma = 0;
+    for (let objeto of lstObjetos) {
+        suma += parseFloat(objeto[propiedad]);
+        objeto[propiedad] = parseFloat(objeto[propiedad]);
+    }
+    return suma;
 };
