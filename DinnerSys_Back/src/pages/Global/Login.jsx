@@ -1,7 +1,7 @@
 import './styles/Login.css';
 import { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { VerifyLoggin } from '../../API/RestauranteApi';
+import { VerifyLoggin } from '../../API/Usuarios';
 import { useAuth } from '../../auth/AuthProvider';
 
 export default function Login() {
@@ -20,8 +20,6 @@ export default function Login() {
       // console.log(MeseroF);
       localStorage.setItem('User', JSON.stringify(MeseroF));
       setIsAuthenticated(true);
-      setUserId(MeseroF.id);
-      setRol(MeseroF.rol);
       if (MeseroF.rol === "administrador") {
         navigate(`/Admin`);
       } else if (MeseroF.rol === "mesero") {
@@ -50,11 +48,10 @@ export default function Login() {
             <i className="fas fa-user"></i>
           </div>
 
-          <h2 className="Linealh2"> Iniciar Sesión </h2>
+          <h2 className="title-loggin"> Inicio Sesión </h2>
 
           <div className="user-box">
-            <input defaultValue={"@restaurante.com"}
-              className='Usercorreo' required type='text' onChange={ev => setUserCorreo(ev.target.value)} />
+            <input className='Usercorreo' required type='text' onChange={ev => setUserCorreo(ev.target.value)} />
             <label>  Usuario </label>
           </div>
 

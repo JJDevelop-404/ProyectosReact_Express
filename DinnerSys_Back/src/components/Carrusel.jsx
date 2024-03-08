@@ -1,28 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import './Carrusel.css';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
-import { LiberarMesa, getMesas } from "../API/Mesas";
+import { LiberarMesa } from "../API/Mesas";
 
-export default function Carrusel() {
+export default function Carrusel({ Mesas, setMesas }) {
 
+    // Me tocó pasarle las Mesas y su función para actualizarlas, porque no me dejaba actualizarlas desde aquí
+    
     const navigate = useNavigate();
 
     const { UserId: MsroId } = useAuth();
-
-    const [Mesas, setMesas] = useState([]); //Para la lista de mesas que traera el backend
-
-    useEffect(()=>{
-        getMesas()
-        .then((response) => {
-            if(response){
-                setMesas(response);
-            }else{
-                alert("No se pudo obtener las mesas");
-                console.log("No se pudo obtener las mesas");
-            }
-        })
-    },[]);
 
     //Para saber cual mesa se seleccionó y que solo se pueda seleccionar una mesa
     const [MesaATomarPedido, setMesaATomarPedido] = useState(null);
@@ -45,13 +33,12 @@ export default function Carrusel() {
         1. Actualizar la mesa que fue seleccionada y ponerle que su estado ahora es libre
         2. Eliminar el pedido por el Id de la Mesa Seleccionada
         */
+        LiberarMesa(Mesa.MesaId)
+            .then((response) => {
+                console.log("Mesa Liberada", response);
+                setMesas(Mesas.map(m => (m.MesaId === Mesa.MesaId ? { ...m, Estado: 0 } : m)));
+            });
 
-       
-       LiberarMesa(Mesa.MesaId).then((response) => {
-               console.log("Mesa Liberada", response);
-           setMesas(Mesas.map(m => (m.MesaId === Mesa.MesaId ? { ...m, Estado: 0 } : m)));
-           });
-           
     };
 
     function OnOrdenar(Mesa) {
@@ -65,7 +52,7 @@ export default function Carrusel() {
                 <div className="mesas-title">
                     <h3>Mesas Ocupadas </h3>
                 </div>
-                {Mesas.filter(me => me.Estado === 1).map(mesa => (
+                {Mesas && Mesas.filter(me => me.Estado === 1).map(mesa => (
                     <div key={mesa.MesaId}>
                         <input type="checkbox" id={`checkbox${mesa.MesaId}`} name="mesasSelect" checked={mesa.Estado === 1} readOnly />
                         <label htmlFor={`checkbox${mesa.id}`} className='circulo-container'> <span className='icon-mesas'> </span> <p> {mesa.MesaId} </p> </label>
@@ -85,7 +72,7 @@ export default function Carrusel() {
                 <div className="mesas-title">
                     <h3>Mesas Libres </h3>
                 </div>
-                {Mesas.filter(me => me.Estado === 0).map(mesa => (
+                {Mesas && Mesas.filter(me => me.Estado === 0).map(mesa => (
                     <div key={mesa.MesaId}>
                         <input type="checkbox" id={`checkbox${mesa.MesaId}`} checked={MesaATomarPedido === mesa.MesaId} onChange={() => { MesaCheckeada(mesa.MesaId) }} />
                         <label htmlFor={`checkbox${mesa.MesaId}`} className='circulo-container'> <span className='icon-mesas'> </span> <p> {mesa.MesaId} </p> </label>

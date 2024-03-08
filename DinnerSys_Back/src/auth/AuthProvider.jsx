@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 
 const AuthContext = createContext({
     isAuthenticated: false,
@@ -13,9 +13,9 @@ const AuthContext = createContext({
 
 export const useAuth = () => useContext(AuthContext);
 
-export let TipoUsuario = "";
-
 export function AuthProvider({ children }) {
+
+    // console.log("Hola desde auth provider");
 
     const [isAuthenticated, setIsAuthenticated] = useState(
         localStorage.getItem("User")
@@ -25,33 +25,29 @@ export function AuthProvider({ children }) {
         localStorage.clear();
     }
 
-    const ObtenerDatos = (Variable) => {
+    /* Usamos useMemo para asi poder calcular el valor de userData solo cuando cambie
+     la variable isAuthenticated */
+    const userData = useMemo(() => {
+        // console.log("Calculating user data...");
         if (isAuthenticated) {
             const DataUsuario = JSON.parse(localStorage.getItem("User"));
-            if (DataUsuario) {
-                switch (Variable) {
-                    case "UserId": {
-                        return DataUsuario.id;
-                        break;
-                    }case "UserRol":{
-                        return DataUsuario.rol;
-                        break;
-                    }case "UserNombre":{
-                        return DataUsuario.Nombre;
-                        break;
-                    }
-                }
-            }
+            return {
+                UserId: DataUsuario.id,
+                Rol: DataUsuario.rol,
+                Nombre: DataUsuario.Nombre
+            };
         }
-        return "";
-    }
+        return {
+            UserId: "",
+            Rol: "",
+            Nombre: ""
+        };
+    }, [isAuthenticated]);
 
-    const [UserId, setUserId] = useState(ObtenerDatos("UserId"));
-    const [Rol, setRol] = useState(ObtenerDatos("UserRol"));
-    const [Nombre, setNombre] = useState(ObtenerDatos("UserNombre"));
+    // console.log("userData", userData);
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, UserId, setUserId, Rol, setRol, Nombre, setNombre }}>
+        <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, ...userData }}>
             {children}
         </AuthContext.Provider>
     );

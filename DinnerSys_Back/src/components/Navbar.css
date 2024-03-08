@@ -1,45 +1,120 @@
+/* Contenedor del Navbar principal */
 .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: auto;
+    /* Inicio para dejar nuestro navbar estatico arriba */
+    position: sticky !important;
+    top: 0px !important;
+    margin: 0 !important;
+    padding: 0 !important;
     z-index: 2;
-    background-color: #333;
-    width: 100%;
+    /* Fin para dejar nuestro navbar estatico arriba */
+    background-color: transparent !important;
+    transition: .4s all ease-in;
+    margin-bottom: 18vh !important;
 }
 
-.ul-navbar {
-    list-style-type: none;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
+/* Contenedor de nuestro navbar */
+.navbar .container-fluid {
+    /* Para dejar estatico nuestro navbar */
+    position: fixed !important;
+    top: 0 !important;
+    padding: 0px !important;
+    margin: 0 !important;
+    border: none !important;
+    /* Este background-color es para todo el navbar, pero
+    como ya modificamos todos los nav-items con el navbar-nav, pues
+    este contendra el background de nuestro navbar-brand y en celular 
+    sería toda la barra de navegación */
+    background-color: #252525;
+
+    /* border: 2px solid red !important; */
+    &:focus,
+    &:active,
+    &:hover {
+        outline: none !important;
+    }
 }
 
-.ul-navbar li {
-    float: left;
+/* Para el "logo" de la navbar */
+.navbar-brand {
+    margin-left: 14px;
+    color: #FFF !important;
+    font-size: 25px !important;
+    font-weight: bold;
 }
 
-.ul-navbar li a {
-    height: 100%;
-    display: block;
-    color: white;
-    cursor: pointer;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
+/* contenedor general de todos los nav-items y los nav-links */
+.navbar-nav {
+    /* border: 2px solid red !important; */
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #FFF !important;
+    background-color: #353535 !important;
 }
 
-.ul-navbar .li-button {
-    background-color: burlywood;
+/* Este es para manejar la animacion de cierre y apertura del menú desplegable */
+.navbar-collapse {
+    padding: 0 !important;
+    margin: 0 auto;
+    transition: .2s all ease-out !important;
+}
+
+/* Este es como el contenedor general de todos los nav-items*/
+.collapse.navbar-collapse {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* El contenedor de cada links de la navbar 
+es como el cuadrito de cada link*/
+.nav-item {
+    /* border: 2px solid purple !important; */
+    margin: 0 !important;
     border: none;
-    float: right;
 }
 
-.ul-navbar li:hover {
-    background-color: rgb(222, 184, 135, .6);
+/* Todos los links de la navbar */
+.nav-link {
+    font-size: 20px !important;
+    margin: 0 !important;
+    padding: 12.6px !important;
+    cursor: pointer;
+    color: #FFF !important;
 }
 
-.content {
-    margin-top: 50px;
+/* Para cuando se le haga hover a los link de la navbar */
+.nav-link:hover {
+    background-color: rgba(222, 184, 135, 0.2);
+    color: #FFF !important;
+}
+
+/* El icono del menu desplegable */
+.navbar-toggler {
+    margin-right: 20px;
+    padding: 3px 6px !important;
+    background-color: #FFF !important;
+    box-shadow: none !important;
+    /* transition: all 2s ease-in; */
+}
+
+
+/* Contenedor de nuestro boton de cierre de sesión
+En pc se ve en la izquierda del todo, y en celular se ve en la mitad */
+.navbar-nav.sys-log {
+    text-wrap: nowrap;
+    display: flex;
+    flex: 1 auto;
+    justify-content: flex-end;
+}
+
+/* Para el boton cerrar sesión */
+.nav-link.cerrar-sesion {
+    /* text-align: left !important; */
+    background-color: #272727 !important;
+    width: 100% !important;
+
+    /* float: right !important; */
+    &:hover {
+        background-color: #222 !important;
+    }
 }

@@ -1,7 +1,5 @@
 import './StylesMesero/Pedido.css';
 import { useEffect, useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { CreatePedido, UpdateMesa } from '../../API/RestauranteApi';
 import { useAuth } from '../../auth/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import { getProductos } from '../../API/Productos';
@@ -17,19 +15,19 @@ export default function Pedido() {
   const [NombreCliente, setNombreCliente] = useState('');
   const [CantidadClientes, setCantidadClientes] = useState(0);
 
-
-  // Empezamos a traer los datos del JSON
   //  Traemos primeramente todos los productos 
   const [lstProductos, setLstProductos] = useState([]);
-  useEffect(() => {
-    getProductos()
-      .then((response) => {
-        setLstProductos(response);
-      }).catch((error) => {
-        alert("Error al obtener los productos")
-        console.log("Error al obtener los productos", error);
-      })
-  }, [])
+  Mesa ? //Si hay una mesa en el localstorage, entonces traemos los productos
+    useEffect(() => {
+      getProductos()
+        .then((response) => {
+          setLstProductos(response);
+        }).catch((error) => {
+          alert("Error al obtener los productos")
+          console.log("Error al obtener los productos", error);
+        })
+    }, [])
+    : null; //En caso contrario, no traemos nada y evitamos una peticion innecesaria al servidor
 
   // Creamos las variables para manipular el Precio y la lista de ids de los productos que se seleccionan
   const [PrecioTotal, setPrecioTotal] = useState(0);
@@ -45,30 +43,6 @@ export default function Pedido() {
       setPrecioTotal(PrecioTotal - producto.Precio);
     }
   }
-
-  const queryClient = useQueryClient();
-
-  const ActualizarMesa = useMutation({
-    mutationFn: UpdateMesa,
-    onSuccess: () => {
-      queryClient.invalidateQueries('Mesas');
-      alert("Mesa Actualizada");
-    },
-    onError: (error) => {
-      alert(`error: ${error}`);
-    }
-  });
-
-  const NuevoPedido = useMutation({
-    mutationFn: CreatePedido,
-    onSuccess: () => {
-      queryClient.invalidateQueries('Pedidos');
-      alert("Agregado")
-    },
-    onError: (error) => {
-      alert(`error: ${error}`);
-    }
-  });
 
   const onSubmit = () => {
     // Cuando se envie el formulario, primero actualizaremos la mesa

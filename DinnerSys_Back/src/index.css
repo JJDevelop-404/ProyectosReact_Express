@@ -1,74 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@229&display=swap');
 
 body {
-  height: 60vh;
-  font-size: 20px;
-  font-family: sans-serif;
-  background-color: #121212;
-  color: darkgray;
-  margin: 0;
-  padding: 0;
+  height: 60vh !important;
+  font-size: 20px !important;
+  font-family: "Nunito" !important;
+  background-color: #121212 !important;
+  color: whitesmoke !important;
 }
-
-form {
-  position: absolute;
-  background-color: #252525;
-  border: 5px solid darkgray;
-  border-radius: 15px;
-  padding: 25px;
-  margin: 0 auto;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-form .Linealh2 {
-  font-size: 27;
-  display: block;
-  margin-top: 10px;
-  font-family: sans-serif;
-  color: white;
-  border-bottom: 1.5px solid white;
-  padding-bottom: 5px;
-  margin-bottom: 18px;
-}
-
-form h2::after {
-  text-transform: capitalize;
-  font-family: Courier;
-  font-size: 25px;
-  font-style: oblique;
-  color: burlywood;
-  content: attr(data-after-content);
-}
-
-form label,
-form input {
-  color: lightgray;
-  margin-top: 4px;
-  font-size: 18px;
-}
-
 
 /* Clase del boton */
 .btnFormularios {
-  box-shadow: 0 0 5px burlywood;
   font-size: 18px;
-  padding: 4px 20px;
-  border-radius: 15px;
-  margin-bottom: 10px;
-  background-color: transparent;
+  padding: 2px 10px;
+  border-radius: 9px;
+  margin-bottom: 20px;
+  background-color: rgba(222, 184, 135, 0.13);
   /* color de fuente */
-  color: darkgray;
+  color: lightgray;
   border: 3px solid #715d42;
   position: relative;
   z-index: 1;
   overflow: hidden;
   transition: 0.3s all cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  outline: none !important;
 }
 
 .btnFormularios:hover {
-  transform: scale(1.1);
+  transform: scale(1.06);
   text-shadow: 0 0 2px black;
   box-shadow: 0 0 5px burlywood,
     0 0 90px #715d42;
@@ -76,6 +35,14 @@ form input {
   font-weight: bold;
   color: black;
   border: 3px solid burlywood;
+}
+
+.btnFormularios:focus{
+  transform: scale(1.05);
+  border: .5px solid white;
+  text-shadow: 1px 0 0 gray;
+  box-shadow: 0 0 5px burlywood;
+  background-color: rgba(222, 184, 135, 0.2) ;
 }
 
 .btnFormularios::after {
@@ -109,7 +76,6 @@ form input {
 
 ::-webkit-scrollbar-thumb {
   border-left: 1px solid rgb(222, 184, 135, .6);
-  border-radius: 20px 0 20px;
   background-color: #333;
 }
 

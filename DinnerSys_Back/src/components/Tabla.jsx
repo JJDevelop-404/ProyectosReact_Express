@@ -1,37 +1,37 @@
 import { Link } from 'react-router-dom';
 import './Tabla.css';
 
-export default function Tabla({ Titulo, Th1, Th2, Th3, TextoBoton, Mesas, NMesa }) {
+export default function Tabla({ lstTitulosTabla, TituloPrincipal, TextoBotonCrear, RedireccionBotonCrear, lstData }) {
 
     return (
         <>
-            <div>
-                <div className="tabla-container">
-                    <table className="tabla-form">
-                        <thead>
-                            <tr>
-                                <th className="ttlo-form" colSpan="3"> {Titulo} </th>
-                            </tr>
-                            <tr className="espacio-row">
-                                <td>&nbsp;</td>
-                            </tr>
-                            <tr className="dps-ttlo">
-                                <th> {Th1} </th>
-                                <th> {Th3} </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {Mesas && Mesas.filter(m => m.Estado === 1).map(mesas => (
-                                <tr key={mesas.MesaId}>
-                                    <td> {mesas.MesaId} </td>
-                                    <td> <input type='checkbox' defaultChecked={mesas.Estado === 1} disabled readOnly /> </td>
-                                </tr>
+            <h2 className='titulo-tabla'> {TituloPrincipal} </h2>
+            <div className="container-tabla table-responsive">
+                <table className="table table-sm table-dark table-hover table-striped table-bordered">
+                    <thead className='head-tbl'>
+                        <tr>
+                            {lstTitulosTabla && lstTitulosTabla.map((titulo) => (
+                                <th key={titulo}> {titulo} </th>
                             ))}
-                            
-                        </tbody>
-                    </table>
-                </div>
+                            <th> Acciones </th>
+                        </tr>
+                    </thead>
+                    <tbody className='body-tbl align-middle'>
+                        {lstData && lstData.map((data, index) => (
+                            <tr key={index}>
+                                {Object.keys(data).map((key) => (
+                                    <td key={key}> {data[key]} </td>
+                                ))}
+                                <td>
+                                    <button> Hola </button>
+                                    <button> Eliminar </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
+            <Link className='btn btn-success w-50' to={RedireccionBotonCrear}> {TextoBotonCrear} </Link>
         </>
     )
 }

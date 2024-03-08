@@ -1,17 +1,16 @@
+/* Estilos para el contenedor del carrusel */
 .carrusel {
     position: relative;
     display: flex;
-    flex-wrap: nowrap;
-    width: 80%;
-    height: 200px;
-    border: 3px solid gray;
-    border-radius: 20px;
-    background-color: #222;
-    left: 50%;
-    top: 90px;
-    padding: 10px 0;
-    margin: 0 0 50px;
-    transform: translate(-50%);
+    margin: 0 auto; /* Centra el carrusel horizontalmente */
+    flex-wrap: nowrap; /* Para evitar salto de linea */
+    margin-bottom: 60px;
+    width: 80%; /* Maximo de ancho */
+    height: 220px; /* Maximo de altura */
+    max-width: 900px;
+    border: 3px solid gray; /* El grosor del borde y color */
+    border-radius: 20px; /* Para redondear las esquinas */
+    background-color: #222; /* Color de fondo */
     align-items: center;
     scroll-behavior: smooth;
     transition: .1s ease-in;
@@ -33,6 +32,7 @@
     position: absolute;
     top: -98px;
     margin: 0 auto;
+    font-weight: bold;
 }
 
 .carrusel .circulo-container {
@@ -76,12 +76,12 @@
     color: black;
     font-size: 20px;
     font-style: italic;
-    font-weight: 600;
+    font-weight: bold;
 }
 
 .carrusel input[type="checkbox"]:checked+.circulo-container {
     background-color: rgba(199, 241, 180, .2);
-    transform: scale(105%);
+    transform: scale(100%);
     
     & p {
         background-color: lightgreen;
@@ -144,11 +144,16 @@
 }
 
 .carrusel-container-btn .btnCarrusel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
     font-size: 16px;
     font-weight: bold;
-    border-radius: 10px;
+    border-radius: 20px;
     border: none;
-    width: 50%;
+    padding: 0 10px;
+    width: 54%;
     background-color: rgba(199, 241, 180, .6);
     transition: 1s all;
 }
