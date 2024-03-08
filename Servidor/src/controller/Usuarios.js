@@ -37,11 +37,11 @@ export const verificarCredenciales = async (req, res) => {
 }
 
 //METODOS PARA OBTENER USUARIOS (METODOS GET)
-//Funcion para obtener todos los usuarios
+//Funcion para obtener todos los usuarios activos
 export const getUsuarios = async (req, res) => {
     console.log("\n\nFuncion: getUsuarios()");
     try {
-        const usuarios = await pool.query('SELECT * FROM usuarios U WHERE U.Inactivo = 0;');
+        const usuarios = await pool.query('SELECT U.usuarioId, U.Cedula, U.Nombres, U.Apellidos, U.TipoUsuario FROM usuarios U WHERE U.Inactivo = 0;');
         console.log(usuarios);
         res.status(200).json(usuarios);
     } catch (error) {

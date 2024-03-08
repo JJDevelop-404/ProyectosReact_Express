@@ -5,7 +5,7 @@ import { pool } from "../conexion/conexion.js";
 export const getProductos = async (req, res) => {
     console.log("\n\nFuncion getProductos():");
     try {
-        const Productos = await pool.query('SELECT * FROM Productos WHERE Inactivo = 0');
+        const Productos = await pool.query('SELECT P.ProductoId, P.Nombre, P.Descripcion, P.Precio, P.Categoria  FROM Productos P WHERE P.Inactivo = 0');
         if (Productos.length > 0) {
             console.log("Productos: ", Productos);
             res.status(200).json(Productos);

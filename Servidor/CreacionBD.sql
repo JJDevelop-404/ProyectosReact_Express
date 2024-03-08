@@ -83,7 +83,8 @@ INSERT INTO Usuarios (Nombres, Apellidos,  Cedula, TipoUsuario) VALUES
 ('Juan Jose', 'Marin', '1202957603', 'Mesero'),
 ('John David', 'Doe', '319457302', 'Mesero'),
 ('Laura Cristina', 'Lopez Acosta', '583024841', 'Mesero'),
-('Sofia', 'Castillo', '315285014', 'Mesero'),
+('Sofia', 'Castillo', '315315', 'Mesero'),
+('User', 'Test', '12345', 'Mesero'),
 ('Andres Steven', 'Vivas', '1340589420' ,'Mesero');
 
 /* Inserción tabla Productos */
