@@ -12,23 +12,35 @@
   }
 }
 
+/* INICIO --> Estilos para el buscador por filtros */
 .container.pedido .container-filtros{
   position: sticky;
   top: 0;
   display: flex;
   outline: none;
 }
+/* Estilo para el input y el select */
 .container-filtros .input-buscar,
 .container-filtros .select-filtros{
-  margin: 0 2px;
+  /* margin: 0 2px; */
+  border: none;
+  background-color: white;
   outline: none !important;
 }
+/* Estilos para el input */
 .container-filtros .input-buscar{
   width: 100% !important;
 }
+/* Estilos para el select */
 .container-filtros .select-filtros{
-  width: 40% !important;
+  width: 65% !important;
+  border-left: 2px solid black;
+  & option{
+    color: black;
+    font-size: 15px;
+  }
 }
+/* FIN --> Estilos para el buscador por filtros */
 
 .container.pedido .title-pedido {
   position: sticky;
@@ -59,7 +71,7 @@
   border: 2px solid burlywood;
 
   & .pr-nombre {
-    border: 2px solid blue;
+    /* border: 2px solid blue; */
     cursor: pointer;
     width: 75%;
     margin: 0 !important;
