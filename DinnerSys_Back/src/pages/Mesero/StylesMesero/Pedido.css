@@ -1,86 +1,98 @@
-.formSinMesa {
-  width: 30%;
-}
-
-.container-formulariosPP {
-  display: flex; 
-}
-
-.formPedidos, .formlstProductos{
-  position: absolute;
-  margin: 1%;
-  top: 50%;
+.container.pedido {
+  margin: 0 auto !important;
+  padding: 0 !important;
+  width: 96% !important;
+  height: 61.5vh;
   overflow-y: scroll;
-  overflow-x: hidden;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  &::-webkit-scrollbar{
+  border: 4px solid #121212;
+  border-radius: 9px;
+
+  &::-webkit-scrollbar {
     display: none;
   }
 }
 
-.formPedidos{
-  left: 35%;
+/* INICIO --> Estilos para el buscador por filtros */
+.container.pedido .container-filtros{
+  position: sticky;
+  top: 0;
+  display: flex;
+  outline: none;
+}
+/* Estilo para el input y el select */
+.container-filtros .input-buscar,
+.container-filtros .select-filtros{
+  /* margin: 0 2px; */
+  border: none;
+  background-color: white;
+  outline: none !important;
+}
+/* Estilos para el input */
+.container-filtros .input-buscar{
+  width: 100% !important;
+}
+/* Estilos para el select */
+.container-filtros .select-filtros{
+  width: 65% !important;
+  border-left: 2px solid black;
+  & option{
+    color: black;
+    font-size: 15px;
+  }
+}
+/* FIN --> Estilos para el buscador por filtros */
+
+.container.pedido .title-pedido {
+  position: sticky;
+  font-family: 'Madimi One';
+  font-size: 30px;
+  background-color: #121212;
+  top: 0 !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 4px !important;
 }
 
-.formlstProductos{
-  margin-left: 15%;
-  width: 20%;
-  height: 50%;
+.seccion-productos {
+  display: flex;
+  flex-direction: column;
 }
 
-.formPedidos .Linealh2 {
-  margin-bottom: 10%;
-  font-size: 25px;
-}
-
-.formPedidos .user-box{
-  position: relative;
-}
-
-.user-box select:valid~label,
-.user-box select:focus~label {
-    top: -25px;
-    color: burlywood;
-    font-size: 16px;
-}
-
-.formlstProductos .carrusel-pedidos{
-  position: absolute;
-  top: 35%;
-  border: 3px solid rgba(222, 184, 135, 0.2);
-  background-color: rgba(222, 184, 135, 0.064);
+.seccion-productos .listado-productos {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin: 8px 10px !important;
+  padding: 6px !important;
+  background-color: rgba(222, 184, 135, 0.149);
   border-radius: 10px;
-  padding: 10px 15px;
-  max-height: 40%;
-  margin: 0 auto;
-  text-align: left;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  border: 2px solid burlywood;
+
+  & .pr-nombre {
+    /* border: 2px solid blue; */
+    cursor: pointer;
+    width: 75%;
+    margin: 0 !important;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  & .pr-descripcion {
+    font-size: 17px;
+    margin: 2px;
+  }
+
+  & .pr-precio {
+    text-wrap: nowrap;
+    margin-right: 8px;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
 }
 
-.formlstProductos .carrusel-pedidos label{
-  word-wrap: break-word;
-  width: 100%;
-  border-bottom: 1px solid gray;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-}
-
-.formlstProductos .carrusel-pedidos input[type="checkbox"] {
-  flex: 1 0 auto;
-  appearance: none;
-  margin: 25px 4px auto;
-  padding: 5px;
-  border: 2px solid rgb(219, 184, 138);
-  background-color: transparent;
-  border-radius: 20%;
-}
-
-.formlstProductos .carrusel-pedidos input[type="checkbox"]:hover, label:hover{
-  cursor: pointer;
-}
-
-.formlstProductos .carrusel-pedidos input[type="checkbox"]:checked{
-  background-color: burlywood;
+.seccion-productos .listado-productos .pr-nombre,
+.seccion-productos .listado-productos .pr-precio {
+  margin: 0 3px;
+  font-size: 20px;
 }

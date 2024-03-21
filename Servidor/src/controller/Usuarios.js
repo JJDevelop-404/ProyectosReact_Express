@@ -103,17 +103,17 @@ export const updateUsuario = async (req, res) => {
     console.log("\n\nFuncion: updateUsuario()");
     try {
         const { UsuarioId } = req.params;
-        const { Nombres, Apellidos, TipoUsuario } = req.body;
+        const { Cedula, Nombres, Apellidos, TipoUsuario } = req.body;
         if (Nombres || Apellidos || TipoUsuario) {
             //El COALESCE() es para que si el campo viene vacio, no lo actualice
             const result = await pool.query('UPDATE usuarios SET ' +
-                'Nombres = COALESCE(?, Nombres), Apellidos = COALESCE(?, Apellidos), TipoUsuario = COALESCE(?,TipoUsuario) ' +
-                'WHERE usuarioId = ?', [Nombres, Apellidos, TipoUsuario, UsuarioId]);
+                'Cedula = COALESCE(?, Cedula), Nombres = COALESCE(?, Nombres), Apellidos = COALESCE(?, Apellidos), TipoUsuario = COALESCE(?,TipoUsuario) ' +
+                'WHERE usuarioId = ?', [Cedula, Nombres, Apellidos, TipoUsuario, UsuarioId]);
 
-            console.log(result.affectedRows);//Para saber cuantas filas fueron afectadas, siempre debe decir 1
+            // console.log(result.affectedRows);//Para saber cuantas filas fueron afectadas, siempre debe decir 1
             if (result.affectedRows === 1) {
                 console.log("Usuario actualizado correctamente");
-                res.status(200).json({ Message: 'Usuario actualizado correctamente' });
+                res.status(201).json({ Message: 'Usuario actualizado correctamente' });
             } else {
                 console.log("No fue posible actualizar el usuario porque NO existe");
                 res.status(400).json({ Error: `El usuario con el id ${UsuarioId} no existe` });
@@ -136,7 +136,7 @@ export const deleteUsuario = async (req, res) => {
         const response = await pool.query('UPDATE usuarios SET Inactivo = 1 WHERE usuarioId = ? ', UsuarioId);
         if (response.affectedRows === 1) {//Tiene que ser siempre 1
             console.log("Usuario eliminado correctamente || ", response.affectedRows, "--> filas afectadas");
-            res.status(200).json({ Message: 'Usuario eliminado correctamente' });
+            res.status(201).json({ Message: 'Usuario eliminado correctamente' });
         } else {
             console.log("No fue posible eliminar el usuario");
             res.status(400).json({ Error: 'No fue posible eliminar el usuario' });
@@ -146,9 +146,3 @@ export const deleteUsuario = async (req, res) => {
         res.status(500).json({ Error: 'Error del servidor' });
     }
 }
-
-/* 
-Puedes explicarme lo que hace este archivo? dime si o no
-
-
-*/

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import './Carrusel.css';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
@@ -7,8 +7,10 @@ import { LiberarMesa } from "../API/Mesas";
 export default function Carrusel({ Mesas, setMesas }) {
 
     // Me tocó pasarle las Mesas y su función para actualizarlas, porque no me dejaba actualizarlas desde aquí
-    
+
     const navigate = useNavigate();
+    const carruselOcupadasRef = useRef(null); //Para el scroll del carrusel mesas ocupadas
+    const carruselLibresRef = useRef(null); //Para el scroll del carrusel mesas libres
 
     const { UserId: MsroId } = useAuth();
 
@@ -48,47 +50,56 @@ export default function Carrusel({ Mesas, setMesas }) {
 
     return (
         <>
-            <section className="carrusel">
-                <div className="mesas-title">
-                    <h3>Mesas Ocupadas </h3>
-                </div>
-                {Mesas && Mesas.filter(me => me.Estado === 1).map(mesa => (
-                    <div key={mesa.MesaId}>
-                        <input type="checkbox" id={`checkbox${mesa.MesaId}`} name="mesasSelect" checked={mesa.Estado === 1} readOnly />
-                        <label htmlFor={`checkbox${mesa.id}`} className='circulo-container'> <span className='icon-mesas'> </span> <p> {mesa.MesaId} </p> </label>
-                        <div className="carrusel-container-btn">
-                            <button className="btnCarrusel" onClick={() => OnHandleClickLiberar(mesa)}  > Liberar </button>
-                        </div>
+            <div className="container-carrusel-component">
+                <section className="carrusel" ref={carruselOcupadasRef}>
+                    <div className="mesas-title">
+                        <h3>Mesas Ocupadas </h3>
                     </div>
-
-                ))}
-                <div className="container-dz">
-                    <button className="desplazar"> {'>'} </button>
-                    <button className="desplazarLeft"> {'<'} </button>
-                </div>
-            </section >
-
-            <section className="carrusel">
-                <div className="mesas-title">
-                    <h3>Mesas Libres </h3>
-                </div>
-                {Mesas && Mesas.filter(me => me.Estado === 0).map(mesa => (
-                    <div key={mesa.MesaId}>
-                        <input type="checkbox" id={`checkbox${mesa.MesaId}`} checked={MesaATomarPedido === mesa.MesaId} onChange={() => { MesaCheckeada(mesa.MesaId) }} />
-                        <label htmlFor={`checkbox${mesa.MesaId}`} className='circulo-container'> <span className='icon-mesas'> </span> <p> {mesa.MesaId} </p> </label>
-                        {MesaATomarPedido === mesa.MesaId &&
+                    {Mesas && Mesas.filter(me => me.Estado === 1).map(mesa => (
+                        <div key={mesa.MesaId}>
+                            <input type="checkbox" id={`checkbox${mesa.MesaId}`} name="mesasSelect" checked={mesa.Estado === 1} readOnly />
+                            <label htmlFor={`checkbox${mesa.id}`} className='circulo-container'> <span className='icon-mesas'> </span> <p> {mesa.MesaId} </p> </label>
                             <div className="carrusel-container-btn">
-                                <button id={`checkbox${mesa.MesaId}`} type='button' className="btnCarrusel" onClick={() => OnOrdenar(mesa)}> Ordenar </button>
+                                <button className="btnCarrusel" onClick={() => OnHandleClickLiberar(mesa)}  > Liberar </button>
                             </div>
-                        }
-                    </div>
-                ))}
-                <div className="container-dz">
-                    <button className="desplazar"> {'>'} </button>
-                    <button className="desplazarLeft"> {'<'} </button>
-                </div>
-            </section>
+                        </div>
 
+                    ))}
+                    <div className="container-dz">
+                        <button className="desplazar" onClick={()=>scrollRight(carruselOcupadasRef)}> {'>'} </button>
+                        <button className="desplazarLeft" onClick={()=>scrollLeft(carruselOcupadasRef)}> {'<'} </button>
+                    </div>
+                </section >
+
+                <section className="carrusel" ref={carruselLibresRef} >
+                    <div className="mesas-title">
+                        <h3>Mesas Libres </h3>
+                    </div>
+                    {Mesas && Mesas.filter(me => me.Estado === 0).map(mesa => (
+                        <div key={mesa.MesaId}>
+                            <input type="checkbox" id={`checkbox${mesa.MesaId}`} checked={MesaATomarPedido === mesa.MesaId} onChange={() => { MesaCheckeada(mesa.MesaId) }} />
+                            <label htmlFor={`checkbox${mesa.MesaId}`} className='circulo-container'> <span className='icon-mesas'> </span> <p> {mesa.MesaId} </p> </label>
+                            {MesaATomarPedido === mesa.MesaId &&
+                                <div className="carrusel-container-btn">
+                                    <button id={`checkbox${mesa.MesaId}`} type='button' className="btnCarrusel" onClick={() => OnOrdenar(mesa)}> Ordenar </button>
+                                </div>
+                            }
+                        </div>
+                    ))}
+                    <div className="container-dz">
+                        <button className="desplazar" onClick={()=>scrollRight(carruselLibresRef)}> {'>'} </button>
+                        <button className="desplazarLeft" onClick={()=>scrollLeft(carruselLibresRef)} > {'<'} </button>
+                    </div>
+                </section>
+            </div>
         </>
     )
+
+    function scrollRight(carruselRef) {
+        carruselRef.current.scrollLeft += 200;
+    }
+
+    function scrollLeft(carruselRef){
+        carruselRef.current.scrollLeft -= 200;
+    }
 }

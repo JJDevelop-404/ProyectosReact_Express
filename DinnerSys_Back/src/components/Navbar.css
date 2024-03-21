@@ -9,7 +9,7 @@
     /* Fin para dejar nuestro navbar estatico arriba */
     background-color: transparent !important;
     transition: .4s all ease-in;
-    margin-bottom: 18vh !important;
+    margin-bottom: 6rem !important;
 }
 
 /* Contenedor de nuestro navbar */
@@ -24,8 +24,7 @@
     como ya modificamos todos los nav-items con el navbar-nav, pues
     este contendra el background de nuestro navbar-brand y en celular 
     sería toda la barra de navegación */
-    background-color: #252525;
-
+    background-color: #111;
     /* border: 2px solid red !important; */
     &:focus,
     &:active,
@@ -49,7 +48,7 @@
     margin: 0 !important;
     padding: 0 !important;
     color: #FFF !important;
-    background-color: #353535 !important;
+    background-color: #191919 !important;
 }
 
 /* Este es para manejar la animacion de cierre y apertura del menú desplegable */
@@ -91,7 +90,7 @@ es como el cuadrito de cada link*/
 /* El icono del menu desplegable */
 .navbar-toggler {
     margin-right: 20px;
-    padding: 3px 6px !important;
+    padding: 1px 4px !important;
     background-color: #FFF !important;
     box-shadow: none !important;
     /* transition: all 2s ease-in; */
@@ -110,11 +109,11 @@ En pc se ve en la izquierda del todo, y en celular se ve en la mitad */
 /* Para el boton cerrar sesión */
 .nav-link.cerrar-sesion {
     /* text-align: left !important; */
-    background-color: #272727 !important;
+    background-color: #121212 !important;
     width: 100% !important;
 
     /* float: right !important; */
     &:hover {
-        background-color: #222 !important;
+        background-color: #111 !important;
     }
 }

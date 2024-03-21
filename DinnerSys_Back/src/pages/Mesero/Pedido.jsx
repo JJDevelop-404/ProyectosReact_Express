@@ -1,120 +1,90 @@
-import './StylesMesero/Pedido.css';
-import { useEffect, useState } from 'react';
-import { useAuth } from '../../auth/AuthProvider';
-import { useNavigate } from 'react-router-dom';
 import { getProductos } from '../../API/Productos';
+import './StylesMesero/Pedido.css';
+import React, { useEffect, useState } from 'react';
 
 export default function Pedido() {
+  const [productos, setProductos] = useState([]);
+  const [desplegarDescripcion, setDesplegarDescripcion] = useState(false);
 
-  const { UserId: MsroId } = useAuth();
-  const navigate = useNavigate();
+  let lstIdProductos = [];
 
-  const [Mesa] = useState(localStorage.getItem("Mesa"));
-  const [NMesa] = useState(Mesa ? (JSON.parse(Mesa).MesaId) : null);
+  useEffect(() => {
+    getProductos()
+      .then((response) => {
+        response ? setProductos(response) : setProductos([]);
+      });
+  }, []);
 
-  const [NombreCliente, setNombreCliente] = useState('');
-  const [CantidadClientes, setCantidadClientes] = useState(0);
 
-  //  Traemos primeramente todos los productos 
-  const [lstProductos, setLstProductos] = useState([]);
-  Mesa ? //Si hay una mesa en el localstorage, entonces traemos los productos
-    useEffect(() => {
-      getProductos()
-        .then((response) => {
-          setLstProductos(response);
-        }).catch((error) => {
-          alert("Error al obtener los productos")
-          console.log("Error al obtener los productos", error);
-        })
-    }, [])
-    : null; //En caso contrario, no traemos nada y evitamos una peticion innecesaria al servidor
+  const toggleDescripcion = (productoId) => {
+    setDesplegarDescripcion(desplegarDescripcion === productoId ? false : productoId);
+  };
 
-  // Creamos las variables para manipular el Precio y la lista de ids de los productos que se seleccionan
-  const [PrecioTotal, setPrecioTotal] = useState(0);
-  const [ProductoSeleccionado, setProductoSeleccionado] = useState([]);
+  const onHandleClickInPrecio = (productoId) => {
+    lstIdProductos.push(productoId);
+    console.log(lstIdProductos);
+  }
 
-  // Creamos esta funcion para obtener el precio y agregar a la lista los ids de los productos que se selecciones
-  const getPrecioTotal = (producto, isChecked) => {
-    if (isChecked) {
-      setProductoSeleccionado([...ProductoSeleccionado, producto.id]);
-      setPrecioTotal(PrecioTotal + producto.Precio);
+  // Variables para la busqueda de productos
+  const [inputBuscar, setInputBuscar] = useState('');
+  const [filtro, setFiltro] = useState(['nombre', '', inputBuscar]);
+
+
+  const onHandleFiltrar = (valueSelect) => {
+    if (valueSelect === "nombre") {
+      setFiltro(['nombre', '', inputBuscar]);
+    } else if (valueSelect === "categoria") {
+      setFiltro(['categoria', 'Comidas', inputBuscar]);
+    }else if (valueSelect === 'precio_mayor'){
+      setFiltro(['precio_mayor', '', inputBuscar])
+    
     } else {
-      setProductoSeleccionado(ProductoSeleccionado.filter((pId) => pId !== producto.id));
-      setPrecioTotal(PrecioTotal - producto.Precio);
+      setFiltro(null);
     }
   }
 
-  const onSubmit = () => {
-    // Cuando se envie el formulario, primero actualizaremos la mesa
-    if (PrecioTotal === 0) {
-      alert("Escoga al menos un producto");
-    } else {
-      console.log(Mesa);
-      ActualizarMesa.mutate({
-        ...JSON.parse(Mesa),
-        CantidadClientes: CantidadClientes
-      });
+  const productosFiltrados = productos.filter((producto) => {
+    // console.log(filtro);
+    return filtro && filtro[0] === 'nombre' ? producto.Nombre.toLowerCase().includes(filtro[2].toLowerCase()) :
+      filtro && filtro[0] === 'categoria' ? producto.Categoria === filtro[1] && producto.Nombre.toLowerCase().includes(filtro[2].toLowerCase()) :
+        producto;
 
-      // Luego creamos el pedido
-      let newPedido = {
-        "NombreCliente": NombreCliente,
-        "MesaId": NMesa,
-        "MeseroId": MsroId,
-        "Productos": ProductoSeleccionado,
-        "PrecioTotal": PrecioTotal
-      }
-      NuevoPedido.mutate(newPedido);
-      navigate(`/Mesero/${MsroId}`);
-    }
-  };
-
+  })
 
   return (
-    <>
-      {Mesa ?
-        <div className='container-formulariosPP'>
-          <form className='formPedidos' action='submit' onSubmit={(ev) => {
-            ev.preventDefault();
-            onSubmit();
-          }} >
-            <h2 className='Linealh2'>Tomar Pedido MesaN°{NMesa} </h2>
-            <div className="user-box">
-              <input type='text' onChange={(ev) => setNombreCliente(ev.target.value)} required />
-              <label> Nombre Cliente </label>
-            </div>
-            <div className="user-box">
-              <input type='number' min="1" max="20" onChange={(ev) => setCantidadClientes(ev.target.value)} required />
-              <label> Cantidad Clientes </label>
-            </div>
-            <div className="user-box">
-              <input type='text' value={'$' + PrecioTotal} onChange={(ev) => { }} />
-              <label> Precio: </label>
-            </div>
+    <div className="container pedido">
 
-            <button className="btnFormularios"> Tomar Pedido </button>
-          </form>
+      <h2 className='title-pedido'>Productos</h2>
 
-          <form className="formlstProductos">
-            <h2 className="Linealh2">Listado Productos</h2>
-            <div className="carrusel-pedidos">
-              {lstProductos && lstProductos.map(producto => (
-                <div key={producto.ProductoId}>
-                  <label htmlFor={`producto${producto.ProductoId}`} > {producto.Nombre + ': $'}<b> {producto.Precio} </b>  </label>
-                  <input id={`producto${producto.ProductoId}`} type='checkbox' onClick={(ev) => getPrecioTotal(producto, ev.target.checked)} />
-                  <br />
-                </div>
-              ))}
-            </div>
-          </form>
+      <div className="container-filtros">
+        <input className='input-buscar' type="text" placeholder="Buscar Producto" onChange={(ev) => { setInputBuscar(ev.target.value), setFiltro([filtro[0], filtro[1], ev.target.value]) }} />
+        <select onChange={(ev) => onHandleFiltrar(ev.target.value)} className='select-filtros'>
+          <option value="nombre">Nombre</option>
+          <option value="categoria">Categoria</option>
+          {/* <option value="precio_mayor">Precio Mayor a Menor</option>
+          <option value="precio_menor">Precio Menor a Mayor</option> */}
+        </select>
+        {filtro && filtro[0] === 'categoria' &&
+          <select className='select-filtros' onChange={(ev) => { setFiltro([filtro[0], ev.target.value, inputBuscar]) }} >
+            <option value="Comidas"> Comidas </option>
+            <option value="Bebidas"> Bebidas </option>
+            <option value="Postres"> Postres </option>
+          </select>
+        }
+      </div>
 
-        </div>
 
-        :
-
-        <form className='formSinMesa'>
-          <h2>NO HAY NINGUNA MESA SELECCIONADA</h2>
-        </form>
-      }
-    </>
-  )
+      <div className='seccion-productos'>
+        {productosFiltrados.map((producto) => (
+          <div key={producto.ProductoId} className='listado-productos'>
+            <h3 className='pr-nombre' onClick={() => toggleDescripcion(producto.ProductoId)}>
+              {producto.Nombre} <i className={desplegarDescripcion === producto.ProductoId ? 'fa-solid fa-caret-up' : 'fa-solid fa-caret-down'} ></i>
+              {desplegarDescripcion === producto.ProductoId ? <p className='pr-descripcion' onClick={() => toggleDescripcion(producto.ProductoId)}> {producto.Descripcion} </p> : null}
+            </h3>
+            <h3 className='pr-precio' onClick={() => onHandleClickInPrecio(producto.ProductoId)}>${producto.Precio}</h3>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }

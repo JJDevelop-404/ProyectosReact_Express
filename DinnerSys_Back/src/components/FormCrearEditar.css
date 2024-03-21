@@ -1,0 +1,41 @@
+
+.formCrear {
+    background-color: #202020;
+    border: 2px solid white;
+    box-shadow: 0 0 50px #000000;
+    border-radius: 25px;
+    margin: 0 3vh !important;
+    padding: 30px !important;
+    text-align: center;
+    max-width: 600px !important;
+  }
+  
+  .formCrear .form-label{
+    display: flex;
+    font-size: 17px;
+    font-weight: bold;
+    text-align: left !important;
+  }
+  
+  .formCrear .form-control, .form-select{
+    width: 100% !important;
+    margin: 10px 0 !important;
+    padding: 6px !important;
+    border-radius: 5px !important;
+    background-color: #333 !important;
+    color: white !important;
+    font-size: 16px !important;
+    font-family: "Nunito" !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  
+  .formCrear .form-select{
+    /* Para el icono del select */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='white' %3E%3Cpath d='M246.6 470.6c-12.5 12.5-32.8 12.5-45.3 0l-160-160c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L224 402.7 361.4 265.4c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3l-160 160zm160-352l-160 160c-12.5 12.5-32.8 12.5-45.3 0l-160-160c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L224 210.7 361.4 73.4c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3z'/%3E%3C/svg%3E");
+  }
+  
+  .formCrear .form-select option {
+    font-size: 16px !important;
+  }

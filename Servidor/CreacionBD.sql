@@ -30,8 +30,8 @@ CREATE TABLE IF NOT EXISTS Productos(
     ProductoId INT PRIMARY KEY AUTO_INCREMENT,
     Nombre varchar(50) NOT NULL,
     Descripcion varchar(50) NOT NULL,
-    Precio INT NOT NULL,
     Categoria varchar(30) NOT NULL,
+    Precio INT NOT NULL,
     Inactivo BOOLEAN DEFAULT 0
 );
 
@@ -75,6 +75,14 @@ END$$
 DELIMITER ;
 
 
+DELIMITER $$
+CREATE TRIGGER ActualizarDatosAcceso AFTER UPDATE ON Usuarios
+FOR EACH ROW
+BEGIN
+    UPDATE DatosAcceso SET Usuario = CONCAT(REPLACE(NEW.Nombres, ' ','')), Contrasena = NEW.Cedula WHERE usuarioId = NEW.usuarioId;
+END$$
+DELIMITER ;
+
 /* INSERCIONES DE PRUEBA */
 /* Inserción tabla Usuarios */
 INSERT INTO Usuarios (Nombres, Apellidos,  Cedula, TipoUsuario) VALUES 
@@ -89,17 +97,24 @@ INSERT INTO Usuarios (Nombres, Apellidos,  Cedula, TipoUsuario) VALUES
 
 /* Inserción tabla Productos */
 INSERT INTO Productos (Nombre, Descripcion, Precio, Categoria) VALUES 
-('Arroz Paisa', 'Arroz paisa para 3 personas', 32000, 'Comida'),
-('Hamburguesa', 'Hamburguesa de carne', 10000, 'Comida'),
-('Papas Fritas', 'Papas fritas con queso', 5000, 'Comida'),
-('Coca Cola', 'Coca Cola 500ml', 3000, 'Bebida'),
-('Jugo de Naranja', 'Jugo de naranja 500ml', 3000, 'Bebida'),
-('Cerveza', 'Cerveza 500ml', 5000, 'Bebida'),
-('Agua', 'Agua 500ml', 2000, 'Bebida'),
-('Ensalada', 'Ensalada de frutas', 5000, 'Comida'),
-('Sandwich', 'Sandwich de pollo', 5000, 'Comida'),
-('Cafe', 'Cafe 500ml', 2000, 'Bebida'),
-('Te', 'Te 500ml', 2000, 'Bebida');
+('Arroz Paisa', 'Arroz paisa para 3 personas', 32000, 'Comidas'),
+('Sandwich de pollo', 'Sandwich de pollo', 5000, 'Comidas'),
+('Hamburguesa', 'Hamburguesa de carne', 10000, 'Comidas'),
+('Papas Fritas', 'Papas fritas con queso', 5000, 'Comidas'),
+('Bandeja frijoles con chuleta de cerdo', 'Bandeja frijoles con chuleta de cerdo individual', 13000, 'Comidas'),
+('Salchipapa sencilla personal', 'Salchipapa con salchicha, papa y todas las salsas personal', 8000, 'Comidas'),
+('Tiramisú', 'Tiramisú individual', 8000, 'Postres'),
+('Brownie', 'Brownie individual', 8000, 'Postres'),
+('Helado', 'Helado de 3 sabores', 10000, 'Postres'),
+('Gelatina', 'Gelatina individual', 8000, 'Postres'),
+('Ensalada de frutas', 'Ensalada de frutas individual', 10000, 'Postres'),
+('Jugo de Naranja', 'Jugo de naranja 500ml', 3000, 'Bebidas'),
+('Agua', 'Agua 500ml', 2000, 'Bebidas'),
+('Cafe', 'Cafe 500ml', 2000, 'Bebidas'),
+('Te', 'Te 500ml', 2000, 'Bebidas'),
+('Coca Cola', 'Coca Cola 500ml', 3500, 'Bebidas'),
+('Pepsi', 'Pepsi 500ml', 3200, 'Bebidas'),
+('Cerveza Aguila', 'Cerveza Aguila Light 500ml', 5000, 'Bebidas');
 
 /* Inserción tabla Mesas con estado 1, o sea ocupadas*/
 INSERT INTO Mesas (MesaId, Estado) VALUES 

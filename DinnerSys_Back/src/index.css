@@ -1,20 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@229&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Madimi+One&display=swap'); /* Font como animado, servira mejor para encabezados y asi */
 
 body {
-  height: 60vh !important;
+  height: auto !important;
+  margin-bottom: 50px !important;
   font-size: 20px !important;
   font-family: "Nunito" !important;
-  background-color: #121212 !important;
+  background-color: #232323 !important;
   color: whitesmoke !important;
 }
 
 /* Clase del boton */
 .btnFormularios {
+  font-family: 'Madimi One', cursive;
   font-size: 18px;
   padding: 2px 10px;
   border-radius: 9px;
-  margin-bottom: 20px;
   background-color: rgba(222, 184, 135, 0.13);
   /* color de fuente */
   color: lightgray;
@@ -70,20 +72,37 @@ body {
 
 /* ESTILOS PARA LA BARRA DE SCROLL */
 ::-webkit-scrollbar {
-  width: 10px;
-  background-color: rgb(222, 184, 135, .6);
+  width: 6px;
+  height: 8px;
+  background-color: #777;
 }
 
 ::-webkit-scrollbar-thumb {
-  border-left: 1px solid rgb(222, 184, 135, .6);
-  background-color: #333;
+  background-color: #222;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: #222;
 }
 
+/* Estilos para los formularios */
+.container-formCrear{
+  margin: 0 auto !important;
+  max-width: 500px;
+  justify-content: center;
+  align-items: center;
+  /* border: 2px solid red; */
+}
 
+.msj-error{
+  display: block;
+  text-align: left;
+  padding: 0 !important;
+  margin: 0 9px !important;
+  font-size: 14px;
+  font-weight: bold;
+  color: red;
+}
 
 /* ALGUNAS COSAS CHEVERES
 
