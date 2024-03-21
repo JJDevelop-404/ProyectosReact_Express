@@ -5,7 +5,7 @@ import { pool } from "../conexion/conexion.js";
 export const getProductos = async (req, res) => {
     console.log("\n\nFuncion getProductos():");
     try {
-        const Productos = await pool.query('SELECT P.ProductoId, P.Nombre, P.Descripcion, P.Precio, P.Categoria  FROM Productos P WHERE P.Inactivo = 0');
+        const Productos = await pool.query('SELECT P.ProductoId, P.Nombre, P.Descripcion, P.Categoria, P.Precio  FROM Productos P WHERE P.Inactivo = 0');
         if (Productos.length > 0) {
             console.log("Productos: ", Productos);
             res.status(200).json(Productos);
@@ -91,8 +91,9 @@ export const updateProducto = async (req, res) => {
     try {
         const { ProductoId } = req.params;
         const { Nombre, Descripcion, Precio, Categoria } = req.body;
+        console.log(Precio);
         // Verificar que precio sea mayor a 100
-        if(Precio > 100){
+        if(Precio > 99){
             // Verificar que la categoria sea "Comida" o "Bebida"
             if(Categoria === "Comida" || Categoria === "Bebida" || !Categoria){
                 //El COALESCE() es para que si el campo viene vacio, no lo actualice
@@ -102,7 +103,7 @@ export const updateProducto = async (req, res) => {
                 
                 if(isUpdate.affectedRows === 1){//Si se actualizo correctamente
                     console.log("Producto actualizado correctamente");
-                    res.status(200).json({ mensaje: 'Producto actualizado correctamente' });
+                    res.status(201).json({ mensaje: 'Producto actualizado correctamente' });
                 }else{
                     console.log("El producto a actualizar no existe");
                     res.status(404).json({ error: 'El producto a actualizar no existe' });
@@ -113,6 +114,7 @@ export const updateProducto = async (req, res) => {
             }
         }else{
             console.log("El Precio debe ser mayor a 100");
+            res.status(400).json({error: "El precio debe ser mayor a 99"})
         }
     } catch (error) {
         console.log(error);
@@ -129,7 +131,7 @@ export const deleteProducto = async (req, res) => {
         const isDelete = await pool.query('UPDATE Productos SET Inactivo = 1 WHERE ProductoId = ?', [ProductoId]);
         if (isDelete.affectedRows === 1) {
             console.log("Producto eliminado correctamente");
-            res.status(200).json({ Message: 'Producto eliminado correctamente' });
+            res.status(201).json({ Message: 'Producto eliminado correctamente' });
         } else {
             console.log("Error, el producto no existe");
             res.status(404).json({ Error: 'Error, el producto no existe' });
