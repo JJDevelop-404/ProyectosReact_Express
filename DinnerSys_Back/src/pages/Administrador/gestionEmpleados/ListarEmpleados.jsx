@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
-import { obtenerUsuarios } from '../../../API/Usuarios';
-import { Link } from 'react-router-dom';
+import { inactivarUsuario, obtenerUsuarios } from '../../../API/Usuarios';
 import './ListarEmpleados.css';
-import Tabla from '../../../components/Tabla';
+import Tabla, { alertEliminar } from '../../../components/Tabla';
 
 export default function ListarEmpleados() {
 
@@ -21,13 +20,26 @@ export default function ListarEmpleados() {
       })
   }, []);
 
+  const onEliminarUsuario = (usuarioId) => {
+    inactivarUsuario(usuarioId)
+      .then((response) => {
+        if (response) {
+          alertEliminar('Usuario eliminado correctamente', 'success', setUsuarios(Usuarios.filter((user) => user.usuarioId !== usuarioId)));
+        }else{
+          alertEliminar('Error al eliminar usuario', 'error');
+        }
+      })
+  };
+
+
+
   const [Titulos] = useState(['ID', 'Cedula', 'Nombres', 'Apellidos', 'Tipo de Usuario']); //Contiene los titulos de la tabla
 
   return (
     <>
-      <Tabla TituloPrincipal={'Listado de Usuarios'} lstTitulosTabla={Titulos} lstData={Usuarios} RedireccionBotonCrear={'/Admin/Empleados/NuevoEmpleado'}
-        TextoBotonCrear={'Crear Empleado'}/>
-
+      <Tabla NombreEntidad={'Empleados'} lstTitulosTabla={Titulos} lstDataEntidad={Usuarios}
+        FuncionBtnEliminar={onEliminarUsuario}
+        RedireccionBotonCrear={'/Admin/Empleados/NuevoEmpleado'} RedireccionBtnEditar={'/Admin/Empleados/EditarEmpleado'} />
     </>
   )
 }

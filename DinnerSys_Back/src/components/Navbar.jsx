@@ -14,7 +14,6 @@ export default function Navbar() {
 
     const handleLinkClick = () => {
         event.preventDefault();
-        console.log(auto_collapse.current.classList);
         if(!auto_collapse.current.classList.contains('collapsed')){
             auto_collapse.current.click();
         }
@@ -31,9 +30,15 @@ export default function Navbar() {
                             <span className="navbar-toggler-icon"></span>
                         </button>
                         <div className="collapse navbar-collapse" id="navbarNav" >
-                            <ul className={`navbar-nav`} >
+                            <ul className='navbar-nav' >
                                 <li className='nav-item'>
                                     <Link to={'/Admin/Empleados'} className='nav-link' onClick={handleLinkClick}> Empleados </Link>
+                                </li>
+                                <li className='nav-item'>
+                                    <Link to={'/Admin/Productos'} className='nav-link' onClick={handleLinkClick}> Productos </Link>
+                                </li>
+                                <li className='nav-item'>
+                                    <Link to={'/Admin/Mesas'} className='nav-link' onClick={handleLinkClick}> Mesas </Link>
                                 </li>
                             </ul>
                             <ul className='navbar-nav sys-log'>

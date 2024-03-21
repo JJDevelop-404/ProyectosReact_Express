@@ -27,3 +27,15 @@ hiciera dos peticiones igualmente a la bd
         recarga manual de la página para que estos se obtuvieran. Para solucionarlo se deja a un lado
         el useEffect y se hace uso del useMemo, que este lo que hace es almacenar los valores y se generará 
         una nueva renderización dependiendo del cambio en una variable que se le indique.
+
+Actualización 0.1.0 =>
+1. Se crea componente FormCrearEditar, el cual es para los formularios de crear y editar para cualquier entidad
+
+2. Se hacen pequeños ajusten en componentes como Tabla y la Navbar
+
+3. Se crean todos los respectivos crud de todas las entidades funcionando a excepcion de la función eliminar y editar de las mesas
+(creo se anularán)
+
+4. Se agrega libreria sweetalert2 => para el manejo de las alertas, usado principalment en el componente Tabla y FormCrearEditar
+
+5. Se inicio parte de la vista del pedido del mesero

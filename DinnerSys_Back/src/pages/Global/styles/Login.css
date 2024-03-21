@@ -1,16 +1,17 @@
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css');
 
-
 /* Este import es para el icono de usuario */
 
 /* Para realizar el circulo */
 .circle {
-    position: relative;
-    margin: auto;
+    position: absolute;
+    margin: 0 auto;
+    margin-top: -50px;
     z-index: 2;
-    bottom: 53px;
-    width: 160px;
-    height: 160px;
+    left: 50%;
+    transform: translate(-50%);
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     background-color: #7c6951;
     border: 3.5px solid rgba(222, 184, 135, 0.5);
@@ -18,21 +19,24 @@
 
 /* Para acomodar bien y centrar el icono */
 .circle .fas.fa-user {
-    margin-top: 14px;
+    position: relative;
+    margin-top: 10px;
     justify-content: center;
     color: darkgray;
-    font-size: 110px;
+    font-size: 108px;
     -webkit-text-stroke: 3px rgba(255, 255, 255, 0.7);
 }
 
 /* Acomodamos el formulario a nuestro gusto */
 .formLogin {
-    margin-top: 15vh !important;
-    background-color: #252525;
+    z-index: 1;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #212121;
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
-    padding-top: 0;
     padding: 0 27px;
     width: 80%;
     max-width: 370px;
@@ -46,17 +50,17 @@
 
 .title-loggin {
     margin: 0 auto;
-    margin-top: -10px;
-    margin-bottom: 55px;
+    margin-top: 130px;
+    margin-bottom: 40px;
     /* El import de este tipo de letra está en el index.css */
     font-family: 'Pixelify Sans', cursive;
     color: rgb(245, 239, 239);
     font-weight: bold;
-    font-size: 34px;
+    font-size: 32px;
     text-wrap: nowrap;
     text-align: center;
-    text-shadow: 4px 0 0 rgb(0,0,0, 0.5);
-    padding: 4px 17px;
+    text-shadow: 4px 0 0 rgb(0, 0, 0, 0.3);
+    padding: 3px 17px;
     background-color: rgba(123, 104, 81, 0.632);
     border-radius: 12px;
 }
@@ -76,8 +80,8 @@
     width: 100%;
     /* El ancho del input será el 100% menos 40px de padding */
     display: inline;
-    padding: 2px 10px;
-    font-size: 18px;
+    padding: 0px 10px;
+    font-size: 17px;
     color: darkgray;
     margin-bottom: 55px;
     border: none;
@@ -92,7 +96,7 @@
     top: 0;
     left: 0;
     padding: 0px 6px;
-    font-size: 19px;
+    font-size: 17px;
     color: burlywood;
     pointer-events: none;
     transition: .5s all linear;
@@ -103,19 +107,26 @@
 .user-box input:focus~label {
     top: -25px;
     left: -5px;
-    color: burlywood;
-    font-size: 18px;
+    font-size: 16px;
+}
+
+.user-box input:-webkit-autofill,
+.user-box input:-webkit-autofill:hover,
+.user-box input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #FFF;
+    -webkit-box-shadow: 0 0 0px 40rem #212121 inset !important;
 }
 
 /* Para alinear el botón al centro */
 .botonCen {
     text-align: center;
-    margin-bottom: 30px;
+    margin-top: -8px;
+    margin-bottom: 50px;
 }
 
 /* Personalizamos el boton a nuestro gusto */
 .botonCen .btnFormularios {
     font-weight: bold;
-    font-size: 18.5px;
-    
+    font-size: 18px;
+
 }

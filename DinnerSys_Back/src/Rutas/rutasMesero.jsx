@@ -7,7 +7,7 @@ import Mesero from '../pages/Mesero/Mesero';
 
 export let routesMesero = ([
     {
-        path: "/Mesero/:MsroId",
+        path: "/",
         element: <ProtectedRouteMesero redirectTo='/'/>,
         children: [
             {

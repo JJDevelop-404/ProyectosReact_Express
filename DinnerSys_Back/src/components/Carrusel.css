@@ -1,16 +1,25 @@
+.container-carrusel-component{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 100% !important;
+    transform: translate(-50%, -50%);
+    display: grid;
+    grid-template-rows: 1.2fr 0fr;
+}
+
 /* Estilos para el contenedor del carrusel */
 .carrusel {
     position: relative;
     display: flex;
     margin: 0 auto; /* Centra el carrusel horizontalmente */
     flex-wrap: nowrap; /* Para evitar salto de linea */
-    margin-bottom: 60px;
     width: 80%; /* Maximo de ancho */
     height: 220px; /* Maximo de altura */
     max-width: 900px;
     border: 3px solid gray; /* El grosor del borde y color */
     border-radius: 20px; /* Para redondear las esquinas */
-    background-color: #222; /* Color de fondo */
+    background-color: #202020; /* Color de fondo */
     align-items: center;
     scroll-behavior: smooth;
     transition: .1s ease-in;
@@ -74,9 +83,9 @@
     width: 100%;
     background-color: lightcoral;
     color: black;
-    font-size: 20px;
+    font-size: 18px;
     font-style: italic;
-    font-weight: bold;
+    -webkit-text-stroke: 1.5px black;
 }
 
 .carrusel input[type="checkbox"]:checked+.circulo-container {
@@ -158,8 +167,9 @@
     transition: 1s all;
 }
 
+/* Animacion encargada del cierre del boton */
 .btnCarrusel:hover,
 .btnCarrusel:focus {
     box-shadow: inset -2.5em 0 0 0 lightgreen,
-        inset 2.5em 0 0 0 lightgreen;
+        inset 3em 0 0 0 lightgreen;
 }

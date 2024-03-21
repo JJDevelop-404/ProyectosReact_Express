@@ -38,11 +38,11 @@ export default function Login() {
 
   } else {
     return (
-      <div>
+      <div className='container-loggin'>
         <form className="formLogin" onSubmit={ev => {
-          ev.preventDefault();
-          Loggin();
-        }
+            ev.preventDefault();
+            Loggin();
+          }
         }>
           <div className="circle">
             <i className="fas fa-user"></i>

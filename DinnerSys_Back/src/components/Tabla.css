@@ -1,40 +1,89 @@
-@import url('https://fonts.googleapis.com/css2?family=Madimi+One&display=swap'); /* Font como animado, servira mejor para encabezados y asi */
-
 .container-tabla {
     outline: 3px solid white;
     border-radius: 15px;
+    margin-bottom: 80vh;
     margin: 3vh;
-    text-wrap: nowrap !important; /* Para evitar saltos de linea */
-    /* Oculta barra de scroll */
-    &::-webkit-scrollbar{
-        display: none;
-    }
+    text-wrap: nowrap !important;
+    /* Para evitar saltos de linea */
+}
+
+.titulo-tabla {
+    font-family: 'Madimi One';
+    font-size: 37px;
+    text-align: center;
+    margin: 1vh 0;
 }
 
 .table {
-    text-align: center !important; /* Para centrar el texto */
-    overflow: hidden;
+    cursor: default;
+    text-align: center !important;
+    /* Para centrar el texto */
     margin: 0 auto !important;
 }
 
 /* Los campos del cabecero (thead) de nuestra tabla */
-.table .head-tbl th{
-    font-family: 'Madimi One';
-    font-size: 23px;
-    background-color: #232323;
-    padding: 2px 8px;
+.table .head-tbl th {
+    font-size: 20px;
+    /* Para darle como un borde extra del mismo tono a las letras ya que font-weight no sirve  */
+    -webkit-text-stroke: 1px white;
+    background-color: #121212;
+    padding: 4px 8px;
     color: white;
 }
 
 /* El cuerpo de nuestra tabla (tbody) */
-.table .body-tbl{
-    font-size: 20px;
+.table .body-tbl {
+    font-size: 18px;
     align-items: center;
     justify-content: center !important;
 }
 
-/* Los campos del body (tbody) de nuestra tabla */
-.table .body-tbl td{
-    padding: 2px 10px;
+.table .body-tbl tr:nth-child(odd) td {
+    background-color: #2c3034 !important;
 }
 
+.table .body-tbl tr:nth-child(even) td{
+    background-color: #212529 !important;
+}
+
+.table .body-tbl tr:hover td{
+    background-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+/* Los campos del body (tbody) de nuestra tabla */
+.table .body-tbl td {
+    padding: 2px 10px;
+    text-transform: capitalize !important;
+}
+
+/* Contenedor del boton de crear */
+.container-btn-tbl-crear {
+    text-align: left;
+    margin: 0 3vh;
+    /* Para que sea de acorde por la tabla */
+    /* border: 2px solid red; */
+}
+
+/* Boton crear */
+.container-btn-tbl-crear .btn-tbl-crear {
+    font-family: 'Madimi One';
+    /* Se importa en el index.css */
+    font-size: 23px;
+    padding: 3px 9px;
+}
+
+
+/* Estilos botones editar y eliminar */
+.container-tabla .table .body-tbl .btn {
+    display: inline;
+    padding: 0 6px;
+    margin: 4px 3px;
+    outline: none !important;
+}
+
+
+/* Para la barra de scroll */
+.container-tabla::-webkit-scrollbar,
+.container-tabla::-webkit-scrollbar-thumb {
+    border-radius: 0 0 15px 15px;
+}

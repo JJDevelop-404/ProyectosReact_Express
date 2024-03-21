@@ -5,10 +5,38 @@ import { BACK_URL } from "../utils/Constants";
 export const getProductos = async () => {
     try {
         const lstProductos = await axios.get(`${BACK_URL}/productos/getProductos`);
-        if(lstProductos.status === 200){
+        if (lstProductos.status === 200) {
             return lstProductos.data;
         }
     } catch (error) {
         console.log(error);
     }
 }
+
+//modificatProducto --> Modificar un producto por su id
+export const modificarProducto = async (productoId, objProducto) => {
+    console.log(productoId, objProducto);
+    if(objProducto.Precio.includes(',')){
+        objProducto.Precio = objProducto.Precio.replace(',', '');
+    }else if(objProducto.Precio.includes('.')){
+        objProducto.Precio = objProducto.Precio.replace('.','');
+    }
+    
+    try {
+        const isEdit = await axios.put(`${BACK_URL}/productos/updateProducto/${productoId}`, objProducto);
+        return isEdit.status === 201 ? true : false;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+
+//inactivarProducto --> Inactiva un producto 
+export const inactivarProducto = async (productoId) => { 
+    try {
+        const isDelete = await axios.delete(`${BACK_URL}/productos/deleteProducto/${productoId}`);
+        return isDelete.status === 201 ? true : false;
+    } catch (error) {
+        console.log(error);
+    }
+};
