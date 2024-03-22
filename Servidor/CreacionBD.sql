@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS Usuarios (
 /* Tabla DatosAcceso (Se llena de manera automática) */
 CREATE TABLE IF NOT EXISTS DatosAcceso(
     usuarioId INT NOT NULL,
-    Usuario varchar(50) UNIQUE NOT NULL,
+    Usuario varchar(50) NOT NULL,
     Contrasena varchar(50) NOT NULL,
     PRIMARY KEY (usuarioId),
     FOREIGN KEY (usuarioId) REFERENCES Usuarios(usuarioId) ON DELETE CASCADE

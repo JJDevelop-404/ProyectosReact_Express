@@ -87,7 +87,7 @@ export const createUsuario = async (req, res) => {
             await pool.query('INSERT INTO usuarios (Cedula, Nombres, Apellidos, TipoUsuario) VALUES (?,?,?,?)',
                 [Cedula, Nombres, Apellidos, TipoUsuario]);
             console.log("Usuario creado correctamente");
-            res.status(200).json('Usuario creado');
+            res.status(201).json('Usuario creado');
         } else {
             console.log("Datos incompletos o ingresados erroneamente");
             res.status(400).json({ Error: 'Datos incompletos o ingresados erroneamente' });

@@ -56,32 +56,27 @@ export const createProducto = async (req, res) => {
             // Verificar que el Precio sea un numero positivo
             if (Precio >= 100) {
                 // Verificar si la categoría es "Comida" o "Bebida"
-                if (Categoria === "Comida" || Categoria === "Bebida") {
-                    const isInsert = await pool.query('INSERT INTO productos (Nombre, Descripcion, Precio, Categoria) VALUES (?,?,?,?)',
-                        [Nombre, Descripcion, Precio, Categoria]);
-                    if(isInsert.affectedRows === 1){//Si se inserto correctamente
-                        console.log("Producto creado correctamente");
-                        res.status(200).json({ mensaje: 'Producto creado correctamente' });
-                    }else{
-                        console.log("Error al crear el producto");
-                        res.status(500).json({ error: 'Error al crear el producto' });
-                    }
-                }else{
-                    console.log("Categoría no valida");
-                    res.status(400).json({ error: "Categoría no valida" });
+                const isInsert = await pool.query('INSERT INTO productos (Nombre, Descripcion, Precio, Categoria) VALUES (?,?,?,?)',
+                    [Nombre, Descripcion, Precio, Categoria]);
+                if (isInsert.affectedRows === 1) {//Si se inserto correctamente
+                    console.log("Producto creado correctamente");
+                    res.status(201).json({ mensaje: 'Producto creado correctamente' });
+                } else {
+                    console.log("Error al crear el producto");
+                    res.status(500).json({ error: 'Error al crear el producto' });
                 }
-            }else{
+            } else {
                 console.log("El Precio debe ser mayor a 100");
                 res.status(400).json({ error: "El Precio debe ser mayor a 100" });
             }
-        }else{
+        } else {
             console.log("Ausencia de datos");
             res.status(400).json({ error: "Ausencia de datos" });
         }
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Error en el servidor ',error });
+        res.status(500).json({ error: 'Error en el servidor ', error });
     }
 };
 
@@ -93,28 +88,28 @@ export const updateProducto = async (req, res) => {
         const { Nombre, Descripcion, Precio, Categoria } = req.body;
         console.log(Precio);
         // Verificar que precio sea mayor a 100
-        if(Precio > 99){
+        if (Precio > 99) {
             // Verificar que la categoria sea "Comida" o "Bebida"
-            if(Categoria === "Comida" || Categoria === "Bebida" || !Categoria){
+            if (Categoria === "Comida" || Categoria === "Bebida" || !Categoria) {
                 //El COALESCE() es para que si el campo viene vacio, no lo actualice
-                const isUpdate = await pool.query('UPDATE Productos SET Nombre = COALESCE(?, Nombre), Descripcion = COALESCE(?, Descripcion), '+
-                    'Precio = COALESCE(?, Precio), Categoria = COALESCE(?, Categoria) WHERE ProductoId = ?', 
+                const isUpdate = await pool.query('UPDATE Productos SET Nombre = COALESCE(?, Nombre), Descripcion = COALESCE(?, Descripcion), ' +
+                    'Precio = COALESCE(?, Precio), Categoria = COALESCE(?, Categoria) WHERE ProductoId = ?',
                     [Nombre, Descripcion, Precio, Categoria, ProductoId]);
-                
-                if(isUpdate.affectedRows === 1){//Si se actualizo correctamente
+
+                if (isUpdate.affectedRows === 1) {//Si se actualizo correctamente
                     console.log("Producto actualizado correctamente");
                     res.status(201).json({ mensaje: 'Producto actualizado correctamente' });
-                }else{
+                } else {
                     console.log("El producto a actualizar no existe");
                     res.status(404).json({ error: 'El producto a actualizar no existe' });
                 }
-            }else{
+            } else {
                 console.log("Categoría no valida");
                 res.status(400).json({ error: "Categoría no valida" });
             }
-        }else{
+        } else {
             console.log("El Precio debe ser mayor a 100");
-            res.status(400).json({error: "El precio debe ser mayor a 99"})
+            res.status(400).json({ error: "El precio debe ser mayor a 99" })
         }
     } catch (error) {
         console.log(error);

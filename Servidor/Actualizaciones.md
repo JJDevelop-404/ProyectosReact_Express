@@ -9,4 +9,4 @@ Actualizacion 0.1.0 =>
 se cambio a status 201 que es de confirmación
 2. Cambios en la base de datos, se agregaron más productos en el insert y se agrega nuevo trigger encargado
 de actualizar la tabla DatosAcceso para cuando se ejecute un upddate en la tabla usuarios y se actualize la cedula
-o el nombre
+o el nombre. Además se le quita el UNIQUE al campo Usuario de la tabla DatosAcceso

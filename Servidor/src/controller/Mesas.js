@@ -25,7 +25,7 @@ export const createMesa = async (req, res) => {
     try {
         await pool.query('INSERT INTO Mesas (MesaId) VALUES (NULL)');
         console.log("Mesa creada correctamente");
-        res.status(200).json({ Message: 'Mesa creada correctamente' });
+        res.status(201).json({ Message: 'Mesa creada correctamente' });
     } catch (error) {
         console.log(error);
         res.status(500).json({ Error: 'Error del servidor ', error });
