@@ -26,6 +26,20 @@ export const obtenerUsuarios = async () => {
     }
 };
 
+// POST
+
+//Funcion para crear un usuario
+export const nuevoUsuario = async (usuario) => { 
+    try {
+        const isInsert = await axios.post(`${BACK_URL}/usuarios/createUsuario`, usuario);
+        return isInsert.status === 201 ? true : false;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+// PUT
+
 //Funcion para actualizar un usuario
 export const modificarUsuario = async (UsuarioId, Usuario) => { 
     try {
@@ -35,6 +49,8 @@ export const modificarUsuario = async (UsuarioId, Usuario) => {
         console.log(error);
     }
 };
+
+// DELETE
 
 // Funcion para inactivar un usuario
 export const inactivarUsuario = async (usuarioId) => { 

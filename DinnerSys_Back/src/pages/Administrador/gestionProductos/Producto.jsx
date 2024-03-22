@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 import FormCrearEditar, { alertaCrearEditar } from "../../../components/FormCrearEditar";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { nuevoProducto } from "../../../API/Productos";
 
 export default function Producto({ dataProducto, funcionEditarProducto }) {
     const navigate = useNavigate();
@@ -13,12 +14,17 @@ export default function Producto({ dataProducto, funcionEditarProducto }) {
         onSubmit: (producto) => {
             if (dataProducto) {//Vamos a editar un producto
                 funcionEditarProducto(producto).then((res) => {
-                    if (res === true) {
-                        alertaCrearEditar('Producto editado correctamente', 'success', () => navigate('/Admin/Productos'));
-                    } else {
-                        alertaCrearEditar('Error al editar el producto', 'error');
-                    }
+                    res === true ?
+                        alertaCrearEditar('Producto editado correctamente', 'success', () => navigate('/Admin/Productos'))
+                        : alertaCrearEditar('Error al editar el producto', 'error');
+
                 })
+            } else { //Vamos a crear un producto
+                nuevoProducto(formik.values).then((res) => {
+                    res === true ?
+                        alertaCrearEditar('Producto creado correctamente', 'success', () => navigate('/Admin/Productos'))
+                        : alertaCrearEditar('Error al crear el producto', 'error');
+                });
             }
         }
     });

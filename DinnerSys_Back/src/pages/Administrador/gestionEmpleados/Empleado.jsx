@@ -4,6 +4,7 @@ import './Empleado.css';
 import FormCrearEditar, { alertaCrearEditar } from '../../../components/FormCrearEditar';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { nuevoUsuario } from '../../../API/Usuarios';
 
 
 export default function Empleado({ dataEmpleado, funcionEditarEmpleado }) {
@@ -16,13 +17,26 @@ export default function Empleado({ dataEmpleado, funcionEditarEmpleado }) {
         validationSchema: Yup.object(validationSchema()),
         onSubmit: (empleado) => {
             if (dataEmpleado) {
+                //Vamos a editar un empleado
                 funcionEditarEmpleado(empleado).then((res) => {
-                    if (res === true) {
-                        alertaCrearEditar('Empleado editado correctamente', 'success', ()=>navigate('/Admin/Empleados'));
-                    }else{
-                        alertaCrearEditar('Error al editar empleado', 'error');
-                    }
+                    res === true ? alertaCrearEditar('Empleado editado correctamente', 'success', () => navigate('/Admin/Empleados'))
+                        : alertaCrearEditar('Error al editar empleado', 'error');
                 });
+
+            } else {
+                //Vamos a crear un nuevo empleado
+                //Formateamos el objeto para que nuestro back lo reciba bien
+                const newUser = {
+                    ...formik.values,
+                    TipoUsuario: formik.values.cbxTipoUsuario,
+                }
+                //Eliminamos la propiedad cbxTipoUsuario ya que la reemplazamos por TipoUsuario
+                delete newUser.cbxTipoUsuario;
+                
+                nuevoUsuario(newUser).then((res) => {
+                    res === true ? alertaCrearEditar('Empleado creado correctamente', 'success', () => navigate('/Admin/Empleados'))
+                        : alertaCrearEditar('Error al crear empleado', 'error');
+                })
             }
         }
     });

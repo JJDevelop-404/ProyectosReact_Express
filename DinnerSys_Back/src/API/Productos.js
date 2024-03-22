@@ -13,6 +13,21 @@ export const getProductos = async () => {
     }
 }
 
+//nuevoProducto --> Crear un nuevo producto
+export const nuevoProducto = async (objProducto) => {
+    if(objProducto.Precio.includes(',')){
+        objProducto.Precio = objProducto.Precio.replace(',', '');
+    }else if(objProducto.Precio.includes('.')){
+        objProducto.Precio = objProducto.Precio.replace('.','');
+    }
+    try {
+        const isInsert = await axios.post(`${BACK_URL}/productos/createProducto`, objProducto);
+        return isInsert.status === 201 ? true : false;
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
 //modificatProducto --> Modificar un producto por su id
 export const modificarProducto = async (productoId, objProducto) => {
     console.log(productoId, objProducto);

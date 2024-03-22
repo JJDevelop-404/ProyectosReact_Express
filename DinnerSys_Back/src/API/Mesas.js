@@ -14,8 +14,19 @@ export const obtenerMesas = async () => {
 };
 
 
+// POST
+//nuevaMesa --> Para crear una nueva mesa
+export const nuevaMesa = async () => {
+    try {
+        const isInsert = await axios.post(`${BACK_URL}/mesas/createMesa`);
+        return isInsert.status === 201 ? true : false;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 // PUT
-//LiberarMesa --> Para liberar una mesa y poner que tiene 0 clientes
+//LiberarMesa --> Para liberar una mesa y cambiar su estado a 0
 export const LiberarMesa = async (MesaId) => {
     try {
         const isLiberada = await axios.put(`${BACK_URL}/mesas/liberarMesa/${MesaId}`);

@@ -39,3 +39,5 @@ Actualización 0.1.0 =>
 4. Se agrega libreria sweetalert2 => para el manejo de las alertas, usado principalment en el componente Tabla y FormCrearEditar
 
 5. Se inicio parte de la vista del pedido del mesero
+
+6. Se agrega funciones crear de las entidades y su funcionalidad
