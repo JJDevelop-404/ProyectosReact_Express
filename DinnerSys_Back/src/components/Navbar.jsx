@@ -38,6 +38,9 @@ export default function Navbar() {
                                     <Link to={'/Admin/Productos'} className='nav-link' onClick={handleLinkClick}> Productos </Link>
                                 </li>
                                 <li className='nav-item'>
+                                    <Link to={'/Admin/Categorias'} className='nav-link' onClick={handleLinkClick}> Categorias </Link>
+                                </li>
+                                <li className='nav-item'>
                                     <Link to={'/Admin/Mesas'} className='nav-link' onClick={handleLinkClick}> Mesas </Link>
                                 </li>
                             </ul>

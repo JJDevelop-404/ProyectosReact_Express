@@ -31,9 +31,9 @@ export const nuevoProducto = async (objProducto) => {
 //modificatProducto --> Modificar un producto por su id
 export const modificarProducto = async (productoId, objProducto) => {
     console.log(productoId, objProducto);
-    if(objProducto.Precio.includes(',')){
+    if(objProducto.Precio.toString().includes(',')){
         objProducto.Precio = objProducto.Precio.replace(',', '');
-    }else if(objProducto.Precio.includes('.')){
+    }else if(objProducto.Precio.toString().includes('.')){
         objProducto.Precio = objProducto.Precio.replace('.','');
     }
     

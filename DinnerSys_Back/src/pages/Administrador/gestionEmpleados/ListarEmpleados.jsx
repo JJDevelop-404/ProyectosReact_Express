@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { inactivarUsuario, obtenerUsuarios } from '../../../API/Usuarios';
-import './ListarEmpleados.css';
 import Tabla, { alertEliminar } from '../../../components/Tabla';
 
 export default function ListarEmpleados() {

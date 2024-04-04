@@ -3,7 +3,7 @@ import './FormCrearEditar.css';
 import Swal from 'sweetalert2';
 
 export default function FormCrearEditar({ formik, nombreEntidad, dataEntidad, lstNombresLabels, lstNombresSelects,
-    mtrxSelectOptions, redireccionBtnRegresar }) {
+    lstSelectOptions, redireccionBtnRegresar }) {
 
     // Explicacion variables que se reciben:
     /* 
@@ -12,7 +12,7 @@ export default function FormCrearEditar({ formik, nombreEntidad, dataEntidad, ls
         dataEntidad: esta es por si llega alguna entidad, si llega, eso quiere decir que se editará sino, se creará -> es un objeto
         lstNombresLabels: esta contiene todos los nombres de los label -> es una lista
         lstNombresSelect: esta contiene todos los nombres de los select -> es una lista
-        mtrxSelectOptions: esta contiene todas las opciones que va a tener mi select -> es una matriz
+        lstSelectOptions: esta contiene todas las opciones que va a tener mi select -> es una matriz
         redireccionBtnRegresar: esta contiene la ruta de redireccion -> es un string
     */
     const lstPropiedadesEntidad = Object.keys(formik.values);
@@ -25,6 +25,14 @@ export default function FormCrearEditar({ formik, nombreEntidad, dataEntidad, ls
         lstPropiedadesSelect: esta obtiene las keys de nuestros valores del formik. IMPORTANTE, en el initialValues del formik que nos llega el/los select 
         deben tener el cbxNombrePropiedad para que esta lista los pueda obtener, ya que el busca eso, que incluya el cbx
     */
+
+    let lstPropiedadesOptions = [];
+    lstSelectOptions ? lstPropiedadesOptions = Object.keys(lstSelectOptions[1]) : null;
+    // console.log(dataEntidad);
+    // console.log(lstSelectOptions);
+    // console.log(dataEntidad[lstPropiedadesSelect]);
+
+
 
     return (
         <>
@@ -59,8 +67,8 @@ export default function FormCrearEditar({ formik, nombreEntidad, dataEntidad, ls
                                 onFocus={formik.handleBur}
                                 onChange={formik.handleChange}>
 
-                                {mtrxSelectOptions && mtrxSelectOptions[pos_select].map((option, pos_option) => (
-                                    <option key={pos_option} value={option} > {option} </option>
+                                {lstSelectOptions && lstSelectOptions.map((option, pos_option) => (
+                                    <option key={pos_option} value={option[lstPropiedadesOptions[0]]} > {option[lstPropiedadesOptions[0]]} </option>
                                 ))}
 
                             </select>
@@ -83,7 +91,7 @@ export default function FormCrearEditar({ formik, nombreEntidad, dataEntidad, ls
 }
 
 export const alertaCrearEditar = (mensaje, icon = 'success', navigate) => {
-    
+
     const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -100,10 +108,10 @@ export const alertaCrearEditar = (mensaje, icon = 'success', navigate) => {
         title: mensaje,
     })
 
-    if(navigate){
-        setTimeout(()=>{
+    if (navigate) {
+        setTimeout(() => {
             navigate();
-        },500)
+        }, 500)
     }
 
 }

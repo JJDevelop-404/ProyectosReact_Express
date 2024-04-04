@@ -4,7 +4,13 @@ import { modificarProducto } from "../../../API/Productos";
 
 export default function ModificarProducto() {
   const location = useLocation();
-  const dataProducto = location.state;
+
+  const dataProducto = {
+    ...location.state,
+    cbxCategoria: location.state.NombreCategoria
+  };
+
+  delete dataProducto.NombreCategoria;
 
   const editarProducto = async (producto) => { 
       return await modificarProducto(dataProducto && dataProducto.ProductoId, producto);

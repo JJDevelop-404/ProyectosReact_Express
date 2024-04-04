@@ -1,26 +1,58 @@
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import FormCrearEditar, { alertaCrearEditar } from "../../../components/FormCrearEditar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { nuevoProducto } from "../../../API/Productos";
+import { nuevoProducto } from "../../../API/Productos.js";
+import { getCategorias } from "../../../API/Categorias.js";
 
 export default function Producto({ dataProducto, funcionEditarProducto }) {
     const navigate = useNavigate();
+
+    const [lstCategorias, setLstCategorias] = useState(null);
+
+    useEffect(() => {
+        getCategorias()
+            .then((response) => {
+                if (response) {
+                    // console.log(response);
+                    response.map((res) => {delete res.CategoriaId })
+                    setLstCategorias(response);
+                } else {
+                    console.log("No fue posible traer las categorias");
+                    alert("No fue posible traer las categorias");
+                }
+            })
+    }, [])
 
     const formik = useFormik({
         initialValues: initialValues(),
         validationSchema: Yup.object(validationSchema()),
         onSubmit: (producto) => {
             if (dataProducto) {//Vamos a editar un producto
-                funcionEditarProducto(producto).then((res) => {
+                console.log(producto);
+                const updateProducto = {
+                    ...producto,
+                    NombreCategoria: producto.cbxCategoria
+                }
+                delete updateProducto.cbxCategoria;
+                console.log(updateProducto);
+                funcionEditarProducto(updateProducto).then((res) => {
                     res === true ?
                         alertaCrearEditar('Producto editado correctamente', 'success', () => navigate('/Admin/Productos'))
                         : alertaCrearEditar('Error al editar el producto', 'error');
 
-                })
+                });
             } else { //Vamos a crear un producto
-                nuevoProducto(formik.values).then((res) => {
+                // console.log(formik.values);
+                const objProducto = {
+                    ...producto,
+                    Categoria: formik.values.cbxCategoria
+                }
+                delete objProducto.cbxCategoria;
+
+                console.log(objProducto);
+                nuevoProducto(objProducto).then((res) => {
                     res === true ?
                         alertaCrearEditar('Producto creado correctamente', 'success', () => navigate('/Admin/Productos'))
                         : alertaCrearEditar('Error al crear el producto', 'error');
@@ -29,15 +61,20 @@ export default function Producto({ dataProducto, funcionEditarProducto }) {
         }
     });
 
-    const [lstNombresLabels] = useState(['Nombre', 'Descripcion', 'Categoria', 'Precio']);
+    const [lstNombresLabels] = useState(['Nombre', 'Descripcion', 'Precio']);
+    const [lstNombresSelect] = useState(['Categoria'])
 
     return (
         <>
-            <FormCrearEditar formik={formik}
-                nombreEntidad={'Producto'} dataEntidad={dataProducto ? dataProducto : null}
-                lstNombresLabels={lstNombresLabels}
-                redireccionBtnRegresar={'/Admin/Productos'}
-            />
+            {lstCategorias && (
+                <FormCrearEditar formik={formik}
+                    nombreEntidad={'Producto'} dataEntidad={dataProducto ? dataProducto : null}
+                    lstNombresLabels={lstNombresLabels}
+                    lstNombresSelects={lstNombresSelect} lstSelectOptions={lstCategorias}
+                    redireccionBtnRegresar={'/Admin/Productos'}
+                />
+            )
+            }
         </>
     )
 
@@ -45,20 +82,19 @@ export default function Producto({ dataProducto, funcionEditarProducto }) {
         return {
             Nombre: dataProducto ? dataProducto.Nombre : null,
             Descripcion: dataProducto ? dataProducto.Descripcion : null,
-            Categoria: dataProducto ? dataProducto.Categoria : null,
             Precio: dataProducto ? dataProducto.Precio : null,
+            cbxCategoria: dataProducto ? dataProducto.cbxCategoria : 'Sin asignar'
         }
     }
 
     function validationSchema() {
         return {
-            Nombre: Yup.string().required('Ingrese un Nombre').matches(/^[a-zA-Z]+(\s*[a-zA-Z]*)*[a-zA-Z]+$/, 'El nombre debe ser alfabetico')
+            Nombre: Yup.string().required('Ingrese un Nombre').matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g, 'El nombre debe ser alfabetico')
                 .min(2, 'El nombre debe tener minimo 2 caracteres').max(50, 'El nombre debe tener maximo 50 caracteres'),
             Descripcion: Yup.string().required('Ingrese una Descripcion')
                 .min(6, 'La descripcion debe tener minimo 6 caracteres').max(50, 'La descripcion debe tener maximo 50 caracteres'),
-            Categoria: Yup.string().required('Ingrese una Categoria').matches(/^[a-zA-Z]+(\s*[a-zA-Z]*)*[a-zA-Z]+$/, 'La categoria debe ser alfabetica')
-                .min(3, 'La categoria debe tener minimo 3 caracteres').max(30, 'La categoria debe tener maximo 30 caracteres'),
-            Precio: Yup.string().required('Ingrese un Precio')
+            Precio: Yup.string().required('Ingrese un Precio'),
+            cbxCategoria: Yup.string().required('Escoja una Categoria')
         }
     }
 }

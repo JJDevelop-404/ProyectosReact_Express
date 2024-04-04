@@ -1,8 +1,6 @@
 import Tabla, { alertEliminar } from '../../../components/Tabla.jsx';
 import { useEffect, useState } from 'react';
-import './ListarProductos.css';
 import { getProductos, inactivarProducto } from '../../../API/Productos.js';
-import { alertaCrearEditar } from '../../../components/FormCrearEditar.jsx';
 
 export default function ListarProductos() {
     const [Productos, setProductos] = useState([]);
@@ -12,6 +10,7 @@ export default function ListarProductos() {
             .then((response) => {
                 if (response) {
                     setProductos(response);
+                    console.log(response);
                 } else {
                     console.log("Error al obtener productos");
                     alert("Error al obtener productos");

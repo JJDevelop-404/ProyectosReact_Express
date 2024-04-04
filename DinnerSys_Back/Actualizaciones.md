@@ -41,3 +41,11 @@ Actualización 0.1.0 =>
 5. Se inicio parte de la vista del pedido del mesero
 
 6. Se agrega funciones crear de las entidades y su funcionalidad
+
+Actualización 0.1.1 =>
+1. Se agregar nueva entidad (Categorias) se hace su respectivo CRUD y ya está funcional
+
+2. Se acomoda la función de mostrar los option del select dentro del componente FormCrearEditar, ya no es una matriz, es con una lista
+
+3. Al actualizar ese componente (FormCrearEditar), toco ajustar varias cosas en los componentes de gestión para que funcionará 
+nuevamente todo

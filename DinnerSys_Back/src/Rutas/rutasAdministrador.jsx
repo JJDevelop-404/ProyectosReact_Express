@@ -1,5 +1,8 @@
 import { ProtectedRouteAdmin } from "../PRouteContent/ProtectedRoute";
 import AdminHome from "../pages/Administrador/AdminHome";
+import Categoria from "../pages/Administrador/gestionCategorias/Categoria";
+import ListarCategorias from "../pages/Administrador/gestionCategorias/ListarCategorias";
+import ModificarCategoria from "../pages/Administrador/gestionCategorias/ModificarCategoria";
 import Empleado from "../pages/Administrador/gestionEmpleados/Empleado";
 import ListarEmpleados from "../pages/Administrador/gestionEmpleados/ListarEmpleados";
 import ModificarEmpleado from "../pages/Administrador/gestionEmpleados/ModificarEmpleado";
@@ -17,6 +20,7 @@ export let routesAdmin = ([
                 path: "/Admin/Home",
                 element: <AdminHome />
             },
+            // RUTAS EMPLEADOS
             {
                 path: "/Admin/Empleados",
                 element: <ListarEmpleados />
@@ -29,6 +33,7 @@ export let routesAdmin = ([
                 path: "/Admin/Empleados/EditarEmpleado/:empleadoId",
                 element: <ModificarEmpleado />
             },
+            // RUTAS PRODUCTOS
             {
                 path: "/Admin/Productos",
                 element: <ListarProductos />
@@ -41,6 +46,20 @@ export let routesAdmin = ([
                 path: "/Admin/Productos/EditarProducto/:productoId",
                 element: <ModificarProducto />
             },
+            // RUTAS CATEGORIAS
+            {
+                path: "/Admin/Categorias",
+                element: <ListarCategorias />
+            },
+            {
+                path: "/Admin/Categorias/NuevaCategoria",
+                element: <Categoria />
+            },
+            {
+                path: "/Admin/Categorias/EditarCategoria/:categoriaId",
+                element: <ModificarCategoria />
+            },
+            // RUTAS MESAS
             {
                 path: "/Admin/Mesas",
                 element: <ListarMesas />
