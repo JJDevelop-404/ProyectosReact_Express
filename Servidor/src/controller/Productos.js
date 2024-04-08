@@ -5,7 +5,9 @@ import { pool } from "../conexion/conexion.js";
 export const getProductos = async (req, res) => {
     console.log("\n\nFuncion getProductos():");
     try {
-        const Productos = await pool.query('SELECT P.ProductoId, P.Nombre, P.Descripcion, P.Categoria, P.Precio  FROM Productos P WHERE P.Inactivo = 0');
+        const Productos = await pool.query('SELECT P.ProductoId, P.Nombre, P.Descripcion, C.NombreCategoria AS Categoria, P.Precio'
+            + ' FROM Productos P'
+            + ' LEFT JOIN Categorias C ON C.CategoriaId = P.Categoria WHERE P.Inactivo = 0 OR P.Categoria IS NULL;');
         if (Productos.length > 0) {
             console.log("Productos: ", Productos);
             res.status(200).json(Productos);
@@ -50,20 +52,25 @@ export const createProducto = async (req, res) => {
     console.log("\n\nFuncion createProducto():");
     try {
         const { Nombre, Descripcion, Precio, Categoria } = req.body;
+        // { str, str, number, number }
         // Verificar si alguno de los campos esta vacío
         if (Nombre && Descripcion && Precio && Categoria) {
-
             // Verificar que el Precio sea un numero positivo
             if (Precio >= 100) {
-                // Verificar si la categoría es "Comida" o "Bebida"
-                const isInsert = await pool.query('INSERT INTO productos (Nombre, Descripcion, Precio, Categoria) VALUES (?,?,?,?)',
-                    [Nombre, Descripcion, Precio, Categoria]);
-                if (isInsert.affectedRows === 1) {//Si se inserto correctamente
-                    console.log("Producto creado correctamente");
-                    res.status(201).json({ mensaje: 'Producto creado correctamente' });
-                } else {
-                    console.log("Error al crear el producto");
-                    res.status(500).json({ error: 'Error al crear el producto' });
+                // Verificar si la categoría existe y obtener su Id
+                const [isCategoria] = await pool.query('SELECT CategoriaId FROM Categorias WHERE NombreCategoria = ?', [Categoria]);
+                if (isCategoria) {
+                    const isInsert = await pool.query('INSERT INTO productos (Nombre, Descripcion, Precio, Categoria) VALUES (?,?,?,?)',
+                        [Nombre, Descripcion, Precio, isCategoria.CategoriaId]);
+                    if (isInsert.affectedRows === 1) {//Si se inserto correctamente
+                        console.log("Producto creado correctamente");
+                        res.status(201).json({ mensaje: 'Producto creado correctamente' });
+                    } else {
+                        console.log("Error al crear el producto");
+                        res.status(409).json({ error: 'Error al crear el producto', error });
+                    }
+                }else{
+                    res.status(404).json({ error: 'La categoria no existe' });
                 }
             } else {
                 console.log("El Precio debe ser mayor a 100");
@@ -76,7 +83,7 @@ export const createProducto = async (req, res) => {
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Error en el servidor ', error });
+        res.status(500).json({ Error: 'Error en el servidor', error });
     }
 };
 
@@ -85,16 +92,17 @@ export const updateProducto = async (req, res) => {
     console.log("\n\nFuncion updateProducto():");
     try {
         const { ProductoId } = req.params;
-        const { Nombre, Descripcion, Precio, Categoria } = req.body;
-        console.log(Precio);
+        const { Nombre, Descripcion, Precio, NombreCategoria } = req.body;
+        //{ str, str, number, str }
         // Verificar que precio sea mayor a 100
         if (Precio > 99) {
-            // Verificar que la categoria sea "Comida" o "Bebida"
-            if (Categoria === "Comida" || Categoria === "Bebida" || !Categoria) {
+            // Verificar que la categoria exista
+            const [isCategoria] = await pool.query('SELECT CategoriaId FROM Categorias WHERE NombreCategoria = ?', [NombreCategoria]);
+            if (isCategoria) {
                 //El COALESCE() es para que si el campo viene vacio, no lo actualice
                 const isUpdate = await pool.query('UPDATE Productos SET Nombre = COALESCE(?, Nombre), Descripcion = COALESCE(?, Descripcion), ' +
                     'Precio = COALESCE(?, Precio), Categoria = COALESCE(?, Categoria) WHERE ProductoId = ?',
-                    [Nombre, Descripcion, Precio, Categoria, ProductoId]);
+                    [Nombre, Descripcion, Precio, isCategoria.CategoriaId, ProductoId]);
 
                 if (isUpdate.affectedRows === 1) {//Si se actualizo correctamente
                     console.log("Producto actualizado correctamente");
@@ -104,9 +112,10 @@ export const updateProducto = async (req, res) => {
                     res.status(404).json({ error: 'El producto a actualizar no existe' });
                 }
             } else {
-                console.log("Categoría no valida");
-                res.status(400).json({ error: "Categoría no valida" });
+                console.log("La categoria no existe");
+                res.status(404).json({ error: 'La categoria no existe' });
             }
+
         } else {
             console.log("El Precio debe ser mayor a 100");
             res.status(400).json({ error: "El precio debe ser mayor a 99" })

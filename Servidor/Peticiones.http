@@ -38,6 +38,9 @@ DELETE http://localhost:3003/usuarios/deleteUsuario/5
 ### |---------------------------------------------------------------|
 ### |---------------------------------------------------------------|
 
+### |---------------------------------------------------------------|
+### |---------------------------------------------------------------|
+
 ### PETICIONES HTTP PARA Mesas
 ### Traer todas las mesas
 GET http://localhost:3003/mesas/getMesas
@@ -55,54 +58,30 @@ DELETE http://localhost:3003/mesas/deleteMesa/18
 ### |---------------------------------------------------------------|
 ### |---------------------------------------------------------------|
 
-### PETICIONES HTTP PARA PEDIDOS
-### Obetener todos los pedidos
-GET http://localhost:3003/pedidos/getPedidos
+### |---------------------------------------------------------------|
+### |---------------------------------------------------------------|
 
-### Obtener los pedido de una mesa mandando el id de la mesa
-GET http://localhost:3003/pedidos/getPedidosXMesaId/20
+### PETICIONES HTTP PARA Categorias
+### Traer todas las categorias
+GET http://localhost:3003/categorias/getCategorias
 
-### Obtener todos los datos de un pedido: n°mesa, mesero, fecha, producto, precio unitario, cantidad, precio total
-GET http://localhost:3003/pedidos/getTotalPedido/2
-
-### Crear un Pedido
-POST http://localhost:3003/pedidos/createPedido
+### Crear nueva Categoria
+POST http://localhost:3003/categorias/createCategoria
 Content-Type: application/json
 
 {
-    "MeseroId": 6,
-    "MesaId": 2,
-    "lstProductos":[
-        {
-            "ProductoId": 1,
-            "Cantidad": 2
-        },
-        {
-            "ProductoId": 2,
-            "Cantidad": 1
-        }
-    ]
+    "Categoria": "Combos"
 }
 
-### Actualizar un Pedido
-PUT http://localhost:3003/pedidos/updatePedido/2
+### Actualizar una Categoria
+PUT http://localhost:3003/categorias/updateCategoria/3
 Content-Type: application/json
 
 {
-    "lstProductos":[
-        {
-            "ProductoId": 1,
-            "Cantidad": 2
-        },
-        {
-            "ProductoId": 5,
-            "Cantidad": 3
-        }
-    ]
+    "NombreCategoria": "Postres"
 }
-
-### Eliminar un pedido
-DELETE httP://localhost:3003/pedidos/deletePedido/3
+### |---------------------------------------------------------------|
+### |---------------------------------------------------------------|
 
 ### |---------------------------------------------------------------|
 ### |---------------------------------------------------------------|
@@ -138,3 +117,63 @@ Content-Type: application/json
 
 ### Eliminar Productos
 DELETE http://localhost:3003/productos/deleteProducto/4
+
+
+### |---------------------------------------------------------------|
+### |---------------------------------------------------------------|
+
+### |---------------------------------------------------------------|
+### |---------------------------------------------------------------|
+
+
+### PETICIONES HTTP PARA PEDIDOS
+### Obetener todos los pedidos
+GET http://localhost:3003/pedidos/getPedidos
+
+### Obtener los pedido de una mesa mandando el id de la mesa
+GET http://localhost:3003/pedidos/getPedidosXMesaId/2
+
+### Obtener todos los datos de un pedido: n°mesa, mesero, fecha, producto, precio unitario, cantidad, precio total
+GET http://localhost:3003/pedidos/getTotalPedido/2
+
+### Crear un Pedido
+POST http://localhost:3003/pedidos/createPedido
+Content-Type: application/json
+
+{
+    "MeseroId": 8,
+    "MesaId": 4,
+    "lstProductos":[
+        {
+            "ProductoId": 1,
+            "Cantidad": 2
+        },
+        {
+            "ProductoId": 2,
+            "Cantidad": 1
+        }
+    ]
+}
+
+### Actualizar un Pedido
+PUT http://localhost:3003/pedidos/updatePedido/4
+Content-Type: application/json
+
+{
+    "lstProductos":[
+        {
+            "ProductoId": 1,
+            "Cantidad": 2
+        },
+        {
+            "ProductoId": 5,
+            "Cantidad": 3
+        }
+    ]
+}
+
+### Eliminar un pedido
+DELETE httP://localhost:3003/pedidos/deletePedido/3
+
+### |---------------------------------------------------------------|
+### |---------------------------------------------------------------|

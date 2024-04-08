@@ -5,6 +5,7 @@ import routerUsuario from './router/Usuarios.js';
 import routerProductos from './router/Productos.js';
 import routerMesas from './router/Mesas.js';
 import routerPedidos from './router/Pedidos.js';
+import routerCategorias from "./router/Categorias.js";
 
 const app = express();
 const port = 3003;
@@ -16,6 +17,7 @@ app.use('/usuarios', routerUsuario);
 app.use('/mesas', routerMesas);
 app.use('/productos', routerProductos);
 app.use('/pedidos', routerPedidos);
+app.use('/categorias', routerCategorias);
 
 app.use((req,res)=>{
     res.status(404).json({Error: "No se encontro la ruta"});

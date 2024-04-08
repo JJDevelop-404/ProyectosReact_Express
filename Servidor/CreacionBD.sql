@@ -22,6 +22,14 @@ CREATE TABLE IF NOT EXISTS DatosAcceso(
     FOREIGN KEY (usuarioId) REFERENCES Usuarios(usuarioId) ON DELETE CASCADE
 );
 
+/* Tabla Categoria
+Esta tabla es para manipular las categorias de los productos su primary key será el nombre de la categoria 
+*/
+CREATE TABLE IF NOT EXISTS Categorias(
+    CategoriaId INT AUTO_INCREMENT PRIMARY KEY,
+    NombreCategoria varchar(30) NOT NULL
+);
+
 /* Tabla Productos 
 Esta tabla contará también con un campo llamado inactivo, 
 por si se borra simplemente actualizamos el campo a 1, o sea, true
@@ -30,9 +38,10 @@ CREATE TABLE IF NOT EXISTS Productos(
     ProductoId INT PRIMARY KEY AUTO_INCREMENT,
     Nombre varchar(50) NOT NULL,
     Descripcion varchar(50) NOT NULL,
-    Categoria varchar(30) NOT NULL,
+    Categoria INT NULL,
     Precio INT NOT NULL,
-    Inactivo BOOLEAN DEFAULT 0
+    Inactivo BOOLEAN DEFAULT 0,
+    FOREIGN KEY (Categoria) REFERENCES Categorias(CategoriaId) ON DELETE SET NULL
 );
 
 /* Tabla Mesas */
@@ -43,7 +52,7 @@ CREATE TABLE IF NOT EXISTS Mesas(
 
 /* Tabla Pedidos */
 CREATE TABLE IF NOT EXISTS Pedidos (
-    pedidoId INT PRIMARY KEY AUTO_INCREMENT,
+    PedidoId INT PRIMARY KEY AUTO_INCREMENT,
     Comentario TEXT DEFAULT NULL,
     FechaPedido DATETIME DEFAULT NOW() NOT NULL,
     MeseroId INT, /* MeseroId puede ser NULL por si se elimina entonces para que no se pierda la info */
@@ -95,26 +104,33 @@ INSERT INTO Usuarios (Nombres, Apellidos,  Cedula, TipoUsuario) VALUES
 ('User', 'Test', '12345', 'Mesero'),
 ('Andres Steven', 'Vivas', '1340589420' ,'Mesero');
 
+/* Inserción tabla Categorias */
+INSERT INTO Categorias (NombreCategoria) VALUES 
+('Sin asignar'),
+('Comidas'),
+('Postres'),
+('Bebidas');
+
 /* Inserción tabla Productos */
 INSERT INTO Productos (Nombre, Descripcion, Precio, Categoria) VALUES 
-('Arroz Paisa', 'Arroz paisa para 3 personas', 32000, 'Comidas'),
-('Sandwich de pollo', 'Sandwich de pollo', 5000, 'Comidas'),
-('Hamburguesa', 'Hamburguesa de carne', 10000, 'Comidas'),
-('Papas Fritas', 'Papas fritas con queso', 5000, 'Comidas'),
-('Bandeja frijoles con chuleta de cerdo', 'Bandeja frijoles con chuleta de cerdo individual', 13000, 'Comidas'),
-('Salchipapa sencilla personal', 'Salchipapa con salchicha, papa y todas las salsas personal', 8000, 'Comidas'),
-('Tiramisú', 'Tiramisú individual', 8000, 'Postres'),
-('Brownie', 'Brownie individual', 8000, 'Postres'),
-('Helado', 'Helado de 3 sabores', 10000, 'Postres'),
-('Gelatina', 'Gelatina individual', 8000, 'Postres'),
-('Ensalada de frutas', 'Ensalada de frutas individual', 10000, 'Postres'),
-('Jugo de Naranja', 'Jugo de naranja 500ml', 3000, 'Bebidas'),
-('Agua', 'Agua 500ml', 2000, 'Bebidas'),
-('Cafe', 'Cafe 500ml', 2000, 'Bebidas'),
-('Te', 'Te 500ml', 2000, 'Bebidas'),
-('Coca Cola', 'Coca Cola 500ml', 3500, 'Bebidas'),
-('Pepsi', 'Pepsi 500ml', 3200, 'Bebidas'),
-('Cerveza Aguila', 'Cerveza Aguila Light 500ml', 5000, 'Bebidas');
+('Arroz Paisa', 'Arroz paisa para 3 personas', 32000, 2),
+('Sandwich de pollo', 'Sandwich de pollo', 5000, 2),
+('Hamburguesa', 'Hamburguesa de carne', 10000, 2),
+('Papas Fritas', 'Papas fritas con queso', 5000, 2),
+('Bandeja frijoles con chuleta de cerdo', 'Bandeja frijoles con chuleta de cerdo individual', 13000, 2),
+('Salchipapa sencilla personal', 'Salchipapa con salchicha, papa y todas las salsas personal', 8000, 2),
+('Tiramisú', 'Tiramisú individual', 8000, 3),
+('Brownie', 'Brownie individual', 8000, 3),
+('Helado', 'Helado de 3 sabores', 10000, 3),
+('Gelatina', 'Gelatina individual', 8000, 3),
+('Ensalada de frutas', 'Ensalada de frutas individual', 10000, 3),
+('Jugo de Naranja', 'Jugo de naranja 500ml', 3000, 4),
+('Agua', 'Agua 500ml', 2000, 4),
+('Cafe', 'Cafe 500ml', 2000, 4),
+('Te', 'Te 500ml', 2000, 4),
+('Coca Cola', 'Coca Cola 500ml', 3500, 4),
+('Pepsi', 'Pepsi 500ml', 3200, 4),
+('Cerveza Aguila', 'Cerveza Aguila Light 500ml', 5000, 4);
 
 /* Inserción tabla Mesas con estado 1, o sea ocupadas*/
 INSERT INTO Mesas (MesaId, Estado) VALUES 

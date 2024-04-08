@@ -4,38 +4,147 @@ import { pool } from "../conexion/conexion.js";
 //Funcion para traer todos los pedidos
 export const getPedidos = async (req, res) => {
     console.log("\nFuncion getPedidos():");
-    const { isMesero } = req.body;
     try {
-        if (isMesero) {
 
-        } else {
-            const Pedidos = await pool.query('SELECT * FROM Pedidos');
-            if (Pedidos) {
-                console.log("Pedidos: ", Pedidos);
-                res.status(200).json(Pedidos)
-            } else {
-                console.log("Error en el servidor o servidor desconectado");
-                res.statu(500).json({ Error: 'Error del servidor:  +,servidor desconectado' });
+        const pedido = await pool.query('SELECT ' +
+            'Pe.PedidoId, ' +
+            'Pe.FechaPedido, ' +
+            'M.MesaId as N_Mesa, ' +
+            'U.Nombres as Mesero, ' +
+            'Pr.ProductoId, ' +
+            'Pr.Nombre AS NombreProducto, ' +
+            'Pr.Precio as PrecioUnitario, ' +
+            'DPP.Cantidad, ' +
+            '(Pr.Precio * DPP.Cantidad) as PrecioTotal ' +
+            'FROM Pedidos Pe ' +
+            'INNER JOIN detallepedidoproducto DPP ON DPP.PedidoId = Pe.PedidoId ' +
+            'INNER JOIN productos Pr ON Pr.ProductoId = DPP.ProductoId ' +
+            'INNER JOIN usuarios U ON U.usuarioId = Pe.MeseroId ' +
+            'INNER JOIN mesas M ON M.MesaId = Pe.MesaId ');
+        if (pedido) {
+            castearPropiedadAFloatYRetornaSuma(pedido, 'PrecioTotal');
+            let precioTotal = 0;
+            let lstProductos = []; //Para agregar al objeto pedido
+            let lstPedido = [];
+            //Casteamos a float y obtenemos el precio total
+            let pedidosId = pedido.map(pedido => pedido.PedidoId)
+            let index = 0;
+            // console.log(pedidosId);
+            for (let i of pedido) { //Recorremos la lista de tooodos los pedidos
+                // console.log(precioTotal);
+                precioTotal += i.PrecioTotal;
+                lstProductos.push({//Agregamos todos los atributos del producto a nuestra lista
+                    Producto: i.NombreProducto,
+                    PrecioUnitario: i.PrecioUnitario,
+                    Cantidad: i.Cantidad,
+                    PrecioTotal: i.PrecioTotal
+                });
+
+                if (pedidosId[index] !== pedidosId[index + 1]) {
+                    //Preguntamos si el index en la siguiente iteración es diferente al actual
+                    //En caso de ser asi, creamos el objeto pedido con sus productos y lo agregamos a la lista
+                    //Y reiniciamos las variables de precioTotal del pedido en general y la lista de productos
+
+                    const objPedido = {
+                        PedidoId: i.PedidoId,
+                        Fecha: new Date(i.FechaPedido).toLocaleString(), // DD/MM/YYYY, HH:MM:SS AM/PM
+                        Mesa: i.N_Mesa,
+                        Mesero: i.Mesero,
+                        lstProductos: lstProductos,
+                        PrecioTotalPedido: precioTotal
+                    }
+                    lstPedido.push(objPedido)
+                    lstProductos = []
+                    precioTotal = 0;
+                }
+                index++;
             }
+
+            console.log(lstPedido);
+
+            res.status(200).json(lstPedido);
+        } else {
+            console.log("Error en el servidor o servidor desconectado");
+            res.statu(500).json({ Error: 'Error del servidor o servidor desconectado' });
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json('Error del servidor: ', error);
+        res.status(500).json('Error del servidor o servidor desconectado: ', error);
     }
 }
 
 //Funcion para traer los pedidos que tiene una mesa
-export const getPedidoXMesaId = async (req, res) => {
-    console.log("\nFuncion getPedidosXMesaId():");
+export const getPedidoXMeseroId = async (req, res) => {
+    console.log("\nFuncion getPedidosXMeseroId():");
     try {
-        const { MesaId } = req.params;
-        const [PedidosXMesaId] = await pool.query('SELECT * FROM Pedidos WHERE MesaId = ?', [MesaId]);
-        //Los corchetes dentro de PedidosXMesaId es para que me retorne un arreglo de objetos y no un objeto
-        console.log(PedidosXMesaId);
-        if (PedidosXMesaId) {
-            res.status(200).json(PedidosXMesaId);
+        const { MeseroId } = req.params;
+        const [isMesero] = await pool.query('SELECT usuarioId, TipoUsuario FROM Usuarios WHERE usuarioId = ?', [MeseroId]);
+        if (isMesero && isMesero.TipoUsuario.toLowerCase() === "mesero") {
+            //El usuario existe y es un mesero
+            const pedido = await pool.query('SELECT ' +
+                'Pe.PedidoId, ' +
+                'Pe.FechaPedido, ' +
+                'M.MesaId as N_Mesa, ' +
+                'U.Nombres as Mesero, ' +
+                'Pr.ProductoId, ' +
+                'Pr.Nombre AS NombreProducto, ' +
+                'Pr.Precio as PrecioUnitario, ' +
+                'DPP.Cantidad, ' +
+                '(Pr.Precio * DPP.Cantidad) as PrecioTotal ' +
+                'FROM Pedidos Pe ' +
+                'INNER JOIN detallepedidoproducto DPP ON DPP.PedidoId = Pe.PedidoId ' +
+                'INNER JOIN productos Pr ON Pr.ProductoId = DPP.ProductoId ' +
+                'INNER JOIN usuarios U ON U.usuarioId = Pe.MeseroId ' +
+                'INNER JOIN mesas M ON M.MesaId = Pe.MesaId '+
+                'WHERE Pe.MeseroId = ? AND DATE(Pe.FechaPedido) = CURDATE()', [MeseroId]);
+            console.log(pedido);
+            if (pedido) {
+                castearPropiedadAFloatYRetornaSuma(pedido, 'PrecioTotal');
+                let precioTotal = 0;
+                let lstProductos = []; //Para agregar al objeto pedido
+                let lstPedido = [];
+                //Casteamos a float y obtenemos el precio total
+                let pedidosId = pedido.map(pedido => pedido.PedidoId)
+                let index = 0;
+                // console.log(pedidosId);
+                for (let i of pedido) { //Recorremos la lista de tooodos los pedidos
+                    // console.log(precioTotal);
+                    precioTotal += i.PrecioTotal;
+                    lstProductos.push({//Agregamos todos los atributos del producto a nuestra lista
+                        Producto: i.NombreProducto,
+                        PrecioUnitario: i.PrecioUnitario,
+                        Cantidad: i.Cantidad,
+                        PrecioTotal: i.PrecioTotal
+                    });
+
+                    if (pedidosId[index] !== pedidosId[index + 1]) {
+                        //Preguntamos si el index en la siguiente iteración es diferente al actual
+                        //En caso de ser asi, creamos el objeto pedido con sus productos y lo agregamos a la lista
+                        //Y reiniciamos las variables de precioTotal del pedido en general y la lista de productos
+
+                        const objPedido = {
+                            PedidoId: i.PedidoId,
+                            Fecha: new Date(i.FechaPedido).toLocaleString(), // DD/MM/YYYY, HH:MM:SS AM/PM
+                            Mesa: i.N_Mesa,
+                            Mesero: i.Mesero,
+                            lstProductos: lstProductos,
+                            PrecioTotalPedido: precioTotal
+                        }
+                        lstPedido.push(objPedido)
+                        lstProductos = []
+                        precioTotal = 0;
+                    }
+                    index++;
+                }
+                console.log(lstPedido);
+                res.status(200).json(lstPedido);
+            }else{
+                console.log("No hay pedidos asociados a este mesero");
+                res.status(404).json({Error: 'No hay pedidos asociados a este mesero'});
+            }
         } else {
-            res.status(200).json(`No hay pedidos para esta mesa o la mesa con el id ${MesaId} no existe`);
+            console.log("El usuario no existe o no es un mesero");
+            res.status(400).json({ Error: 'El usuario no existe o no es un mesero' });
         }
     } catch (error) {
         console.log(error);
@@ -47,10 +156,10 @@ export const getPedidoXMesaId = async (req, res) => {
 export const getTotalPedido = async (req, res) => {
     console.log("\nFuncion getTotalPedido():");
     try {
-        const { pedidoId } = req.params;
-        if (pedidoId) {
+        const { PedidoId } = req.params;
+        if (PedidoId) {
             let pedido = await pool.query('SELECT ' +
-                'Pe.pedidoId, ' +
+                'Pe.PedidoId, ' +
                 'Pe.FechaPedido, ' +
                 'M.MesaId as N_Mesa, ' +
                 'U.Nombres as Mesero, ' +
@@ -60,16 +169,16 @@ export const getTotalPedido = async (req, res) => {
                 'DPP.Cantidad, ' +
                 '(Pr.Precio * DPP.Cantidad) as PrecioTotal ' +
                 'FROM Pedidos Pe ' +
-                'INNER JOIN detallepedidoproducto DPP ON DPP.PedidoId = Pe.pedidoId ' +
+                'INNER JOIN detallepedidoproducto DPP ON DPP.PedidoId = Pe.PedidoId ' +
                 'INNER JOIN productos Pr ON Pr.ProductoId = DPP.ProductoId ' +
                 'INNER JOIN usuarios U ON U.usuarioId = Pe.MeseroId ' +
                 'INNER JOIN mesas M ON M.MesaId = Pe.MesaId ' +
-                'WHERE Pe.PedidoId = ?', [pedidoId]);
+                'WHERE Pe.PedidoId = ?', [PedidoId]);
             if (pedido.length > 0) {//Llego algo
-                let precioTotal = castearPropiedadAFloatYRetornaSuma(pedido, 'PrecioTotal'); 
+                let precioTotal = castearPropiedadAFloatYRetornaSuma(pedido, 'PrecioTotal');
                 //Casteamos a float y obtenemos el precio total
                 let lstProductos = []; //Para agregar al objeto pedido
-                for(let i of pedido){
+                for (let i of pedido) {
                     lstProductos.push({//Agregamos todos los atributos del producto a nuestra lista
                         Producto: i.NombreProducto,
                         PrecioUnitario: i.PrecioUnitario,
@@ -78,8 +187,8 @@ export const getTotalPedido = async (req, res) => {
                     });
                 }
                 const objPedido = { //Creamos nuestro objeto pedido con todos los datos
-                    PedidoId : pedido[0].pedidoId,
-                    Fecha: pedido[0].FechaPedido,
+                    PedidoId: pedido[0].PedidoId,
+                    Fecha: new Date().toLocaleString(pedido[0].FechaPedido),
                     Mesa: pedido[0].N_Mesa,
                     Mesero: pedido[0].Mesero,
                     lstProductos: lstProductos,
@@ -89,8 +198,8 @@ export const getTotalPedido = async (req, res) => {
                 console.log(objPedido);
                 res.status(200).json({ objPedido });
             } else {
-                console.log("No hay ningun pedido con el id ", pedidoId);
-                res.status(404).json({ Error: 'No hay ningún pedido con el id ', pedidoId })
+                console.log("No hay ningun pedido con el id ", PedidoId);
+                res.status(404).json({ Error: 'No hay ningún pedido con el id ', PedidoId })
             }
         } else {
             console.log("No se recibió el ID del pedido");
@@ -109,42 +218,49 @@ export const createPedido = async (req, res) => {
     let { MeseroId, MesaId, lstProductos } = req.body;
     try {
         if (MeseroId && MesaId && lstProductos) {
-            //Preguntamos si la mesa no está ocupada ya con anterioridad
-            const [isMesaLibre] = await pool.query('SELECT M.Estado FROM Mesas M WHERE M.MesaId = ?', [MesaId]);
-            if (isMesaLibre.Estado === 0) {
-                //Si está libre, entonces se puede crear el pedido
-                //Primero, ACTUALIZAMOS el estado de la mesa a 1 para que sea OCUPADA
-                const isUpdateMesa = await pool.query('UPDATE Mesas SET Estado = 1 WHERE MesaId = ?', [MesaId]);
-                if (isUpdateMesa) {
-                    //Segundo, CREAMOS el pedido
-                    const isCreatePedido = await pool.query('INSERT INTO Pedidos (MeseroId, MesaId) VALUES (?, ?)', [MeseroId, MesaId]);
-                    if (isCreatePedido) {
-                        //Tercero, OBTENEMOS el ID del Pedido creado
-                        const [PedidoId] = await pool.query('SELECT PedidoId FROM Pedidos WHERE MesaId = ?', [MesaId]);
-                        if (PedidoId) {
-                            let cantidadInserciones = 0;
-                            for (var producto of lstProductos) {
-                                const isInsertDetallePedidoProducto = await pool.query('INSERT INTO DetallePedidoProducto (PedidoId, ProductoId) VALUES (?,?)', [PedidoId.PedidoId, producto.ProductoId]);
-                                if (isInsertDetallePedidoProducto.affectedRows === 1) {
-                                    cantidadInserciones++;
+            //Preguntamos si el mesero existe
+            const [isMesero] = await pool.query('SELECT usuarioId FROM Usuarios WHERE usuarioId = ?', [MeseroId]);
+            if (isMesero) {
+                //Preguntamos si la mesa no está ocupada ya con anterioridad
+                const [isMesaLibre] = await pool.query('SELECT M.Estado FROM Mesas M WHERE M.MesaId = ?', [MesaId]);
+                if (isMesaLibre.Estado === 0) {
+                    //Si está libre, entonces se puede crear el pedido
+                    //Primero, ACTUALIZAMOS el estado de la mesa a 1 para que sea OCUPADA
+                    const isUpdateMesa = await pool.query('UPDATE Mesas SET Estado = 1 WHERE MesaId = ?', [MesaId]);
+                    if (isUpdateMesa) {
+                        //Segundo, CREAMOS el pedido
+                        const isCreatePedido = await pool.query('INSERT INTO Pedidos (MeseroId, MesaId) VALUES (?, ?)', [MeseroId, MesaId]);
+                        if (isCreatePedido) {
+                            //Tercero, OBTENEMOS el ID del Pedido creado
+                            const [PedidoId] = await pool.query('SELECT PedidoId FROM Pedidos WHERE MesaId = ?', [MesaId]);
+                            if (PedidoId) {
+                                let cantidadInserciones = 0;
+                                for (var producto of lstProductos) {
+                                    const isInsertDetallePedidoProducto = await pool.query('INSERT INTO DetallePedidoProducto (PedidoId, ProductoId, Cantidad) VALUES (?,?, ?)', [PedidoId.PedidoId, producto.ProductoId, producto.Cantidad]);
+                                    if (isInsertDetallePedidoProducto.affectedRows === 1) {
+                                        cantidadInserciones++;
+                                    }
                                 }
+                                verificarCantidadInserciones(res, cantidadInserciones, lstProductos, "creado")
+                            } else {
+                                console.log("La mesa no tiene un pedido asociado]");
+                                res.status(400).json({ Error: "La mesa no tiene un pedido asociado" });
                             }
-                            verificarCantidadInserciones(res, cantidadInserciones, lstProductos, "creado")
                         } else {
-                            console.log("La mesa no tiene un pedido asociado]");
-                            res.status(400).json({ Error: "La mesa no tiene un pedido asociado" });
+                            console.log("No fue posible crear el pedido");
+                            res.status(400).json({ Error: 'No se pudo crear el pedido' });
                         }
                     } else {
-                        console.log("No fue posible crear el pedido");
-                        res.status(400).json({ Error: 'No se pudo crear el pedido' });
+                        console.log("No fue posible actualizar el estado de la mesa");
+                        res.status(400).json({ Error: 'No fue posible actualizar el estado de la mesa' });
                     }
                 } else {
-                    console.log("No fue posible actualizar el estado de la mesa");
-                    res.status(400).json({ Error: 'No fue posible actualizar el estado de la mesa' });
+                    console.log("La mesa ya está ocupada");
+                    res.status(409).json({ Error: 'La mesa ya está ocupada' });
                 }
             } else {
-                console.log("La mesa ya está ocupada");
-                res.status(409).json({ Error: 'La mesa ya está ocupada' });
+                console.log("El mesero no existe");
+                res.status(400).json({ Error: 'El mesero no existe' });
             }
         } else {
             console.log("No se recibieron datos");
@@ -160,18 +276,29 @@ export const createPedido = async (req, res) => {
 export const agregarNuevosProductosAlPedido = async (req, res) => {
     console.log("\nFuncion agregarNuevosProductosAlPedido():");
     try {
-        const { pedidoId } = req.params;
+        const { PedidoId } = req.params;
         const { lstProductos } = req.body;
+        let cantidadInserciones = 0; //
         //La idea esque esto sea una lista de objetos de productos pero que solo tenga el ID del producto y la cantidad
-        if (pedidoId) {
-            if (lstProductos) {
-                for (var producto of lstProductos) {
-                    const isInsert = await pool.query('INSERT INTO DetallePedidoProducto (PedidoId, ProductoId, Cantidad) VALUES (?,?)', [pedidoId, producto.ProductoId, producto.Cantidad]);
-
+        if (PedidoId) {
+            const [isPedido] = await pool.query('SELECT PedidoId FROM Pedidos WHERE PedidoId = ?', [PedidoId]);
+            if (isPedido) {
+                if (lstProductos) {
+                    for (var producto of lstProductos) {
+                        const isInsert = await pool.query('INSERT INTO DetallePedidoProducto (PedidoId, ProductoId, Cantidad) VALUES (?,?,?)', [PedidoId, producto.ProductoId, producto.Cantidad]);
+                        if (isInsert.affectedRows === 1) {
+                            console.log("Producto agregado al pedido");
+                            cantidadInserciones++;
+                        }
+                    }
+                    verificarCantidadInserciones(res, cantidadInserciones, lstProductos, "agregado");
+                } else {
+                    console.log("No se recibieron los productos a agregar al pedido");
+                    res.status(400).json({ Error: 'No se recibieron los productos a agregar al pedido' });
                 }
             } else {
-                console.log("No se recibieron los productos a agregar al pedido");
-                res.status(400).json({ Error: 'No se recibieron los productos a agregar al pedido' });
+                console.log("El pedido no existe");
+                res.status(400).json({ Error: 'El pedido no existe' });
             }
         } else {
             console.log("No se recibió el ID del pedido");
@@ -182,20 +309,21 @@ export const agregarNuevosProductosAlPedido = async (req, res) => {
         res.status(500).json({ Error: 'Error del servidor: ', error });
     }
 };
-
 //METODO PUT
 //Actualizar un pedido
 export const updatePedido = async (req, res) => {
     console.log("\nFuncion updatePedido():");
     try {
-        const { pedidoId } = req.params;
+        const { PedidoId } = req.params;
         const { lstProductos } = req.body;
-        if (pedidoId) {
+        //Ejemplo de estructura de la lstProductos: 
+        //lstProductos = [{ProductoId: 1, Cantidad: 2}, {ProductoId: 2, Cantidad: 3}]
+        if (PedidoId) {
             if (lstProductos) {
                 let cantidadInserciones = 0;
                 for (var producto of lstProductos) {
                     const isUpdate = await pool.query('UPDATE DetallePedidoProducto SET ProductoId = ?, Cantidad = ? WHERE PedidoId = ? AND ProductoId = ?',
-                        [producto.ProductoId, producto.Cantidad, pedidoId, producto.ProductoId]);
+                        [producto.ProductoId, producto.Cantidad, PedidoId, producto.ProductoId]);
                     if (isUpdate.affectedRows === 1) { //Es decir, se insertó correctamente
                         cantidadInserciones++; //Sumamos 1 a la cantidad de inserciones
                     }
@@ -218,9 +346,9 @@ export const updatePedido = async (req, res) => {
 export const deletePedido = async (req, res) => {
     console.log("\nFuncion deletePedido():");
     try {
-        const { pedidoId } = req.params;
-        if (pedidoId) {
-            const isDelete = await pool.query('DELETE FROM Pedidos WHERE PedidoId = ?', [pedidoId]);
+        const { PedidoId } = req.params;
+        if (PedidoId) {
+            const isDelete = await pool.query('DELETE FROM Pedidos WHERE PedidoId = ?', [PedidoId]);
             if (isDelete.affectedRows === 1) { //Siempre debe ser 1 fila afectada
                 res.status(200).json({ Message: 'Pedido eliminado correctamente' });
             } else {
