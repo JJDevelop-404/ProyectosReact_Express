@@ -73,9 +73,6 @@ export default function Navbar() {
                                     <Link to={`/mesero/${UserId}`} className="nav-link" onClick={handleLinkClick}> Mesas </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link to={`/mesero/${UserId}/pedidos`} className="nav-link" onClick={handleLinkClick}> Pedidos </Link>
-                                </li>
-                                <li className="nav-item">
                                     <Link to={`/mesero/${UserId}/pedidosrealizados`} className="nav-link" onClick={handleLinkClick}> Pedidos Realizados </Link>
                                 </li>
                             </ul>

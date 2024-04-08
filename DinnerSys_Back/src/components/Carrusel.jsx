@@ -32,8 +32,8 @@ export default function Carrusel({ Mesas, setMesas }) {
 
     const OnHandleClickLiberar = async (Mesa) => {
         /* Pasos para liberar la mesa:
-        1. Actualizar la mesa que fue seleccionada y ponerle que su estado ahora es libre
-        2. Eliminar el pedido por el Id de la Mesa Seleccionada
+        1. Preguntar si si está libre la mesa antes de liberarla
+        2. Actualizar la mesa que fue seleccionada y ponerle que su estado ahora es libre
         */
         LiberarMesa(Mesa.MesaId)
             .then((response) => {
@@ -44,8 +44,7 @@ export default function Carrusel({ Mesas, setMesas }) {
     };
 
     function OnOrdenar(Mesa) {
-        localStorage.setItem("Mesa", JSON.stringify(Mesa));
-        navigate(`/Mesero/${MsroId}/Pedidos`);
+        navigate(`/Mesero/${MsroId}/Pedidos`, { state: { MesaId: Mesa.MesaId } });
     };
 
     return (

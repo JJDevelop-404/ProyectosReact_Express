@@ -49,3 +49,15 @@ Actualización 0.1.1 =>
 
 3. Al actualizar ese componente (FormCrearEditar), toco ajustar varias cosas en los componentes de gestión para que funcionará 
 nuevamente todo
+
+Actualización 1.0.0 =>
+1. Se agrega funcion de crear y traer pedido por el usuarioId en la API - Pedidos.js
+
+2. Se realiza la vista pedidos y ya está disponible y funcional, también la vista de pedidosRealizados (que carga solo los pedidos del
+dia actual, es decir, no muestra pedidos anteriores, sólo muestra los que se hicieron en el dia).
+
+3. Se elimina del navbar del mesero el acceso a pedidos, y sólo muestra pedidosRealizados. Para acceder a pedidos desde la URL no se puede
+ya que este necesita que se le pase el id de la mesa, por ende, se debe escoger una mesa si o si para lograr acceder
+
+4. Cambios mínimos en componentes como Carrusel (se quita el envio del usuarioId ya que no es necesario (para eso es el useAuth)), 
+FormCrearEditar (Se agrega la opcion --Seleccioe-- en el select) y Tabla (se crea una funcion llamada alertError para mostrar un mensaje de error)

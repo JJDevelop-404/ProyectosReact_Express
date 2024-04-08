@@ -7,7 +7,7 @@ export default function ModificarProducto() {
 
   const dataProducto = {
     ...location.state,
-    cbxCategoria: location.state.NombreCategoria
+    cbxCategoria: location.state.Categoria
   };
 
   delete dataProducto.NombreCategoria;

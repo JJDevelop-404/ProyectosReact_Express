@@ -83,7 +83,7 @@ export default function Producto({ dataProducto, funcionEditarProducto }) {
             Nombre: dataProducto ? dataProducto.Nombre : null,
             Descripcion: dataProducto ? dataProducto.Descripcion : null,
             Precio: dataProducto ? dataProducto.Precio : null,
-            cbxCategoria: dataProducto ? dataProducto.cbxCategoria : 'Sin asignar'
+            cbxCategoria: dataProducto ? dataProducto.cbxCategoria : null
         }
     }
 

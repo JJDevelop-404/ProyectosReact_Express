@@ -103,3 +103,10 @@ export function alertEliminar(mensaje, icon, actualizacionData){
         didClose: actualizacionData
     });
 }
+export function alertError(titulo, mensaje){
+    Swal.fire({
+        title: titulo,
+        text: mensaje,
+        icon: 'error'
+    });
+}
