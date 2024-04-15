@@ -89,10 +89,10 @@ export default function Producto({ dataProducto, funcionEditarProducto }) {
 
     function validationSchema() {
         return {
-            Nombre: Yup.string().required('Ingrese un Nombre').matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g, 'El nombre debe ser alfabetico')
-                .min(2, 'El nombre debe tener minimo 2 caracteres').max(50, 'El nombre debe tener maximo 50 caracteres'),
+            Nombre: Yup.string().required('Ingrese un Nombre').matches(/^[a-zA-ZÀ-ÿ\u00f1\u00d10-9]*$/, 'El nombre no debe contener ni < > ni { }')
+                .min(2, 'El nombre debe tener minimo 2 caracteres').max(100, 'El nombre debe tener maximo 100 caracteres'),
             Descripcion: Yup.string().required('Ingrese una Descripcion')
-                .min(6, 'La descripcion debe tener minimo 6 caracteres').max(50, 'La descripcion debe tener maximo 50 caracteres'),
+                .min(6, 'La descripcion debe tener minimo 6 caracteres').max(200, 'La descripcion debe tener maximo 200 caracteres'),
             Precio: Yup.string().required('Ingrese un Precio'),
             cbxCategoria: Yup.string().required('Escoja una Categoria')
         }

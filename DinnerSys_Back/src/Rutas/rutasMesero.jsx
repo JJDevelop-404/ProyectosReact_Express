@@ -1,6 +1,6 @@
 import { ProtectedRouteMesero } from '../PRouteContent/ProtectedRoute';
 
-import Pedido from '../pages/Mesero/Pedido';
+import TomarPedido from '../pages/Mesero/TomarPedido';
 import MeseroHome from '../pages/Mesero/MeseroHome';
 import PedidosRealizados from '../pages/Mesero/PedidosRealizados';
 import Mesero from '../pages/Mesero/Mesero';
@@ -16,7 +16,7 @@ export let routesMesero = ([
             },
             {
                 path: "/Mesero/:MsroId/Pedidos",
-                element: <Pedido />
+                element: <TomarPedido />
             },
             {
                 path: "/Mesero/:MsroId/Home",

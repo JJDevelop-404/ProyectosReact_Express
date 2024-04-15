@@ -31,3 +31,13 @@ export const nuevoPedido = async (MesaId, MeseroId, lstProductos) => {
         console.log(error);
     }
 };
+
+//modificarPedido --> Actualizar un pedido
+export const modificarPedido = async (pedidoId, lstProductos) => { 
+    try {
+        const isUpdate = await axios.put(`${BACK_URL}/pedidos/updatePedido/${pedidoId}`, { lstProductos });
+        return isUpdate.status === 201 ? true : false;
+    } catch (error) {
+        console.log(error);
+    }
+};

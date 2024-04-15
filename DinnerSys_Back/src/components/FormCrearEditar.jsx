@@ -63,10 +63,10 @@ export default function FormCrearEditar({ formik, nombreEntidad, dataEntidad, ls
                             <label htmlFor={select} className="form-label"> {select} </label>
 
                             <select name={lstPropiedadesSelect[pos_select]} id={select} className='form-select'
-                                defaultValue={null}
+                                defaultValue={ dataEntidad ? dataEntidad[lstPropiedadesSelect[pos_select]] : null}
                                 onFocus={formik.handleBur}
                                 onChange={formik.handleChange}>
-                                <option value={null}> --Seleccione-- </option>
+                                <option value={""}> --Seleccione-- </option>
 
                                 {lstSelectOptions && lstSelectOptions.map((option, pos_option) => (
                                     <option key={pos_option} value={option[lstPropiedadesOptions[0]]} > {option[lstPropiedadesOptions[0]]} </option>
@@ -77,7 +77,6 @@ export default function FormCrearEditar({ formik, nombreEntidad, dataEntidad, ls
                             {formik.touched[lstPropiedadesSelect[pos_select]] && formik.errors[lstPropiedadesSelect[pos_select]] ? (
                                 <span className="msj-error"> {formik.errors[lstPropiedadesSelect[pos_select]]} </span>
                             ) : null}
-
                         </div>
                     ))}
 

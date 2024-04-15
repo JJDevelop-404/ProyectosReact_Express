@@ -1,0 +1,106 @@
+/* Estilos para el contendor general */
+.container-pedidos-realizados {
+    margin: 2vh !important;
+    text-align: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+/* Para hacer responsive el contenedor */
+@media (max-width: 768px) {
+    .container-pedidos-realizados {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .container-pedidos-realizados {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+.container-pedidos-realizados .container-pedido .label-fecha-pedido,
+.container-pedidos-realizados .container-pedido .label-total-pedido{
+    display: block;
+    margin: 10px 0
+}
+
+/* Estilos para el contenedor del pedido */
+.container-pedidos-realizados .container-pedido {
+    padding: 20px 0;
+    border: 5px solid rgb(6, 60, 78);
+    border-radius: 15px;
+}
+
+/* Estilos para la tabla de productos que hay en el pedido */
+.container-pedidos-realizados .table-productos-pedido {
+    width: auto;
+    display: inline;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+
+    /* Estilos para la cabecera del thead */
+    & thead th {
+        font-size: 18px;
+        background-color: rgb(9, 96, 125);
+        border: 1px solid rgb(6, 60, 78);
+        color: white;
+        padding: 0 5px;
+    }
+
+    ;
+
+    /* Estilos para el cuerpo del tbody */
+    & tbody td {
+        font-size: 17px;
+        background-color: rgb(66, 123, 143);
+        border: 1px solid rgb(6, 60, 78);
+        padding: 0 8px;
+    }
+
+    ;
+}
+
+/* Estilos para el label del Precio Total del pedido */
+.container-pedidos-realizados .label-total-pedido{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Estilos para el boton y el label en cuanto a modificar el pedido */
+.container-pedidos-realizados .container-modificar-pedido{
+    font-size: 18px; 
+}
+
+/* Estilos similares para el boton y el label */
+.container-pedidos-realizados .container-modificar-pedido .label-expiro-tiempo,
+.container-pedidos-realizados .container-modificar-pedido .btn-modificar-pedido {
+    width: 50%;
+    text-transform: capitalize !important;
+    border-radius: 10px !important;
+    font-size: 18px;
+    color: white;
+    padding: 2px 0;
+    text-align: center;
+    outline: none !important;
+    border: none !important;
+    text-wrap: nowrap;
+}
+
+/* Estilos para el boton de modificar el pedido */
+.container-pedidos-realizados .container-modificar-pedido .btn-modificar-pedido {
+    background-color: rgb(0, 123, 255);
+    cursor: pointer;
+    transition: .2s ease;
+    &:hover {
+        background-color: rgb(0, 73, 184);
+    }
+}
+
+/* Estilos para el label de expiro el tiempo */
+.container-pedidos-realizados .container-modificar-pedido .label-expiro-tiempo {
+    width: auto !important;
+    padding: 2px 20px;
+    background-color: rgb(220, 53, 69);
+}

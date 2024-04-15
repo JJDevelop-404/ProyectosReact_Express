@@ -64,7 +64,7 @@ export default function Empleado({ dataEmpleado, funcionEditarEmpleado }) {
             Cedula: dataEmpleado ? dataEmpleado.Cedula : null,
             Nombres: dataEmpleado ? dataEmpleado.Nombres : null,
             Apellidos: dataEmpleado ? dataEmpleado.Apellidos : null,
-            cbxTipoUsuario: dataEmpleado ? dataEmpleado.cbxTipoUsuario : 'Mesero',
+            cbxTipoUsuario: dataEmpleado ? dataEmpleado.cbxTipoUsuario : null,
         }
     };
 

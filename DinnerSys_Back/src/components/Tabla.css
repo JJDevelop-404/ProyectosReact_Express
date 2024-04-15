@@ -3,7 +3,7 @@
     border-radius: 15px;
     margin-bottom: 80vh;
     margin: 3vh;
-    text-wrap: nowrap !important;
+    text-wrap: wrap !important;
     /* Para evitar saltos de linea */
 }
 
@@ -33,6 +33,8 @@
 
 /* El cuerpo de nuestra tabla (tbody) */
 .table .body-tbl {
+    margin:  0 auto !important;
+    width: 20% !important ;
     font-size: 18px;
     align-items: center;
     justify-content: center !important;
@@ -72,6 +74,10 @@
     padding: 3px 9px;
 }
 
+/* Estilos para el contenedor de los botones editar y eliminar */
+.container-tabla .table .body-tbl .container-btn-acciones {
+    text-wrap: nowrap !important;
+}
 
 /* Estilos botones editar y eliminar */
 .container-tabla .table .body-tbl .btn {

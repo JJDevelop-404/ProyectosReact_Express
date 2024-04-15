@@ -43,6 +43,9 @@ export default function Navbar() {
                                 <li className='nav-item'>
                                     <Link to={'/Admin/Mesas'} className='nav-link' onClick={handleLinkClick}> Mesas </Link>
                                 </li>
+                                <li className='nav-item'>
+                                    <Link to={'/Admin/Pedidos'} className='nav-link' onClick={handleLinkClick}> Pedidos </Link>
+                                </li>
                             </ul>
                             <ul className='navbar-nav sys-log'>
                                 <li className="nav-item">

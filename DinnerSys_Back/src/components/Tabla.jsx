@@ -58,13 +58,13 @@ export default function Tabla({ lstTitulosTabla, NombreEntidad, RedireccionBoton
                             <th> Acciones </th>
                         </tr>
                     </thead>
-                    <tbody className='body-tbl'>
+                    <tbody className='body-tbl align-middle'>
                         {lstDataEntidad && lstDataEntidad.map((data, index) => (
                             <tr key={index}>
                                 {Object.keys(data).map((propiedad) => (
                                     <td key={propiedad}> {data[propiedad]} </td>
                                 ))}
-                                <td>
+                                <td className='container-btn-acciones'>
                                     <button className='btn btn-primary' onClick={() => onHandleClickEditar(data)}>
                                         Editar
                                     </button>

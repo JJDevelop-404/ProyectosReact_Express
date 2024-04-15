@@ -57,7 +57,18 @@ Actualización 1.0.0 =>
 dia actual, es decir, no muestra pedidos anteriores, sólo muestra los que se hicieron en el dia).
 
 3. Se elimina del navbar del mesero el acceso a pedidos, y sólo muestra pedidosRealizados. Para acceder a pedidos desde la URL no se puede
-ya que este necesita que se le pase el id de la mesa, por ende, se debe escoger una mesa si o si para lograr acceder
+ya que este necesita que se le pase el id de la mesa, por ende, se debe escoger una mesa si o si para lograr acceder.
 
 4. Cambios mínimos en componentes como Carrusel (se quita el envio del usuarioId ya que no es necesario (para eso es el useAuth)), 
-FormCrearEditar (Se agrega la opcion --Seleccioe-- en el select) y Tabla (se crea una funcion llamada alertError para mostrar un mensaje de error)
+FormCrearEditar (Se agrega la opcion --Seleccioe-- en el select) y Tabla (se crea una funcion llamada alertError para mostrar un mensaje de error).
+
+Actualización 1.0.1 =>
+1. Se mejora la visualización del componente PedidosRealizados, haciendolo más agradable y entendible a la vista.
+
+2. Se agrega limite de tiempo para la edicion de un pedido en PedidosRealizados (10min maximo para poder editarlo).
+
+3. Se cambia el nombre del componente Pedido.jsx a TomarPedido.jsx ya que Pedido.jsx se usará para la gestion de pedidos del Admin.
+
+4. Se realizan cambios mínimos en los componentes de Tabla.jsx y .css (Se modifican cosas visuales, nada de funcionalidad),
+FormCrearEditar (Se arregla bug ya que dejaba escojer la opcion --Seleccione-- y no lanzaba el formik.error correspondiente ),
+(Producto.jsx y Empleado.jsx, se le cambia el initialValue del cbx a null).
