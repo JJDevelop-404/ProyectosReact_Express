@@ -72,3 +72,5 @@ Actualización 1.0.1 =>
 4. Se realizan cambios mínimos en los componentes de Tabla.jsx y .css (Se modifican cosas visuales, nada de funcionalidad),
 FormCrearEditar (Se arregla bug ya que dejaba escojer la opcion --Seleccione-- y no lanzaba el formik.error correspondiente ),
 (Producto.jsx y Empleado.jsx, se le cambia el initialValue del cbx a null).
+
+5. Actualización de librerias realizada
