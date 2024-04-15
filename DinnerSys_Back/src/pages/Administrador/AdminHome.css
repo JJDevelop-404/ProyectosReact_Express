@@ -1,8 +1,14 @@
-/* .container{
-    border: 2px solid red;
-    padding: 0;
+.container-admin-home{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+
+    margin-top: 40vh;
+    width: 90%;
+    background-color: #151515;
+    border: 4px solid #000;
+    border-radius: 20px;
+    padding: 20px 0;
 }
-.table{
-    margin: 0 auto !important;
-    padding: 0 !important;
-} */
