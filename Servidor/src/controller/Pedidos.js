@@ -19,8 +19,9 @@ export const getPedidos = async (req, res) => {
             'FROM Pedidos Pe ' +
             'INNER JOIN detallepedidoproducto DPP ON DPP.PedidoId = Pe.PedidoId ' +
             'INNER JOIN productos Pr ON Pr.ProductoId = DPP.ProductoId ' +
-            'INNER JOIN usuarios U ON U.usuarioId = Pe.MeseroId ' +
-            'INNER JOIN mesas M ON M.MesaId = Pe.MesaId ');
+            'LEFT JOIN usuarios U ON U.usuarioId = Pe.MeseroId ' +
+            'INNER JOIN mesas M ON M.MesaId = Pe.MesaId ' +
+            'ORDER BY Pe.PedidoId ASC');
         if (pedido) {
             castearPropiedadAFloatYRetornaSuma(pedido, 'PrecioTotal');
             let precioTotal = 0;
@@ -95,9 +96,10 @@ export const getPedidoXMeseroId = async (req, res) => {
                 'INNER JOIN detallepedidoproducto DPP ON DPP.PedidoId = Pe.PedidoId ' +
                 'INNER JOIN productos Pr ON Pr.ProductoId = DPP.ProductoId ' +
                 'INNER JOIN usuarios U ON U.usuarioId = Pe.MeseroId ' +
-                'INNER JOIN mesas M ON M.MesaId = Pe.MesaId '+
-                'WHERE Pe.MeseroId = ? AND DATE(Pe.FechaPedido) = CURDATE()', [MeseroId]);
-            console.log(pedido);
+                'INNER JOIN mesas M ON M.MesaId = Pe.MesaId ' +
+                'WHERE Pe.MeseroId = ? AND DATE(Pe.FechaPedido) = CURDATE() ' +
+                'ORDER BY Pe.FechaPedido DESC', [MeseroId]);
+            // console.log(pedido);
             if (pedido) {
                 castearPropiedadAFloatYRetornaSuma(pedido, 'PrecioTotal');
                 let precioTotal = 0;
@@ -111,6 +113,7 @@ export const getPedidoXMeseroId = async (req, res) => {
                     // console.log(precioTotal);
                     precioTotal += i.PrecioTotal;
                     lstProductos.push({//Agregamos todos los atributos del producto a nuestra lista
+                        ProductoId: i.ProductoId,
                         Producto: i.NombreProducto,
                         PrecioUnitario: i.PrecioUnitario,
                         Cantidad: i.Cantidad,
@@ -136,11 +139,11 @@ export const getPedidoXMeseroId = async (req, res) => {
                     }
                     index++;
                 }
-                console.log(lstPedido);
+                console.log(JSON.stringify(lstPedido, null, 2));
                 res.status(200).json(lstPedido);
-            }else{
+            } else {
                 console.log("No hay pedidos asociados a este mesero");
-                res.status(404).json({Error: 'No hay pedidos asociados a este mesero'});
+                res.status(404).json({ Error: 'No hay pedidos asociados a este mesero' });
             }
         } else {
             console.log("El usuario no existe o no es un mesero");
@@ -229,10 +232,10 @@ export const createPedido = async (req, res) => {
                     const isUpdateMesa = await pool.query('UPDATE Mesas SET Estado = 1 WHERE MesaId = ?', [MesaId]);
                     if (isUpdateMesa) {
                         //Segundo, CREAMOS el pedido
-                        const isCreatePedido = await pool.query('INSERT INTO Pedidos (MeseroId, MesaId) VALUES (?, ?)', [MeseroId, MesaId]);
+                        const isCreatePedido = await pool.query('INSERT INTO Pedidos (MeseroId, MesaId) VALUES (?, ?);', [MeseroId, MesaId]);
                         if (isCreatePedido) {
                             //Tercero, OBTENEMOS el ID del Pedido creado
-                            const [PedidoId] = await pool.query('SELECT PedidoId FROM Pedidos WHERE MesaId = ?', [MesaId]);
+                            const [PedidoId] = await pool.query('SELECT MAX(PedidoId) AS PedidoId FROM Pedidos;');
                             if (PedidoId) {
                                 let cantidadInserciones = 0;
                                 for (var producto of lstProductos) {
@@ -243,8 +246,8 @@ export const createPedido = async (req, res) => {
                                 }
                                 verificarCantidadInserciones(res, cantidadInserciones, lstProductos, "creado")
                             } else {
-                                console.log("La mesa no tiene un pedido asociado]");
-                                res.status(400).json({ Error: "La mesa no tiene un pedido asociado" });
+                                console.log("No fue posible obtener el pedido asociado]");
+                                res.status(400).json({ Error: "No fue posible obtener el pedido asociado" });
                             }
                         } else {
                             console.log("No fue posible crear el pedido");
@@ -320,15 +323,67 @@ export const updatePedido = async (req, res) => {
         //lstProductos = [{ProductoId: 1, Cantidad: 2}, {ProductoId: 2, Cantidad: 3}]
         if (PedidoId) {
             if (lstProductos) {
-                let cantidadInserciones = 0;
-                for (var producto of lstProductos) {
-                    const isUpdate = await pool.query('UPDATE DetallePedidoProducto SET ProductoId = ?, Cantidad = ? WHERE PedidoId = ? AND ProductoId = ?',
-                        [producto.ProductoId, producto.Cantidad, PedidoId, producto.ProductoId]);
-                    if (isUpdate.affectedRows === 1) { //Es decir, se insertó correctamente
-                        cantidadInserciones++; //Sumamos 1 a la cantidad de inserciones
+                const lstOriginal = await pool.query('SELECT ProductoId, Cantidad FROM DetallePedidoProducto WHERE PedidoId = ?', [PedidoId]);
+                if (lstOriginal.length > 0) {
+                    let cantidadInserciones = 0;
+                    console.log("lstProductos que recibo: ", lstProductos);
+                    console.log("lstOriginal de los productos que estaban en ese pedido:", lstOriginal);
+                    //Obtenemos los productos que están en la lista original, pero no en la que llega (esta lista es para eliminar)
+                    const lstIdEliminado = lstOriginal.filter(pr => !lstProductos.some(pr2 => pr2.ProductoId === pr.ProductoId));
+                    //Obtenemos los productos que no estan en la lista original, pero si en la que llega (esta lista es para agregar)
+                    const lstIdAgregado = lstProductos.filter(pr => !lstOriginal.some(pr2 => pr2.ProductoId === pr.ProductoId));
+                    //Obtenemos los productos que estan presente en la lista original y en la que me llega (esta lista es para actualizar)
+                    const lstIdActualizar = lstProductos.filter(pr => lstOriginal.some(pr2 => pr2.ProductoId === pr.ProductoId));
+                    //Imprimimos las listas ya hechas
+                    console.log("\n\nYa no estan en la lista que me llega pero si en la original: ", lstIdEliminado);
+                    console.log("\n\nEstan en la lista que me llega pero no en la original: ", lstIdAgregado);
+                    console.log("\n\nEstan en la lista que me llega y en la original: ", lstIdActualizar);
+
+                    if (lstIdEliminado.length > 0) {
+                        console.log("Vamos a eliminar unos productos: ", lstIdEliminado);
+                        for (var prEliminar of lstIdEliminado) {
+                            const isDelete = await pool.query("DELETE FROM DetallePedidoProducto WHERE PedidoId = ? AND ProductoId = ?;",
+                                [PedidoId, prEliminar.ProductoId]);
+
+                            isDelete.affectedRows === 1 ? cantidadInserciones++ : null;
+                        }
                     }
+
+                    if (lstIdAgregado.length > 0) {
+                        console.log("Vamos a agregar unos productos: ", lstIdAgregado);
+
+                        for (var prAgregar of lstIdAgregado) {
+                            const isInsert = await pool.query("INSERT INTO DetallePedidoProducto (PedidoId, ProductoId, Cantidad) VALUES (?,?,?);",
+                                [PedidoId, prAgregar.ProductoId, prAgregar.Cantidad]);
+
+                            isInsert.affectedRows === 1 ? cantidadInserciones++ : null;
+                        }
+                    }
+
+                    if (lstIdActualizar.length > 0) {
+                        console.log("Vamos a actualizar unos productos: ", lstIdActualizar);
+
+                        for (var prActualizar of lstIdActualizar){
+                            const isUpdate = await pool.query("UPDATE DetallePedidoProducto SET Cantidad=? WHERE ProductoId = ? AND PedidoId = ?;",
+                                [prActualizar.Cantidad, prActualizar.ProductoId, PedidoId]);
+                            
+                            isUpdate.affectedRows === 1 ? cantidadInserciones++ : null;
+                        }
+                    }
+
+                    if(cantidadInserciones === (lstIdEliminado.length + lstIdAgregado.length + lstIdActualizar.length) ){
+                        console.log("Pedido actualizado correctamente");
+                        res.status(201).json({Message: "Pedido actualizado correctamente"});
+                    }else{
+                        console.log("No se pudo actualizar el pedido");
+                        res.status(400).json({Error: "No se pudo actualizar el pedido"});
+                    }
+
+
+                } else {
+                    console.log("No hay productos asociados a este pedido");
+                    res.status(404).json({ Error: 'No hay productos asociados a este pedido' });
                 }
-                verificarCantidadInserciones(res, cantidadInserciones, lstProductos, "actualizado");
             } else {
                 res.status(400).json({ Error: 'No se recibieron los datos necesarios' });
             }
