@@ -1,6 +1,6 @@
 DROP DATABASE IF EXISTS DinnerSys;
 CREATE DATABASE IF NOT EXISTS DinnerSys;
-
+USE DinnerSys;
 /* Tabla Usuarios 
 Este tendrá un campo llamado inactivo, por si se borra simplemente actualizamos el campo
 inactivo a 1 o sea, true */
@@ -36,8 +36,8 @@ por si se borra simplemente actualizamos el campo a 1, o sea, true
 */
 CREATE TABLE IF NOT EXISTS Productos(
     ProductoId INT PRIMARY KEY AUTO_INCREMENT,
-    Nombre varchar(50) NOT NULL,
-    Descripcion varchar(50) NOT NULL,
+    Nombre varchar(140) NOT NULL,
+    Descripcion varchar(200) NOT NULL,
     Categoria INT NULL,
     Precio INT NOT NULL,
     Inactivo BOOLEAN DEFAULT 0,
@@ -166,7 +166,6 @@ INSERT INTO DetallePedidoProducto (PedidoId, ProductoId, Cantidad) VALUES
 (3, 8, 1),
 (3, 9, 1);
 /* Fin inserción pedido con id 3 */
-
 
 /* ----------------------------------------
 CONSULTAS DE PRUEBA

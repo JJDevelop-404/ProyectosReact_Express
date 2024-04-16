@@ -5,8 +5,14 @@
 ### Traer todos los usuarios
 GET http://localhost:3003/usuarios/getUsuarios
 
-### Traer usuario por id
-GET http://localhost:3003/usuarios/getUsuario/5
+### Verificar credenciales
+POST https://0dvdkrvn-3003.use2.devtunnels.ms/usuarios/loggin
+Content-Type: application/json
+
+{
+    "usuario": "Austin",
+    "password": "123456789"
+}
 
 ### Traer usuario que sea mesero
 GET http://localhost:3003/usuarios/getMeseros
@@ -130,8 +136,8 @@ DELETE http://localhost:3003/productos/deleteProducto/4
 ### Obetener todos los pedidos
 GET http://localhost:3003/pedidos/getPedidos
 
-### Obtener los pedido de una mesa mandando el id de la mesa
-GET http://localhost:3003/pedidos/getPedidosXMesaId/2
+### Obtener los pedido de un mesero en el dia
+GET http://localhost:3003/pedidos/getPedidosXMeseroId/6
 
 ### Obtener todos los datos de un pedido: n°mesa, mesero, fecha, producto, precio unitario, cantidad, precio total
 GET http://localhost:3003/pedidos/getTotalPedido/2
@@ -156,18 +162,22 @@ Content-Type: application/json
 }
 
 ### Actualizar un Pedido
-PUT http://localhost:3003/pedidos/updatePedido/4
+PUT http://localhost:3003/pedidos/updatePedido/1
 Content-Type: application/json
 
 {
     "lstProductos":[
         {
-            "ProductoId": 1,
-            "Cantidad": 2
+            "ProductoId": 3,
+            "Cantidad": 7
         },
         {
-            "ProductoId": 5,
-            "Cantidad": 3
+            "ProductoId": 7,
+            "Cantidad": 1
+        },
+        {
+            "ProductoId": 8,
+            "Cantidad": 2
         }
     ]
 }
