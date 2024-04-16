@@ -74,3 +74,9 @@ FormCrearEditar (Se arregla bug ya que dejaba escojer la opcion --Seleccione-- y
 (Producto.jsx y Empleado.jsx, se le cambia el initialValue del cbx a null).
 
 5. Actualización de librerias realizada
+
+Actualización 1.0.1 =>
+1. Se crea la funcion de listar todos los pedidos (falta funcionalidad de filtrar por fecha).
+
+2. Se agrega funcionalidad de crear mesa (se debio editar el componente Tabla).
+

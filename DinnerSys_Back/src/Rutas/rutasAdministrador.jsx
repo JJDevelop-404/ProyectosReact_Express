@@ -7,6 +7,7 @@ import Empleado from "../pages/Administrador/gestionEmpleados/Empleado";
 import ListarEmpleados from "../pages/Administrador/gestionEmpleados/ListarEmpleados";
 import ModificarEmpleado from "../pages/Administrador/gestionEmpleados/ModificarEmpleado";
 import ListarMesas from "../pages/Administrador/gestionMesas/ListarMesas";
+import ListarPedidos from "../pages/Administrador/gestionPedidos/ListarPedidos";
 import ListarProductos from "../pages/Administrador/gestionProductos/ListarProductos";
 import ModificarProducto from "../pages/Administrador/gestionProductos/ModificarProducto";
 import Producto from "../pages/Administrador/gestionProductos/Producto";
@@ -63,6 +64,11 @@ export let routesAdmin = ([
             {
                 path: "/Admin/Mesas",
                 element: <ListarMesas />
+            },
+            // RUTAS PEDIDOS
+            {
+                path: "/Admin/Pedidos",
+                element: <ListarPedidos />
             }
         ]
     }

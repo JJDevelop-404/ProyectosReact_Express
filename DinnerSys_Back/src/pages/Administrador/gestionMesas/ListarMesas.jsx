@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import { obtenerMesas } from "../../../API/Mesas";
+import { nuevaMesa, obtenerMesas } from "../../../API/Mesas";
 import Tabla from "../../../components/Tabla";
-
+import { alertaCrearEditar } from "../../../components/FormCrearEditar";
 
 export default function ListarMesas() {
 
@@ -24,9 +24,18 @@ export default function ListarMesas() {
 
     const [lstTitulosTabla] = useState(['N° Mesa', 'Estado']);
 
+    const crearMesa = () => { 
+        nuevaMesa()
+            .then((response) => {
+                response ? alertaCrearEditar('Mesa creada correctamente', 'success', ()=> window.location.reload() )
+                    : alertaCrearEditar('Error al crear mesa', 'error');
+            })
+    };
+
     return (
         <>
-            <Tabla NombreEntidad={'Mesas'} lstDataEntidad={Mesas} lstTitulosTabla={lstTitulosTabla}/>
+            <Tabla NombreEntidad={'Mesas'} lstDataEntidad={Mesas} lstTitulosTabla={lstTitulosTabla} 
+                MostrarAcciones={false} FuncionBtnCrear={crearMesa} />
         </>
     )
 }

@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 import './Tabla.css';
 
 export default function Tabla({ lstTitulosTabla, NombreEntidad, RedireccionBotonCrear, lstDataEntidad,
-    RedireccionBtnEditar, FuncionBtnEliminar }) {
+    RedireccionBtnEditar, FuncionBtnEliminar, MostrarAcciones = true, FuncionBtnCrear }) {
 
     // console.log(lstDataEntidad);
     const navigate = useNavigate();
@@ -46,7 +46,9 @@ export default function Tabla({ lstTitulosTabla, NombreEntidad, RedireccionBoton
         <section className='container-table-component'>
             <h2 className='titulo-tabla'> Listado de {NombreEntidad} </h2>
             <div className='container-btn-tbl-crear'>
-                <Link className='btn-tbl-crear btn btn-success' to={RedireccionBotonCrear}> Crear {NombreEntidad} </Link>
+                {MostrarAcciones ? 
+                <Link className='btn-tbl-crear btn btn-success' to={RedireccionBotonCrear}> Agregar {NombreEntidad} </Link>
+                : <button className='btn-tbl-crear btn btn-success'onClick={FuncionBtnCrear} > Agregar {NombreEntidad} </button> }
             </div>
             <div className="container-tabla table-responsive">
                 <table className="table table-sm table-dark table-bordered">
@@ -55,7 +57,7 @@ export default function Tabla({ lstTitulosTabla, NombreEntidad, RedireccionBoton
                             {lstTitulosTabla && lstTitulosTabla.map((titulo) => (
                                 <th key={titulo}> {titulo} </th>
                             ))}
-                            <th> Acciones </th>
+                            <th hidden={MostrarAcciones === false}> Acciones </th>
                         </tr>
                     </thead>
                     <tbody className='body-tbl align-middle'>
@@ -64,7 +66,7 @@ export default function Tabla({ lstTitulosTabla, NombreEntidad, RedireccionBoton
                                 {Object.keys(data).map((propiedad) => (
                                     <td key={propiedad}> {data[propiedad]} </td>
                                 ))}
-                                <td className='container-btn-acciones'>
+                                <td hidden={MostrarAcciones===false} className='container-btn-acciones'>
                                     <button className='btn btn-primary' onClick={() => onHandleClickEditar(data)}>
                                         Editar
                                     </button>
