@@ -19,35 +19,45 @@ export default function ListarPedidos() {
       });
   }, []);
 
-  const handleFechaFiltroChange = (event) => {
-    console.log(event.target.value);
-    setFechaFiltro(event.target.value);
-  };
+  const [fechaModificada, setFechaModificada] = useState('');
 
-  const filtrarPedidosPorFecha = () => {
-    // Filtrar los pedidos por la fecha ingresada
-    const pedidosFiltrados = pedidos.filter(pedido => pedido.Fecha.includes(fechaFiltro));
-    console.log(pedidosFiltrados);
-    return pedidosFiltrados;
-  };
+  const handleFechaFiltroChange = (event) => {
+    setFechaFiltro(event.target.value);
+  }
+
+  useEffect(() => {
+    let nuevaFecha = fechaFiltro && fechaFiltro.split('-');
+    setFechaModificada(`${nuevaFecha[2]}/${nuevaFecha[1]?.replace('0', '')}/${nuevaFecha[0]}`);
+  }, [fechaFiltro]);
+
+
+  const pedidosFiltrados = pedidos.filter(pe => {
+
+    return fechaModificada ? pe.Fecha.split(',')[0]?.includes(fechaModificada)
+      : pedidos;
+
+  });
+  console.log(pedidosFiltrados);
 
   return (
     <>
-      <div className="filtro-fecha">
+      <div className="container-filtro-fecha-pedidos">
         <input
-          type="text"
-          placeholder="Ingrese la fecha (DD/MM/YYYY)"
+          type="date"
           value={fechaFiltro}
           onChange={handleFechaFiltroChange}
         />
-        <button onClick={filtrarPedidosPorFecha}>Filtrar</button>
+        {/* <select>
+          <option value="mes">Mes</option>
+          <option value="año">Año</option>
+        </select> */}
       </div>
       <div className="container-pedidos-realizados m-3">
-        {pedidos.map((pedido, index) => (
+        {pedidosFiltrados && pedidosFiltrados.map((pedido, index) => (
           <div key={index} className="container-pedido">
             <h1 className="numero-pedido"> <b> PEDIDO N°{pedido.PedidoId} </b> </h1>
             <label className="label-mesero"> <b> {"Mesero: "} </b> {pedido.Mesero} </label>
-            <h4 className="numero-mesa"> <i> <b>Mesa N°</b> {pedido.Mesa} </i> </h4> 
+            <h4 className="numero-mesa"> <i> <b>Mesa N°</b> {pedido.Mesa} </i> </h4>
             <label className="label-fecha-pedido"> {pedido.Fecha} </label>
             <table className="table-productos-pedido">
               <thead>
@@ -73,6 +83,7 @@ export default function ListarPedidos() {
           </div>
         ))}
       </div>
+      {pedidosFiltrados.length === 0 && <h1 className="sin-pedidos-fecha"> No hay pedidos realizados en esta fecha </h1>}
     </>
   )
 }

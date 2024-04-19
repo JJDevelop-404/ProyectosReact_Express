@@ -35,7 +35,8 @@ export default function Login() {
 
   } else if (isAuthenticated && Rol === "administrador") {
     return <Navigate to={`/Admin`} />;
-
+  }else if (isAuthenticated && Rol === "cocina"){
+    return <Navigate to={'/Cocina'}/>
   } else {
     return (
       <div className='container-loggin'>

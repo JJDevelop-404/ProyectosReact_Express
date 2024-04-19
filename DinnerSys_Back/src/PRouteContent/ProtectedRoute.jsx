@@ -22,3 +22,9 @@ export const ProtectedRouteAdmin = ({ redirectTo = '/' }) => {
         return <Navigate to={redirectTo} />
     }
 }
+
+export const ProtectedRouteCocina = ({redirectTo = '/'}) => { 
+    const {isAuthenticated, Rol} = useAuth();
+    return isAuthenticated && Rol === "cocina" ? <Outlet/>
+        : <Navigate to={redirectTo} />
+};

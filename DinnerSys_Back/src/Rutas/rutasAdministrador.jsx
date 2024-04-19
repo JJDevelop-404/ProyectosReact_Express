@@ -14,11 +14,11 @@ import Producto from "../pages/Administrador/gestionProductos/Producto";
 
 export let routesAdmin = ([
     {
-        path: "/Admin",
+        path: "/",
         element: <ProtectedRouteAdmin />,
         children: [
             {
-                path: "/Admin/Home",
+                path: "/Admin",
                 element: <AdminHome />
             },
             // RUTAS EMPLEADOS

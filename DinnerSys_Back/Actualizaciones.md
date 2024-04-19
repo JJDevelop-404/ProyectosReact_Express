@@ -76,7 +76,15 @@ FormCrearEditar (Se arregla bug ya que dejaba escojer la opcion --Seleccione-- y
 5. Actualización de librerias realizada
 
 Actualización 1.0.1 =>
-1. Se crea la funcion de listar todos los pedidos (falta funcionalidad de filtrar por fecha).
+1. Se crea la funcion de listar todos los pedidos (falta funcionalidad de filtrar por mes, año y otros filtros más).
 
-2. Se agrega funcionalidad de crear mesa (se debio editar el componente Tabla).
+2. Se agrega funcionalidad de crear mesa (se debio editar el componente Tabla) (Se le puso una opcion para ver si se mostraban los botones de
+accion (editar - eliminar) ya que en las mesas, esto no se puede realizar).
 
+3. Se crea componente cocina funcional (Se deberá ir el botón de Realizado y mejor ponerselo al mesero).
+
+4. Se crea nueva ruta para cocina, se agrega ruta al main.jsc, se agrega al protected route la condicion de cocina.
+
+5. Se cambia el tiempo para modificar el pedido (1hora maximo) (toca configurar esa opción ya que tiene un error con el numero 12).
+
+6. Se acualiza el loggin también dando acceso a la cocina

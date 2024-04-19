@@ -19,8 +19,9 @@ https://www.youtube.com/watch?v=q4ywr3eZmk0&ab_channel=VidaMRR-Programacionweb
 import { routesGlobals } from './Rutas/rutasGlobales';
 import { routesMesero } from './Rutas/rutasMesero';
 import { routesAdmin } from './Rutas/rutasAdministrador';
+import { routesCocina } from './Rutas/rutasCocina';
 
-let rutas = [{ path: '/', element: <Navbar />, children: [].concat(routesGlobals, routesAdmin, routesMesero) }];
+let rutas = [{ path: '/', element: <Navbar />, children: [].concat(routesGlobals, routesAdmin, routesMesero, routesCocina) }];
 // let rutas = [].concat(routesGlobals, routesAdmin, routesMesero);
 
 rutas = createBrowserRouter(rutas);

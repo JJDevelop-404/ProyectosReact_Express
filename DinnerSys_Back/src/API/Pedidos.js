@@ -12,6 +12,16 @@ export const getPedidos = async () => {
     }
 };
 
+//GetPedidosCocina --> Obtener todos los pedidos del día
+export const getPedidosCocina = async () => { 
+    try {
+        const lstPedidosDia = await axios.get(`${BACK_URL}/pedidos/getPedidosDia`);
+        return lstPedidosDia.status === 200 ? lstPedidosDia.data : null;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 //GetPedidosXMeseroId --> Obtener todos los pedidos de un mesero en el dia actual
 export const getPedidosXMeseroId = async (meseroId) => {
     try {
@@ -37,6 +47,15 @@ export const modificarPedido = async (pedidoId, lstProductos) => {
     try {
         const isUpdate = await axios.put(`${BACK_URL}/pedidos/updatePedido/${pedidoId}`, { lstProductos });
         return isUpdate.status === 201 ? true : false;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const liberarPedido = async (pedidoId) => { 
+    try {
+        const isLiberado = await axios.put(`${BACK_URL}/pedidos/finalizarPedido/${pedidoId}`);
+        return isLiberado.status === 201 ? true : false;
     } catch (error) {
         console.log(error);
     }

@@ -1,8 +1,6 @@
 import Error404 from '../pages/Global/Error404';
 import Login from '../pages/Global/Login';
 
-export let isPagError = false;
-
 export let routesGlobals = ([
     {
         path: "*",

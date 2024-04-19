@@ -30,10 +30,10 @@ export default function PedidosRealizados() {
                         const minutos = parseInt(partesFecha[4]);
                         const horaMinutosNumero = horas * 100 + minutos;
 
-                        console.log(horaMinutosNumero, parseInt(HoraActual));
+                        console.log(parseInt(HoraActual), horaMinutosNumero);
 
                         // Comparar el tiempo del pedido con el tiempo actual
-                        if (parseInt(HoraActual) - horaMinutosNumero <= 10) {
+                        if (parseInt(HoraActual) - horaMinutosNumero <= 100) {
                             nuevosIsEditable.push(true);
                             console.log('Es editable ', pedido.PedidoId);
                         } else {

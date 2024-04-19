@@ -1,0 +1,64 @@
+.container-pedidos-realizados.cocina{
+    color: white !important;
+}
+
+.container-pedidos-realizados.cocina .numero-mesa,
+.container-pedidos-realizados.cocina .label-total-pedido{
+    background-color: rgb(53, 141, 170);
+    padding: 1px 10px;
+}
+
+.container-pedidos-realizados.cocina .label-mesero-pedido,
+.container-pedidos-realizados.cocina .label-fecha-pedido{
+    /* color: #084F7A; */
+    -webkit-text-stroke: .5px #FFF;
+    text-shadow: 0 0 6px #084F7A,
+                0 4px 4px #084F7A,
+                2px 0px 10px #084F7A;
+}
+
+.container-pedidos-realizados.cocina .container-pedido{
+    border-color: rgb(53, 141, 170) !important;
+    background-color: #181818 !important; 
+}
+
+.container-pedidos-realizados.cocina .container-table-pedido{
+    display: flex;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    border-radius: 5px;
+    overflow: hidden;
+    height: max-content !important;
+    width: fit-content;
+}
+
+.container-pedidos-realizados.cocina .container-table-pedido .table-productos-pedido{
+    margin: 0 auto !important;
+    & thead th{
+        border: none !important;
+        background-color: #223B55;
+        font-size: 22px !important;
+    };
+    & tbody td{
+        border: none !important;
+        background-color: #223B55;
+        padding: 7px 15px;
+        border-top: 2px solid #70B8D6 !important;
+        font-size: 20px !important;
+        -webkit-text-stroke: .3px white;
+    }
+}
+
+.container-pedidos-realizados.cocina .container-pedido .btn-liberar-pedido{
+    border: 3px solid #58181e;
+    border-radius: 8px;
+    padding: 0 15px;
+    background-color: #DB3545;
+    font-weight: bold;
+    box-shadow: 0 0 5px #58181e;
+    color: white;
+    transition: .3s ease;
+    &:hover{
+        transform: scale(1.1);
+    }
+}
