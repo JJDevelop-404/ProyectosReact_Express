@@ -22,5 +22,10 @@ menos, agregar uno nuevo si llega nuevo, o sumar la cantidad si llega uno existe
 
 Actualización 1.0.0 =>
 1. Cambios en la entidad Pedidos, ajustes en los get, nueva funcionalidad del update, agrega, quita y edita productos
-
 2. Actualización de librerias
+
+Actualización 1.0.1 =>
+1. Cambio en la tabla pedidos, se agrega el campo "Finalizado" campo que se usará para saber si el pedido ya fue
+entregado a la mesa correspondiente
+2. Se hacen cambios en pedidos, se agrega la función de finalizarPedido para actualizar el campo Finalizado de 0 a 1
+3. 

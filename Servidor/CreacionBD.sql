@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS Pedidos (
     PedidoId INT PRIMARY KEY AUTO_INCREMENT,
     Comentario TEXT DEFAULT NULL,
     FechaPedido DATETIME DEFAULT NOW() NOT NULL,
+    Finalizado BOOLEAN DEFAULT 0,
     MeseroId INT, /* MeseroId puede ser NULL por si se elimina entonces para que no se pierda la info */
     MesaId INT NOT NULL,
     FOREIGN KEY (MeseroId) REFERENCES Usuarios(UsuarioId) ON DELETE SET NULL,
@@ -102,6 +103,7 @@ INSERT INTO Usuarios (Nombres, Apellidos,  Cedula, TipoUsuario) VALUES
 ('Laura Cristina', 'Lopez Acosta', '583024841', 'Mesero'),
 ('Sofia', 'Castillo', '315315', 'Mesero'),
 ('User', 'Test', '12345', 'Mesero'),
+('Cocina', '','000000000', 'Cocina'),
 ('Andres Steven', 'Vivas', '1340589420' ,'Mesero');
 
 /* Inserción tabla Categorias */

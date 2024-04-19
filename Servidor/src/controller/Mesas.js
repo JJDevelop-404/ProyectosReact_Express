@@ -9,7 +9,7 @@ export const getMesas = async (req, res) => {
     try {
         const Mesas = await pool.query('SELECT * FROM Mesas');
         console.log(Mesas);
-        res.status(200).json(Mesas)
+        res.status(200).json(Mesas);
     } catch (error) {
         console.log(error);
         res.status(500).json('Error del servidor', error);
