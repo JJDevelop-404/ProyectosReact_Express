@@ -1,5 +1,6 @@
 import express, { json } from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 import {routerProductos}  from './router/Productos.js';
 import {routerUsuarios}  from './router/Usuarios.js';
@@ -7,7 +8,8 @@ import {routerUsuarios}  from './router/Usuarios.js';
 const app = express();
 const port = 3000;
 
-app.use(cors());
+app.use(cors({credentials: true, origin: true}));
+app.use(cookieParser())
 app.use(json());
 
 app.use('/images/productos', express.static('./src/public/images/productos'));

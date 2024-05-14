@@ -16,12 +16,13 @@ const fileFilter = (req, file, cb) => {
     if (mimetype && extname) {
         return cb(null, true);
     }
-    console.log("hola");
+    console.log("\nERROR, EL ARCHIVO NO ES UN FORMATO DE IMAGEN\n");
     cb("Error: El archivo debe ser una imagen valida");
 }
 
 const fileSize = (req, file, cb) => {
     if (file.size > 2000000) {
+        console.log("\nEL ARCHIVO SUPERA 2MB, NO SE GUARDARA\n");
         return cb("Error: El archivo debe ser menor a 2MB");
     }
     cb(null, true);

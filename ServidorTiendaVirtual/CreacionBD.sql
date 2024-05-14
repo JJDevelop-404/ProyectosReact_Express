@@ -12,7 +12,7 @@ CREATE TABLE Usuarios(
     SegundoNombre varchar(30) NULL DEFAULT '',
     PrimerApellido varchar(50) NOT NULL,
     SegundoApellido varchar(50) NULL DEFAULT '',
-    FechaNacimiento CURRENT_DATE NOT NULL,
+    FechaNacimiento DATE NOT NULL,
     Rol varchar(20) NULL DEFAULT 'cliente'
 );
 

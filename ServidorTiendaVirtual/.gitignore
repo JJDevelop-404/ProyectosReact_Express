@@ -1,2 +1,6 @@
 #Ignoramos la carpeta node_modules
 node_modules/
+
+#Ignoramos los archivos .env y serviceAccountKey.json
+.env
+serviceAccountKey.json

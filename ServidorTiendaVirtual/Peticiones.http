@@ -2,9 +2,20 @@
 ### MOSTRAR PRODUCTOS
 
 GET http://localhost:3000/productos/getProductos
+Authorization: 
 
 
 ### PETICIONES PARA TABLA USUARIOS
+### LOGUEARME
+POST http://localhost:3000/usuarios/VerificarUsuario
+Content-Type: application/json
+
+{
+    "usuario": "carla@cliente.com",
+    "clave": "carla"
+}
+
+
 ### MOSTRAR TODOS LOS USUARIOS
 GET http://localhost:3000/usuarios/getUsuarios
 

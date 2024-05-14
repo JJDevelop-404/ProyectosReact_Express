@@ -1,33 +1,13 @@
+import fs from 'fs';
 import { pool } from '../conexion/conexion.js';
-
-// METODOS POST --- CREATE
-// productos/createProducto --> Funcion para agregar un producto
-export const createProducto = async (req, res) => {
-    console.log("\n\nFuncion: createProducto()");
-
-    try {
-        const { nombre, descripcion, precio } = req.body;
-        const image = 'http://localhost:3000/images/productos/'.concat(req.file.originalname);
-        const isInserted = await pool.query('INSERT INTO productos (Nombre, Descripcion, Precio, URLImagen) ' +
-            'VALUES (?,?,?,?)', [nombre, descripcion, precio, image]);
-        if (isInserted.affectedRows === 1) { // Si se inserto un registro
-            console.log("Producto agregado correctamente");
-            res.status(201).json({ message: "Producto agregado correctamente" });
-        } else { // No se agrego el producto
-            console.log("No se pudo agregar el producto");
-            res.status(200).json({ message: "No se pudo agregar el producto" });
-        }
-    } catch (error) {
-        console.log("Error en createProducto(): " + error.message);
-        res.status(500).json({ Error: "Error en el servidor: " + error.message });
-    }
-}
-
+import { obtenerURLArchivo, uploadImageToFirebase } from './firebase.js';
 
 //  METODOS GET --- READ
 // productos/getProductos --> Funcion para obtener todos los productos
 export const getProductos = async (req, res) => {
     console.log("\n\nFuncion: getProductos()");
+    console.log(req.cookies);
+
     try {
         let lstProductos = await (pool.query('SELECT * FROM productos'));
         console.log(lstProductos);
@@ -62,6 +42,48 @@ export const getProductoById = async (req, res) => {
 }
 
 
+// METODOS POST --- CREATE
+// productos/createProducto --> Funcion para agregar un producto
+export const createProducto = async (req, res) => {
+    console.log("\n\nFuncion: createProducto()");
+    try {
+        const { nombre, descripcion, precio } = req.body;
+        const image = req.file;
+
+        if (!(nombre && descripcion && precio && image)) {
+            return res.status(400).json({ error: 'No se ha proporcionado una imagen' });
+        }
+
+        const buffer = fs.readFileSync(image.path);
+        const uploadSuccess = await uploadImageToFirebase(image, buffer);
+
+        if (!uploadSuccess) {
+            return res.status(500).json({ error: 'Error al subir la imagen a Firebase' });
+        }
+
+        const imageURL = await obtenerURLArchivo(image.originalname);
+
+        if (imageURL === null) {
+            return res.status(500).json({ error: 'Error al obtener la URL de la imagen' });
+        }
+
+        const isInserted = await pool.query('INSERT INTO productos (Nombre, Descripcion, Precio, URLImagen) ' +
+            'VALUES (?,?,?,?)', [nombre, descripcion, precio, imageURL]);
+
+        if (isInserted.affectedRows === 1) {
+            console.log("Producto agregado correctamente");
+            return res.status(201).json({ message: "Producto agregado correctamente" });
+        } else {
+            console.log("No se pudo agregar el producto");
+            return res.status(200).json({ message: "No se pudo agregar el producto" });
+        }
+    } catch (error) {
+        console.log("Error en createProducto(): " + error.message);
+        return res.status(500).json({ Error: "Error en el servidor: " + error.message });
+    }
+};
+
+
 
 // METODOS PUT --- UPDATE
 // productos/updateProducto/:id --> Funcion para modificar un producto
@@ -72,10 +94,10 @@ export const updateProducto = async (req, res) => {
         console.log(req.body);
         const { nombre, descripcion, precio } = req.body;
         let image = req.file;
-        if(image === undefined){
+        if (image === undefined) {
             console.log("No se envio archivo tipo imagen, solo se envio la ruta de la imagen");
             image = null;
-        }else{
+        } else {
             image = 'http://localhost:3000/images/productos/'.concat(req.file.originalname);
         }
         //El COALESCE ES PARA QUE SI NO SE ENVIA UN PARAMETRO, NO SE MODIFIQUE
