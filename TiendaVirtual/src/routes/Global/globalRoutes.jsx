@@ -1,11 +1,14 @@
 import App from "../../App";
-import Login from "../../pages/Admin/Login/Login";
+import FormCreateEdit from "../../components/FormCreateEdit/FormCreateEdit";
+import CrearUsuario from "../../pages/Admin/Usuarios/CrearUsuario";
+import ModificarUsuario from "../../pages/Admin/Usuarios/ModificarUsuario";
+import Login from "../../pages/globalPages/Login/Login";
 import PageError from "../../pages/globalPages/PageError/PageError";
 
 export const globalRoutes = [
     {
         path: '*',
-        element: <PageError/>
+        element: <PageError />
     },
     {
         path: '/',
@@ -17,6 +20,6 @@ export const globalRoutes = [
     },
     {
         path: "/InicioSesion",
-        element: <Login/>
+        element: <Login />
     },
 ]

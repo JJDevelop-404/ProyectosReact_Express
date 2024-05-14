@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
 import { MostrarProductos } from "../../../API/APIProductos";
-import { Link, useNavigate } from 'react-router-dom';
+import TablaListar from "../../../components/TablaListar/TablaListar";
 import './styles/ListarProductos.css';
-import ModificarProducto from "./ModificarProducto";
+import { useAuth } from "../../../auth/AuthProvider/AuthProvider";
 
 
 export default function ListarProductos() {
-    const navigate = useNavigate();
     const [productos, setProductos] = useState([]);
+    console.log(document.cookie);
     useEffect(() => {
         MostrarProductos()
             .then((response) => {
@@ -21,48 +21,20 @@ export default function ListarProductos() {
             })
     }, [])
 
-    const onHandleClickEdit = (producto) => {
-        return navigate(`/admin/productos/${producto.ProductoId}`, { state: producto });
-        //El {state: producto} es para enviar el producto al componente ModificarProducto
-    }
-
     const onHandleClickDelete = (idProducto) => {
         console.log(idProducto);
     }
 
+    const [titlesTable] = useState(['Referencia', 'Nombre', 'Descripcion', 'Precio', 'Imagen']);
+
     return (
-        <div className="lst-productos d-flex justify-content-center align-items-center">
-            <div className="table-responsive">
-                <h1 className="title-basic">Lista de Productos</h1>
-                <table className="table table-striped table-dark">
-                    <thead>
-                        <tr>
-                            <th scope="col">Referencia</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Descripcion</th>
-                            <th scope="col">Precio</th>
-                            <th scope="col">Imagen</th>
-                            <th scope="col">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody className="align-middle">
-                        {productos.map((producto) => (
-                            <tr key={producto.ProductoId}>
-                                <td scope="row">{producto.ProductoId}</td>
-                                <td>{producto.Nombre}</td>
-                                <td>{producto.Descripcion}</td>
-                                <td>{producto.Precio}</td>
-                                <td><img className="img-tillas" src={producto.URLImagen} /> </td>
-                                <td>
-                                    <button className="btn btn-primary" onClick={() => onHandleClickEdit(producto)}>Editar</button>
-                                    <button className="btn btn-danger" onClick={()=> onHandleClickDelete(producto.ProductoId)}> Borrar </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                    <Link to="/Admin/Productos/CrearProducto" className="btn btn-success">Crear Producto</Link>
-                </table>
-            </div>
+        <div className="listar-productos">
+            <TablaListar 
+                lstTitlesTable={titlesTable} 
+                lstDataEntity={productos} nameEntity={'Productos'}
+                redirectionBtnCreate={'/Admin/Productos/CrearProducto'} redirectionBtnEdit={'/Admin/Productos'} 
+                functionBtnDelete={onHandleClickDelete}
+            />
         </div>
     )
 }

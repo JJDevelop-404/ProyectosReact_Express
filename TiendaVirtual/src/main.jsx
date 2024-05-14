@@ -20,8 +20,9 @@ import { adminRoutes } from './routes/Admin/adminRoutes.jsx';
 import { globalRoutes } from './routes/Global/globalRoutes.jsx';
 import { AuthProvider } from './auth/AuthProvider/AuthProvider.jsx';
 
-let routes = [{ path: '/', element: <Navbar />, children: [].concat(adminRoutes, globalRoutes) }];
 //Hacemos esto para que el Navbar SIEMPRE aparezca en pantalla
+let routes = [{ path: '/', element: <Navbar />, children: [].concat(adminRoutes, globalRoutes) }];
+
 routes = createBrowserRouter(routes); 
 
 ReactDOM.createRoot(document.getElementById('root')).render(

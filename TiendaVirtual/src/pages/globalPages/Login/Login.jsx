@@ -1,15 +1,16 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './style/Login.css';
 import { useFormik } from 'formik'; // Para el manejo de formularios
 import { useState } from 'react';
 import * as Yup from 'yup'; // Para validar los datos ingresados
 import { faCheck, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../auth/AuthProvider/AuthProvider';
+import './style/Login.css';
+import { login } from '../../../API/APIUsuarios';
 
 export default function Login() {
 
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, setIsAuthenticated } = useAuth();
 
     const [inputActivo, setInputActivo] = useState(''); // Para el manejo del mensaje de error de los inputs
     const navigate = useNavigate();
@@ -20,25 +21,35 @@ export default function Login() {
             clave: "",
         },
         validationSchema: Yup.object(validationSchema()),
+
         onSubmit: (formData) => {
-            if (formData.usuario === 'admin@admin.com' && formData.clave === 'juanjose') {
-                localStorage.setItem('Admin', JSON.stringify({ Rol: 'Admin' }));
-                window.location.reload();
-                navigate('/Admin/Productos');
-            } else {
-                alert('Usuario o contraseña incorrectos');
+            const usuario = {
+                usuario: formData.usuario,
+                clave: formData.clave
             }
+
+            login(usuario)
+                .then(response => {
+                    if (response) {
+                        // localStorage.setItem("User", JSON.stringify(response));
+                        console.log(response);
+                        // setIsAuthenticated(true);
+                    } else {
+                        alert("Usuario o contraseña incorrectos");
+                    }
+                });
+
         }
     });
 
     if (!isAuthenticated) {
         return (
-            <div className="d-flex justify-content-center align-items-center"> {/* Esto es para centrar el contenido  */}
-                <div className='col-md-4'> {/* Esto es para el tamño de los input  */}
+            <div className="container-loggin justify-content-center align-items-center"> {/* Esto es para centrar el contenido  */}
+                <div className='form-loggin'>
                     <h1 className='login-title'>Iniciar Sesión</h1>
                     <form onSubmit={formik.handleSubmit}>
                         <div className='form-group'>
-                            <input type="text" name="usuario" className="form-control" required defaultValue={'@admin.com'} autoComplete='off'
+                            <input type="text" name="usuario" className="form-control" required defaultValue={'@admin.com'}
                                 onFocus={() => setInputActivo('usuario')}
                                 onBlur={() => setInputActivo('')}
                                 onChange={formik.handleChange}
@@ -57,7 +68,7 @@ export default function Login() {
                             {inputActivo === 'clave' && <span className='error-msj'> {formik.errors.clave} </span>}
                         </div>
                         <br />
-                        <button type='submit' className='btn btn-success'> Iniciar Sesión </button>
+                        <button type='submit' className='btn-loggin btn btn-success'> Iniciar Sesión </button>
                     </form>
                 </div>
             </div>
@@ -71,7 +82,7 @@ export default function Login() {
     function validationSchema() {
         return {
             usuario: Yup.string().email("Ingrese un correo válido").required("El correo es obligatorio"),
-            clave: Yup.string().required("La contraseña es obligatoria").min(6, "La contraseña debe tener mínimo 6 caracteres")
+            clave: Yup.string().required("La contraseña es obligatoria")
         };
     };
 

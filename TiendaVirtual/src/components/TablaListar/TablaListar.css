@@ -1,0 +1,45 @@
+.component-tabla-listar {
+    margin: 3vh;
+}
+
+.component-tabla-listar .title-table-list{
+    font-family: 'Tilt Neon';
+    color: #000;
+    font-size: 6vh;
+    font-weight: bold;
+    text-align: center;
+}
+
+.component-tabla-listar .container-tabla-listar {
+    /* border: 2px solid red; */
+    overflow-y: hidden;
+    border-radius: 10px !important;
+    margin: 10px 0;
+}
+
+.component-tabla-listar .container-tabla-listar .tabla-listar {
+    margin: 0 auto !important;
+    width: 100% !important;
+}
+
+.component-tabla-listar .container-tabla-listar .tabla-listar tbody td {
+    padding: 3px 0 !important;
+    align-items: center;
+}
+
+.component-tabla-listar .container-tabla-listar .tabla-listar tbody td .img-into-table {
+    position: relative;
+    width: 80px;
+    /* padding: 10px 0; */
+    transition: .7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.component-tabla-listar .container-tabla-listar .tabla-listar tbody .container-btn-acciones-tbl {
+    text-wrap: nowrap;
+
+    & .btn-tbl-listar-editar,
+    .btn-tbl-listar-eliminar {
+        margin: 0 2px !important;
+        padding: 0 5px !important;
+    }
+}

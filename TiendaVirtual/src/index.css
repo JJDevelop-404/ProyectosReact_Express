@@ -24,6 +24,7 @@ body {
 .card {
   margin-bottom: 10%;
   border-radius: 10px 10px 10px 10px !important;
+  max-width: 300px; /* Para configurar el tamaño maximo de la tarjeta */
 }
 
 /* Ponemos borde a nuestro cuerpo de las tarjetas */
@@ -35,32 +36,10 @@ body {
 
 /* FIN ESTILOS GLOBALES PARA TARJETAS */
 
-
-/* ESTILOS PARA LOS FORMULARIOS */
-.d-flex {
-  height: 90vh;
-  max-width: 98%;
-  margin: auto;
-  color: white;
-}
-
-.form-title {
-  font-size: 30px;
-  margin-bottom: 30px;
-}
+/* INICIO ESTILOS INPUTS FORMULARIOS CON CLASE form-control */
 
 .form-group {
   position: relative;
-}
-
-/* Esto es para darle estilo a todo el formulario en si */
-.col-md-4 {
-  box-sizing: content-box;
-  text-align: center;
-  color: white;
-  background-color: #464646;
-  border-radius: 10px;
-  padding: 40px;
 }
 
 /* Esto es para darle estilo a los label del formulario */
@@ -104,7 +83,7 @@ body {
 .form-control:valid~.form-label {
   top: -10px;
   left: 0;
-  color: white;
+  color: gray;
   font-size: 14px;
 }
 
@@ -118,7 +97,12 @@ body {
   box-shadow: none;
 }
 
-/* HASTA AQUI LLEGA LA CREACION DE FORMULARIOS */
+
+.form-label .ok,
+.form-label .error {
+  float: inline-end;
+  margin-right: 20px;
+}
 
 /* ESTILO A LAS TABLAS */
 
@@ -139,12 +123,6 @@ body {
 }
 
 /* HASTA AQUI LLEGA ESTILOS A LAS TABLA */
-
-/* Para darle estilo a los botones de bootstrap */
-.btn {
-  margin: 20px;
-  font-size: 18px;
-}
 
 /* Mensaje de bien */
 .ok {

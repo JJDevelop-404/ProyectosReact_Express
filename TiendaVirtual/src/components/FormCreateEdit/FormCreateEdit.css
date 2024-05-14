@@ -1,0 +1,49 @@
+.form-label-file {
+    display: block;
+    color: white;
+    text-align: left;
+}
+
+.form-title {
+    font-size: 30px;
+    margin-bottom: 30px;
+}
+
+
+.form-group.drag-drop-image {
+    display: inline-block;
+    margin-top: 25px;
+    margin-bottom: 5px;
+    height: 100px;
+    width: 120px;
+    border: 2px solid gray;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.form-group.drag-drop-image .form-control[type="file"] {
+    position: absolute;
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.form-group.drag-drop-image:hover,
+.form-group.drag-drop-image-dragging {
+    background-color: transparent;
+    border: 2px dashed gray;
+}
+
+.form-group.drag-drop-image .text-upload {   
+    color: gray;
+}
+
+.form-group.drag-drop-image .img-drop{
+    width: 120px; /* Ancho deseado del contenedor */
+    height: 100px; /* Altura deseada del contenedor */
+}

@@ -9,6 +9,7 @@
     width: 100%;
     z-index: 2;
     transition: .4s all ease-in;
+    margin-bottom: 5vh;
 }
 
 /* La barra de navegación global */

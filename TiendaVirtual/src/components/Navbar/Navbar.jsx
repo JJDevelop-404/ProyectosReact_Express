@@ -2,13 +2,13 @@ import { Link, Outlet } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthProvider/AuthProvider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt, faUser} from '@fortawesome/free-solid-svg-icons';
-import './styles/Navbar.css';
+import './Navbar.css';
 
 export default function Navbar() {
     const { Rol, isAuthenticated, setIsAuthenticated } = useAuth();
+    
     const onHandleClick = () => {
         setIsAuthenticated(false);
-        window.location.reload();
     }
 
     return (
@@ -50,21 +50,9 @@ export default function Navbar() {
                             }
                             {Rol === "Admin" &&
                                 <li className="nav-item dropdown">
-                                    <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <Link to={'/Admin/Productos'} className="nav-link">
                                         Productos
-                                    </a>
-                                    <ul className="dropdown-menu">
-                                        <li>
-                                            <Link to="/Admin/Productos" className="dropdown-item">
-                                                Ver Productos
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link to="/Admin/Productos/CrearProducto" className="dropdown-item">
-                                                Crear Producto
-                                            </Link>
-                                        </li>
-                                    </ul>
+                                    </Link>
                                 </li>
                             }
                         </ul>

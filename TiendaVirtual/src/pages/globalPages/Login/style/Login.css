@@ -1,0 +1,32 @@
+/* Styles for the container of thw loggin form */
+.container-loggin{
+    /* This is only for this form because is only one */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Styles for the form that loggin */
+.container-loggin .form-loggin{
+    background-color: #464646;
+    width: 300px;
+    max-width: 300px;
+    padding: 15px 30px;
+    border-radius: 10px;
+}
+
+/* Styles for title to the form */
+.container-loggin .login-title {
+    color: #FFF;
+    text-align: center;
+    font-family: 'Tilt Neon', sans-serif;
+    margin-bottom: 50px;
+}
+
+/* Styles for the button that the loggin */
+.container-loggin .btn-loggin{
+    font-size: 20px;
+    margin: 10px 0 !important;
+    padding: 0 7px;
+}

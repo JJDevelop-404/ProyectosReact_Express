@@ -19,7 +19,7 @@ export default function InicioTienda() {
                     Tienda Virtual
                 </h1>
                 <div className='row row-cols'>
-                    {lstProductos.map((producto) => (
+                    {lstProductos.length > 0 && lstProductos.map((producto) => (
                         <Card key={producto.ProductoId} producto={producto} />
                     ))}
                 </div>
