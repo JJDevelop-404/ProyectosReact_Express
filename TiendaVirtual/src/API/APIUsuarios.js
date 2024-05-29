@@ -1,21 +1,27 @@
-import axios from 'axios';
-import { BACK_URL } from '../Utils/conection.js';
+import { api } from '../Utils/conection.js';
 
-axios.defaults.withCredentials = true;
-
-export const login = async (usuario) => { 
+export const login = async (usuario) => {
     try {
-        const login = await axios.post(`${BACK_URL}/usuarios/VerificarUsuario`, usuario);
-        console.log(login.data);
-        return login.status === 200 ? login.data : null;
+        const login = await api.post(`/usuarios/VerificarUsuario`, usuario);
+        console.log(login.data.userSet);
+        return login.status === 200 ? login.data.userSet : null;
     } catch (error) {
         console.log(error);
     }
 };
 
-export const getUsuarios = async () => { 
+export const logout = async () => {
     try {
-        const usuarios = await axios.get(`${BACK_URL}/usuarios/getUsuarios`);
+        const isLogout = await api.get(`/usuarios/logout`);
+        return isLogout.status === 200 ? true : false;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getUsuarios = async () => {
+    try {
+        const usuarios = await api.get(`/usuarios/getUsuarios`);
         return usuarios.status === 200 ? usuarios.data : [];
     } catch (error) {
         console.log(error);

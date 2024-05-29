@@ -18,3 +18,14 @@
 
 De resto han sido cambios estéticos y meramente visuales y se actualizaron librerias y se instalaron unas nuevas
 como sweetalert2 para las alertas personalizadas y demás
+
+# Actualización 0.0.1.0
+1. Se arreglan los componentes TablaListar y FormCreateEdit.
+
+2. Se crea un sólo objeto de axios para usarlo en todas las rutas.
+
+3. Se ajustan estilos del componente Card y ya se renderiza solo pansandole la lista de productos.
+
+4. Se ajusta funcion de CrearProducto y ModificarProducto.
+
+5. Algunos ajustes de estilos extra y nuevas fuentes agregadas de google fonts.

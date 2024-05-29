@@ -6,7 +6,7 @@ import FormCreateEdit from '../../../components/FormCreateEdit/FormCreateEdit';
 import './styles/CrearProducto.css';
 import { useNavigate } from 'react-router-dom';
 
-export default function CrearProducto({ titulo, producto, accion =  producto ? 'modificar' : 'crear'}) {
+export default function CrearProducto({ producto, accion = producto ? 'modificar' : 'crear' }) {
 
   const navigate = useNavigate();
 
@@ -30,9 +30,9 @@ export default function CrearProducto({ titulo, producto, accion =  producto ? '
             console.log('Crear');
             AgregarProducto(newProducto)
               .then((response) => {
-                if(response){
+                if (response) {
                   alert("Producto Creado");
-                  navigate('/admin/productos'); 
+                  navigate('/admin/productos');
                 }
               })
             break;
@@ -40,7 +40,7 @@ export default function CrearProducto({ titulo, producto, accion =  producto ? '
           case 'modificar': {
             console.log('Modificar');
             ModificarProducto(newProducto, producto.productoId).then((response) => {
-              if(response){
+              if (response) {
                 alert("Producto Modificado");
                 navigate('/admin/productos');
 
@@ -50,9 +50,9 @@ export default function CrearProducto({ titulo, producto, accion =  producto ? '
             })
             break;
           }
-
         }
-      }else{
+
+      } else {
         alert("Debe seleccionar una imagen para el producto");
       }
     }

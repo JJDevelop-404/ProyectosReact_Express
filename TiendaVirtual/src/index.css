@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Belanosima&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap');
 
 body {
   background-color: #C5CAC4 !important;
@@ -19,22 +20,6 @@ body {
   border-bottom: 2px solid #232323;
   overflow: hidden;
 }
-
-/* ESTILOS GLOBALES PARA LAS TARJETAS */
-.card {
-  margin-bottom: 10%;
-  border-radius: 10px 10px 10px 10px !important;
-  max-width: 300px; /* Para configurar el tamaño maximo de la tarjeta */
-}
-
-/* Ponemos borde a nuestro cuerpo de las tarjetas */
-.card-body {
-  border-radius: 0 0 10px 10px;
-  background-color: rgba(39, 38, 38, 0.814) !important;
-  color: white;
-}
-
-/* FIN ESTILOS GLOBALES PARA TARJETAS */
 
 /* INICIO ESTILOS INPUTS FORMULARIOS CON CLASE form-control */
 

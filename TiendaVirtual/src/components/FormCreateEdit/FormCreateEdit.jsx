@@ -14,18 +14,17 @@ export default function FormCreateEdit({ nameEntity, lstNameLabels, lstInputsFil
   // console.log(lstPropsFormikFile);
   const [inputActive, setInputActive] = useState('');
 
-  const [image, setImage] = useState(dataEntity ? lstPropsFormikFile.map(prop => dataEntity[prop]) : []);
+  const [image, setImage] = useState(dataEntity ? lstPropsFormikFile.map(prop => dataEntity[prop]).toString() : []);
 
   //This variable is used for show the image in screen
-  const [contentUpload, setContentUpload] = useState(dataEntity ? lstPropsFormikFile.map(prop => dataEntity[prop]) : []);
+  const [contentUpload, setContentUpload] = useState(dataEntity ? lstPropsFormikFile.map(prop => dataEntity[prop]).toString() : null);
   // console.log(contentUpload);
 
   //This function is for show the image in screen when is dragged or selected
   const onHandleDrag = (ev) => {
-
     if (ev.target.files[0]) {//Ask if exist a image
 
-      setImage([...image, ev.target.files[0]]); //We add the image to image
+      setImage(ev.target.files[0]); //We add the image to image
 
       //If exist a image, we create a object of type FileReader
       const reader = new FileReader();
@@ -33,17 +32,17 @@ export default function FormCreateEdit({ nameEntity, lstNameLabels, lstInputsFil
       reader.readAsDataURL(ev.target.files[0]);
       reader.onload = (ev) => {
         ev.preventDefault();
-        setContentUpload([...contentUpload, ev.target.result]); // We add the image to contentUpload
+        setContentUpload(ev.target.result); // We add the image to contentUpload
       };
     } else {
       //If not exist a image, we add a null to contentUpload
-      setContentUpload([...contentUpload, null]);
+      setContentUpload(null);
     }
   };
 
-  function onHandleSubmit(ev){
+  function onHandleSubmit(ev) {
     ev.preventDefault();
-    lstPropsFormikFile.map((propFile, index) => formik.values[propFile] = image[index]);
+    lstPropsFormikFile.map((propFile) => formik.values[propFile] = image);
     formik.handleSubmit();
   }
 
@@ -83,7 +82,7 @@ export default function FormCreateEdit({ nameEntity, lstNameLabels, lstInputsFil
                   {/* <p className='text-danger'> { console.log(contentUpload[index])} </p> */}
 
                   <div className="text-upload">
-                    {formik.values[lstPropsFormikFile[index]] ? <img src={contentUpload[index]} alt='image' className='img-drop' /> : <p> Arrastre o seleccione una imagen </p>}
+                    {formik.values[lstPropsFormikFile[index]] ? <img src={contentUpload} alt='image' className='img-drop' /> : <p> Arrastre o seleccione una imagen </p>}
                   </div>
 
 
@@ -92,7 +91,7 @@ export default function FormCreateEdit({ nameEntity, lstNameLabels, lstInputsFil
                 {inputActive === lstPropsFormikFile[index] && <span className="error-msj"> {formik.errors[lstPropsFormikFile[index]]} </span>}
               </div>
             ))}
-            <button type='submit' className='btn btn-success d-block'> Agregar {nameEntity} </button>
+            <button type='submit' className='btn btn-success d-block'> {dataEntity ? 'Modificar' : 'Agregar'} {nameEntity} </button>
           </form>
 
         </div>

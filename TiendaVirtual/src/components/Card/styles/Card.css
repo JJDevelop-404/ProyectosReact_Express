@@ -1,36 +1,89 @@
-.card{
-    overflow: hidden;
+.container-card-component {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0.4vh;
+    /* border: 2px solid white; */
 }
 
-.img-contenedor{
+.container-card-component .col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-card-component .card {
+    padding: 0 !important;
+    margin: 1.5vh 0.3vh !important;
+    min-width: 180px;
+    max-width: 200px;
+    border-radius: 10px 10px 10px 10px !important;
+    overflow: hidden;
+    /* border: 2px solid blue; */
+}
+
+.container-card-component .card .img-contenedor {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px !important;
     background-color: #66666630;
 }
-.card-img-top{
-    align-items: center;
-    justify-content: center;
-    width: 18rem;
-    height: 12rem;
-    object-fit: cover;
-    filter: drop-shadow(0px 4px 4px black);
-}
 
-.card-title{
-    border-bottom: 2px solid #fff;
-    padding-bottom: 2px;
-    width: fit-content;
-}
-
-.btn-shopping-cart{
+.container-card-component .card .img-contenedor .btn-shopping-cart {
+    display: flex;
+    position: absolute !important;
+    top: 80%;
+    left: 78%;
+    background-color: #4f4e4eff;
     outline: none;
     border: none;
-    display: flex;
-    float: right;
-    border-radius: 6px;
-    padding: 5px;
-    border: 3px solid black;
+    opacity: 0.4;
+    border-radius: 4px;
+    padding: 4px 3px !important;
+    color: white;
+    transition: all 0.7s ease;
 }
-.ShoppingCart{
-    display: inline;
-    float: right;
-    font-size: 20px;
+
+.container-card-component .card .img-contenedor .btn-shopping-cart:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.container-card-component .card .img-contenedor .ShoppingCart {
+    font-size: 15px;
+}
+
+.container-card-component .card-img-top {
+    object-fit: contain;
+}
+
+/* INICIO ESTILOS PARA EL BODY DE LA TARJETA */
+.container-card-component .card-body {
+    z-index: 99;
+    padding: 0 1.3vh !important;
+    min-height: 100px;
+    max-height: 100px;
+    border-radius: 0 0 10px 10px;
+    background-color: #4f4e4eff !important;
+    color: white;
+}
+/* Estilos para el titulo del card-body */
+.container-card-component .card-title {
+    padding-top: 4px;
+    padding-bottom: 2px;
+    border-bottom: 2px solid #fff;
+}
+/* Estilos generales para los textos de la tarjeta */
+.container-card-component .card-body .card-text {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+    text-transform: capitalize;
+    font-family: "Nanum Gothic Coding", monospace;
+    -webkit-text-stroke: 0.1px #fff;
+    font-size: 13px;
 }

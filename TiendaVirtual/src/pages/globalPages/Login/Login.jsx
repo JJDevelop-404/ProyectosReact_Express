@@ -5,12 +5,12 @@ import * as Yup from 'yup'; // Para validar los datos ingresados
 import { faCheck, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../auth/AuthProvider/AuthProvider';
-import './style/Login.css';
 import { login } from '../../../API/APIUsuarios';
+import './style/Login.css';
 
 export default function Login() {
 
-    const { isAuthenticated, setIsAuthenticated } = useAuth();
+    const { isAuthenticated, setIsAuthenticated, setRol } = useAuth();
 
     const [inputActivo, setInputActivo] = useState(''); // Para el manejo del mensaje de error de los inputs
     const navigate = useNavigate();
@@ -31,9 +31,9 @@ export default function Login() {
             login(usuario)
                 .then(response => {
                     if (response) {
-                        // localStorage.setItem("User", JSON.stringify(response));
-                        console.log(response);
-                        // setIsAuthenticated(true);
+                        sessionStorage.setItem("User", JSON.stringify(response));
+                        // console.log(response);
+                        setIsAuthenticated(true);
                     } else {
                         alert("Usuario o contraseña incorrectos");
                     }

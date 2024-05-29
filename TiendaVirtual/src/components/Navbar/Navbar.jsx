@@ -48,7 +48,7 @@ export default function Navbar() {
                                     </ul>
                                 </li>
                             }
-                            {Rol === "Admin" &&
+                            {Rol.includes("admin") &&
                                 <li className="nav-item dropdown">
                                     <Link to={'/Admin/Productos'} className="nav-link">
                                         Productos

@@ -7,7 +7,6 @@ import { useAuth } from "../../../auth/AuthProvider/AuthProvider";
 
 export default function ListarProductos() {
     const [productos, setProductos] = useState([]);
-    console.log(document.cookie);
     useEffect(() => {
         MostrarProductos()
             .then((response) => {
@@ -29,10 +28,10 @@ export default function ListarProductos() {
 
     return (
         <div className="listar-productos">
-            <TablaListar 
-                lstTitlesTable={titlesTable} 
+            <TablaListar
+                lstTitlesTable={titlesTable}
                 lstDataEntity={productos} nameEntity={'Productos'}
-                redirectionBtnCreate={'/Admin/Productos/CrearProducto'} redirectionBtnEdit={'/Admin/Productos'} 
+                redirectionBtnCreate={'/Admin/Productos/CrearProducto'} redirectionBtnEdit={'/Admin/Productos'}
                 functionBtnDelete={onHandleClickDelete}
             />
         </div>

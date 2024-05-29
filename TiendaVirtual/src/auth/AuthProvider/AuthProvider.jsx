@@ -1,40 +1,41 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { logout } from "../../API/APIUsuarios";
 
 const AuthContext = createContext({ // Crea un contexto de autenticación
     isAuthenticated: false,
     setIsAuthenticated: ()=>{},
     Nombre: "",
-    Rol: "",
+    Rol: ""
 });
 
 export const useAuth = () => useContext(AuthContext); // Hook para obtener el contexto de autenticación
 
 
 export function AuthProvider({ children }) { // Proveedor de autenticación
-    // console.log(document.cookie);
 
     const [isAuthenticated, setIsAuthenticated] = useState(
-        localStorage.getItem("User") 
+        sessionStorage.getItem("User") ? true : false
     );
 
-    if (!isAuthenticated) {
-        localStorage.clear();
+    if(!isAuthenticated){
+        sessionStorage.clear();
+        logout();
     }
 
     const userData = useMemo(() => {
-        // console.log("Calculating user data...");
         if (isAuthenticated) {
-            const DataUsuario = JSON.parse(localStorage.getItem("User"));
+            const DataUsuario = JSON.parse(sessionStorage.getItem("User"));
             return {
                 Nombre: DataUsuario.Nombre,
-                Rol: DataUsuario.Rol
+                Rol: DataUsuario.Rol.toLowerCase(),
             };
         }
         return {
-            Rol: "",
             Nombre: "",
+            Rol: ""
         };
     }, [isAuthenticated]);
+
     console.log("User Data: ", userData);
 
     return (
