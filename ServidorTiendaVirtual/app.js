@@ -3,9 +3,9 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { config } from 'dotenv';
 
-import {routerProductos}  from './router/Productos.js';
-import {routerUsuarios}  from './router/Usuarios.js';
-import { getConnection } from './conexion/conexion.js';
+import {routerProductos}  from './src/router/Productos.js';
+import {routerUsuarios}  from './src/router/Usuarios.js';
+import { getConnection } from './src/conexion/conexion.js';
 
 config();
 
