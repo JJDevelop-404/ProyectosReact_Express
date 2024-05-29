@@ -18,6 +18,7 @@ CREATE TABLE Usuarios(
 
 /* Insercion Tabla Usuarios */
 INSERT INTO Usuarios(PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, FechaNacimiento) VALUES
+('Juan', 'Jose', 'Marin', '', '2000-06-08'),
 ('Fernanda', '', 'Calderon', 'Chicaiza', '2001-06-23'),
 ('Luis', 'Fernando', 'Sanchez', 'Rodriguez', '1983-02-12'),
 ('María', 'Isabel', 'García', 'López', '1995-09-08'),
@@ -51,4 +52,14 @@ CREATE TABLE Productos(
     Descripcion varchar(100) NOT NULL,
     Precio DECIMAL(10,2) NOT NULL,
     URLImagen varchar(200) NOT NULL
-)
+);
+
+
+CREATE TABLE Carrito(
+    CarritoId INT PRIMARY KEY AUTO_INCREMENT,
+    Cantidad INT NOT NULL,
+    UsuarioId INT NOT NULL,
+    ProductoId INT NOT NULL,
+    FOREIGN KEY (ProductoId) REFERENCES Productos(ProductoId),
+    FOREIGN KEY (UsuarioId) REFERENCES Usuarios(UsuarioId)
+);

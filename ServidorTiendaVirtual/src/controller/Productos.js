@@ -94,15 +94,24 @@ export const updateProducto = async (req, res) => {
         console.log(req.body);
         const { nombre, descripcion, precio } = req.body;
         let image = req.file;
-        if (image === undefined) {
-            console.log("No se envio archivo tipo imagen, solo se envio la ruta de la imagen");
-            image = null;
-        } else {
-            image = 'http://localhost:3000/images/productos/'.concat(req.file.originalname);
+
+        const buffer = fs.readFileSync(image.path); // Se lee la imagen
+        const uploadSuccess = await uploadImageToFirebase(image, buffer); // Se sube la imagen a firebase
+
+        if (!uploadSuccess) {
+            // Si no se subio la imagen a firebase se retorna un error
+            return res.status(500).json({ error: 'Error al subir la imagen a Firebase' });
         }
+
+        const imageURL = await obtenerURLArchivo(image.originalname); // Se obtiene la URL de la imagen subida a firebase
+        
+        if (imageURL === null) {
+            return res.status(500).json({ error: 'Error al obtener la URL de la imagen' });
+        }
+
         //El COALESCE ES PARA QUE SI NO SE ENVIA UN PARAMETRO, NO SE MODIFIQUE
         const isUpdate = await pool.query('UPDATE Productos SET Nombre = COALESCE(?, Nombre), Descripcion = COALESCE(?, Descripcion), '
-            + ' Precio = COALESCE(?, Precio), URLImagen = COALESCE(?,URLImagen) WHERE ProductoId = ?', [nombre, descripcion, precio, image, ProductoId]);
+            + ' Precio = COALESCE(?, Precio), URLImagen = COALESCE(?,URLImagen) WHERE ProductoId = ?', [nombre, descripcion, precio, imageURL, ProductoId]);
 
         if (isUpdate.affectedRows === 1) {
             console.log("Producto modificado correctamente");

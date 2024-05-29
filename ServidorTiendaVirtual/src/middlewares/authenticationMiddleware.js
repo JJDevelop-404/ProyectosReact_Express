@@ -4,12 +4,13 @@ import { verifyToken } from "../helpers/generateToken.js";
 export const userAuth = async (req, res, next) => {
     console.log("\n\nFuncion: authorization()");
 
-    const token = req.headers['authorization']; //Obtenemos el token
+    const {token} = req.cookies; //Obtenemos el token
+    console.log(token);
 
     try {
         if (token) {
 
-            const isAuth = await verifyToken(token);
+            const isAuth = verifyToken(token);
             if (isAuth) {
                 console.log("Usuario autorizado");
                 req.user = isAuth;

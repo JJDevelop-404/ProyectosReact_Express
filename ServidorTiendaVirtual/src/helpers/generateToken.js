@@ -8,6 +8,6 @@ export const generateAccessToken = (user) => {
     return jwt.sign(user, process.env.SECRET_TOKEN, { expiresIn: '24h'});
 };
 
-export const verifyToken = async (token) => {
+export const verifyToken = (token) => {
     return jwt.verify(token, process.env.SECRET_TOKEN);
 }
