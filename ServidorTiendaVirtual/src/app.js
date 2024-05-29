@@ -1,13 +1,16 @@
 import express, { json } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import { config } from 'dotenv';
 
 import {routerProductos}  from './router/Productos.js';
 import {routerUsuarios}  from './router/Usuarios.js';
 import { getConnection } from './conexion/conexion.js';
 
+config();
+
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 //Chequeamos la conexion a la base de datos
 await getConnection();

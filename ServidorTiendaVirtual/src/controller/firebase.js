@@ -2,12 +2,12 @@ import { initializeApp } from 'firebase/app';
 import { getStorage, uploadBytes } from 'firebase/storage';
 import admin from 'firebase-admin';
 import { getDownloadURL, ref } from 'firebase/storage';
-import fs, { readFileSync } from 'fs';
+import fs from 'fs';
+import { config } from 'dotenv';
 
+config();
 
-const serviceAccountPath = './src/serviceAccountKey.json';
-
-const serviceAccount = JSON.parse(readFileSync(serviceAccountPath, 'utf-8'));
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
 
 /* console.log(serviceAccount); */
 const firebaseApp = initializeApp({
