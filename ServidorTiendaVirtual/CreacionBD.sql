@@ -17,6 +17,7 @@ CREATE TABLE Usuarios(
 );
 
 /* Insercion Tabla Usuarios */
+ALTER TABLE Usuarios AUTO_INCREMENT = 1;
 INSERT INTO Usuarios(PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, FechaNacimiento) VALUES
 ('Juan', 'Jose', 'Marin', '', '2000-06-08'),
 ('Fernanda', '', 'Calderon', 'Chicaiza', '2001-06-23'),
@@ -37,13 +38,14 @@ CREATE TABLE DatosAcceso(
 
 /* Insercion Tabla Datos Acceso */
 INSERT INTO DatosAcceso(UsuarioId, Correo, Contrasena) VALUES
-(1, 'fernanda@cliente.com', 'fernanda'), 
-(2, 'luis@cliente.com', 'luis'), 
-(3, 'maria@cliente.com', 'maria'),
-(4, 'pedro@cliente.com', 'pedro'),
-(5, 'ana@cliente.com', 'ana'),
-(6, 'javier@cliente.com', 'javier'),
-(7, 'carla@cliente.com', 'carla');
+(1, 'juanjose@admin.com', 'juanjose'),
+(2, 'fernanda@cliente.com', 'fernanda'), 
+(3, 'luis@cliente.com', 'luis'), 
+(4, 'maria@cliente.com', 'maria'),
+(5, 'pedro@cliente.com', 'pedro'),
+(6, 'ana@cliente.com', 'ana'),
+(7, 'javier@cliente.com', 'javier'),
+(8, 'carla@cliente.com', 'carla');
 
 /* Tabla Productos */
 CREATE TABLE Productos(
@@ -54,7 +56,7 @@ CREATE TABLE Productos(
     URLImagen varchar(200) NOT NULL
 );
 
-
+/* Tabla Carrito */
 CREATE TABLE Carrito(
     CarritoId INT PRIMARY KEY AUTO_INCREMENT,
     Cantidad INT NOT NULL,

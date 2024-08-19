@@ -2,23 +2,25 @@ import { initializeApp } from 'firebase/app';
 import { getStorage, uploadBytes } from 'firebase/storage';
 import admin from 'firebase-admin';
 import { getDownloadURL, ref } from 'firebase/storage';
-import fs from 'fs';
+import { getFirestore } from 'firebase/firestore';
 import { config } from 'dotenv';
 
+//Esto es para cargar las variables de entorno
 config();
-
+//Obtenemos nuestra variable de entorno
 const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
 
-/* console.log(serviceAccount); */
 const firebaseApp = initializeApp({
+    projectId: 'tiendavirtualsneakers', //Aqui va el id del proyecto
     credential: admin.credential.cert(serviceAccount),
-    storageBucket: 'tiendavirtualsneakers.appspot.com' //Aqui va el nombre del bucket
+    storageBucket: 'tiendavirtualsneakers.appspot.com', //Aqui va el nombre del bucket
 });
 
 //Variable para manejar el storage de Firebase
 //Contiene la referencia al bucket de Firebase
 const storage = getStorage(firebaseApp);
-
+//Variable para manejar la base de datos de Firebase
+export const db = getFirestore(firebaseApp);
 
 export const obtenerURLArchivo = async (nombreImagen) => { // Funcion para obtener la URL de un archivo almacenado en Firebase
     if (!nombreImagen) {
@@ -40,14 +42,14 @@ export const obtenerURLArchivo = async (nombreImagen) => { // Funcion para obten
 export const uploadImageToFirebase = async (file, buffer) => { // Funcion para subir a firebase nuestra imagen
     console.log("\n\nuploadImageToFirebase()");
     //Para eliminar la imagen que queda en nuestro servidor
-    const pathImage = `./src/public/images/productos/${file.originalname}`;
+    // const pathImage = `./src/temp/${file.originalname}`;
 
     try {
         const imageRef = ref(storage, `productos/${file.originalname}`); //Referencia al archivo en Firebase en este caso debe haber una carpeta llamada productos
         const metadata = { contentType: file.mimetype }; //Para especificar que es un archivo de imagen
         await uploadBytes(imageRef, buffer, metadata); //Sube la imagen a Firebase
         console.log("ARCHIVO SUBIDO ");
-        fs.unlinkSync(pathImage); //Elimina la imagen que se guardar en este servidor
+        // fs.unlinkSync(pathImage); //Elimina la imagen que se guardar en este servidor
         return true;
     } catch (error) {
         console.log("ERROR AL SUBIR EL ARCHIVO: ", error);

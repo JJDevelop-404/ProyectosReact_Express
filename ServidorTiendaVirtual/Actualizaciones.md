@@ -26,3 +26,16 @@ aún no se como podría hacerlo pero es una tarea pendiente.
 2. El envío y recibimiento de la cookie ya está bien, solo que siempre debe ser por el mismo dominio, es decir si es localhost 
     o una ip deben ser las mismas ya que al no ser https no funcionarán si se envia desde otros dominios diferentes.
 3. Se crea una serie de algoritmos en conexion.js para encender la bd de manera autónoma al iniciar el servidor.
+
+# ACTUALIZACIÓN 0.1.1
+## GENERAL => CAMBIO DE BD SQL A NoSQL
+Se cambia el sistema de base de datos, ya no se guardará en una base de datos MySQL si no que se usara *Firestore*, _es decir, los_
+_datos se guardarán en documentos_. Nueva carpeta llamada config, se elimina carpeta helpers y carpeta conexion.
+
+## ESPECÍFICOS => 
+1. Se deja a un lado la base de datos local MySQL y se usa Firestore de firebase para guardado de datos en la nube, esto para cuando
+    contar con una base de datos en la nube y no en local.
+2. Se elimina por obvias razones la carpeta conexion que contiene la configuracion de conextividad a la base de datos MySQL.
+3. Se elimina la carpeta _helpers_ para crear la carpeta _config_ en la cual se encuentras los archivos de configuración de firebase y
+    la generación del token.
+

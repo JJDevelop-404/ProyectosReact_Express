@@ -1,85 +1,97 @@
-import fs from 'fs';
 import { pool } from '../conexion/conexion.js';
-import { obtenerURLArchivo, uploadImageToFirebase } from './firebase.js';
+import { obtenerURLArchivo, uploadImageToFirebase } from '../config/firebase.js';
+import { db } from '../config/firebase.js';
+import { getDocs, collection, getDoc, doc, setDoc, updateDoc, deleteDoc, addDoc } from 'firebase/firestore';
 
 //  METODOS GET --- READ
 // productos/getProductos --> Funcion para obtener todos los productos
 export const getProductos = async (req, res) => {
     console.log("\n\nFuncion: getProductos()");
-    console.log(req.cookies);
 
     try {
-        let lstProductos = await (pool.query('SELECT * FROM productos'));
-        console.log(lstProductos);
-        if (lstProductos.length > 0) {
-            res.status(200).json(lstProductos)
-        } else {
-            console.log("No se encontraron productos");
-            res.status(200).json({ message: "No se encontraron productos" });
-        }
+        await getDocs(collection(db, 'Productos'))
+            .then((data) => {
+
+                if(data.empty){
+                    console.log("No hay productos registrados");
+                    return res.status(200).json({message: "No hay productos registrados"});
+                }
+
+                const lstProductos = [];
+                data.forEach((product) => {
+                    lstProductos.push({ ProductoId: product.id, ...product.data() });
+                });
+                console.log(lstProductos);
+                return res.status(200).json(lstProductos);
+            })
+            .catch((error) => {
+                console.log("Error en getProductos(): " + error.message);
+                return res.status(500).json({ Error: "Error en el servidor" });
+            });
+
     } catch (error) {
         console.log("Error en getProductos(): " + error.message);
-        res.status(500).json({ Error: "Error en el servidor: " + error.message });
+        return res.status(500).json({ Error: "Error en el servidor" });
     }
 }
-// /productos/getProductoById/:id --> Funcion para obtener un producto por su id
-export const getProductoById = async (req, res) => {
-    console.log("\n\nFuncion: getProductoById()");
-    try {
-        const { ProductoId } = req.params;
-        const producto = await (pool.query('SELECT * FROM productos WHERE id = ?', [ProductoId]));
-        console.log(producto);
-        if (producto.length > 0) {
-            res.status(200).json(producto)
-        } else {
-            console.log("No se encontro el producto");
-            res.status(200).json({ message: "No se encontro el producto" });
-        }
-    } catch (error) {
-        console.log("Error en getProductoById(): " + error.message);
-        res.status(500).json({ Error: "Error en el servidor: " + error.message });
-    }
-}
-
 
 // METODOS POST --- CREATE
 // productos/createProducto --> Funcion para agregar un producto
 export const createProducto = async (req, res) => {
     console.log("\n\nFuncion: createProducto()");
     try {
+        if (req.fileValidationError) {
+            console.log(`Hay un error en el archivo del producto\n error: ${req.fileValidationError}`);
+            return res.status(400).json({ error: req.fileValidationError });
+        }
+
         const { nombre, descripcion, precio } = req.body;
         const image = req.file;
 
         if (!(nombre && descripcion && precio && image)) {
-            return res.status(400).json({ error: 'No se ha proporcionado una imagen' });
+            return res.status(400).json({ error: 'No se han proporcionado los datos suficientes' });
         }
 
-        const buffer = fs.readFileSync(image.path);
-        const uploadSuccess = await uploadImageToFirebase(image, buffer);
+        // console.log(image.buffer);
+        //Subimos la imagen a Firebase
+        // const uploadSuccess = await uploadImageToFirebase(image, image.buffer);
 
-        if (!uploadSuccess) {
-            return res.status(500).json({ error: 'Error al subir la imagen a Firebase' });
-        }
+        // if (!uploadSuccess) {
+        //     //Si no se subio la imagen a firebase se retorna un error
+        //     console.log("Error al subir la imagen a Firebase");
+        //     return res.status(500).json({ error: 'Error al subir la imagen a Firebase' });
+        // }
 
-        const imageURL = await obtenerURLArchivo(image.originalname);
+        // //Ahora obtenemos la URL de la imagen subida a Firebase
+        // const imageURL = await obtenerURLArchivo(image.originalname);
 
-        if (imageURL === null) {
-            return res.status(500).json({ error: 'Error al obtener la URL de la imagen' });
-        }
+        // if (imageURL === null) {
+        //     //Si no se obtiene la URL de la imagen se retorna un error
+        //     console.log("Error al obtener la URL de la imagen");
+        //     return res.status(500).json({ error: 'Error al obtener la URL de la imagen' });
+        // }
 
-        const isInserted = await pool.query('INSERT INTO productos (Nombre, Descripcion, Precio, URLImagen) ' +
-            'VALUES (?,?,?,?)', [nombre, descripcion, precio, imageURL]);
+        // const newProducto = {
+        //     Nombre: nombre,
+        //     Descripcion: descripcion,
+        //     Precio: precio,
+        //     URLImagen: imageURL
+        // }
 
-        if (isInserted.affectedRows === 1) {
-            console.log("Producto agregado correctamente");
-            return res.status(201).json({ message: "Producto agregado correctamente" });
-        } else {
-            console.log("No se pudo agregar el producto");
-            return res.status(200).json({ message: "No se pudo agregar el producto" });
-        }
+        // //Iniciamos la subida del documento a firebase
+        // await addDoc(collection(db, 'Productos'), newProducto)
+        //     .then(()=> {
+        //         console.log("Producto registrado correctamente");
+        //         return res.status(201).json({ message: "Producto registrado correctamente" });
+        //     })
+        //     .catch((error)=>{
+        //         console.log("Error en createProducto(): " + error.message);
+        //         return res.status(500).json({message: "Error en el servidor"});
+        //     });
+
     } catch (error) {
         console.log("Error en createProducto(): " + error.message);
-        return res.status(500).json({ Error: "Error en el servidor: " + error.message });
+        return res.status(500).json({ Error: "Error en el servidor" });
     }
 };
 
@@ -90,23 +102,33 @@ export const createProducto = async (req, res) => {
 export const updateProducto = async (req, res) => {
     console.log("\n\nFuncion: updateProducto()");
     try {
+        if (req.fileValidationError) {
+            console.log("holi");
+            return res.status(400).json({ error: req.fileValidationError });
+        };
+
         const { ProductoId } = req.params
-        console.log(req.body);
         const { nombre, descripcion, precio } = req.body;
+        let imageURL = req.body.image;
         let image = req.file;
 
-        const buffer = fs.readFileSync(image.path); // Se lee la imagen
-        const uploadSuccess = await uploadImageToFirebase(image, buffer); // Se sube la imagen a firebase
 
-        if (!uploadSuccess) {
-            // Si no se subio la imagen a firebase se retorna un error
-            return res.status(500).json({ error: 'Error al subir la imagen a Firebase' });
-        }
+        console.log(image ? `Llega un archivo image ${image}` : `Llega la URL de la imagen ${imageURL}`);
 
-        const imageURL = await obtenerURLArchivo(image.originalname); // Se obtiene la URL de la imagen subida a firebase
-        
-        if (imageURL === null) {
-            return res.status(500).json({ error: 'Error al obtener la URL de la imagen' });
+
+        if (image) {
+            const uploadSuccess = await uploadImageToFirebase(image, image.buffer); // Se sube la imagen a firebase
+
+            if (!uploadSuccess) {
+                // Si no se subio la imagen a firebase se retorna un error
+                return res.status(500).json({ error: 'Error al subir la imagen a Firebase' });
+            }
+
+            imageURL = await obtenerURLArchivo(image.originalname); // Se obtiene la URL de la imagen subida a firebase
+
+            if (imageURL === null) {
+                return res.status(500).json({ error: 'Error al obtener la URL de la imagen subida a firebase' });
+            }
         }
 
         //El COALESCE ES PARA QUE SI NO SE ENVIA UN PARAMETRO, NO SE MODIFIQUE
@@ -115,15 +137,15 @@ export const updateProducto = async (req, res) => {
 
         if (isUpdate.affectedRows === 1) {
             console.log("Producto modificado correctamente");
-            res.status(201).json({ message: "Producto modificado correctamente" });
+            return res.status(201).json({ message: "Producto modificado correctamente" });
         } else {
             console.log("No se pudo modificar el producto");
-            res.status(200).json({ message: "No se pudo modificar el producto" });
+            return res.status(200).json({ message: "No se pudo modificar el producto" });
         }
 
     } catch (error) {
         console.log("Error en updateProducto(): " + error.message);
-        res.status(500).json({ Error: "Error en el servidor: " + error.message });
+        return res.status(500).json({ Error: "Error en el servidor" });
     }
 }
 
@@ -133,16 +155,16 @@ export const deleteProducto = async (req, res) => {
     console.log("\n\nFuncion: deleteProducto()");
     try {
         const { id } = req.params;
-        const isDeleted = await pool.query('DELETE FROM productos WHERE id = ?', [id]);
+        const isDeleted = await pool.query('DELETE FROM Productos WHERE id = ?', [id]);
         if (isDeleted.affectedRows === 1) {
             console.log("Producto eliminado correctamente");
-            res.status(200).json({ message: "Producto eliminado correctamente" });
+            return res.status(200).json({ message: "Producto eliminado correctamente" });
         } else {
             console.log("No se pudo eliminar el producto");
-            res.status(200).json({ message: "No se pudo eliminar el producto" });
+            return res.status(200).json({ message: "No se pudo eliminar el producto" });
         }
     } catch (error) {
         console.log("Error en deleteProducto(): " + error.message);
-        res.status(500).json({ Error: "Error en el servidor: " + error.message });
+        return res.status(500).json({ Error: "Error en el servidor" });
     }
 }

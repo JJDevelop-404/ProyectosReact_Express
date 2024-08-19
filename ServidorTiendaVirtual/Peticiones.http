@@ -1,8 +1,7 @@
 ### PETICIONES PARA TABLA PRODUCTOS
 ### MOSTRAR PRODUCTOS
-
 GET http://localhost:3000/productos/getProductos
-Authorization: 
+
 
 
 ### PETICIONES PARA TABLA USUARIOS
@@ -11,13 +10,49 @@ POST http://localhost:3000/usuarios/VerificarUsuario
 Content-Type: application/json
 
 {
-    "usuario": "carla@cliente.com",
-    "clave": "carla"
+    "usuario": "juanjose@admin.com",
+    "clave": "juanjose"
 }
-
 
 ### MOSTRAR TODOS LOS USUARIOS
 GET http://localhost:3000/usuarios/getUsuarios
+Cookie:  token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc3VhcmlvSWQiOjgsIlJvbCI6ImFkbWluaXN0cmFkb3IiLCJOb21icmVzIjoiSnVhbiBKb3NlIiwiaWF0IjoxNzIzMjQwNTEyLCJleHAiOjE3MjMzMjY5MTJ9.kfQSPm2FzQmdOuSoCNyrFXDEh2Pz4AgTfBiIhq1X_Ds
 
-### MOSTRAR UN USUARIO POR ID
-GET http://localhost:3000/usuarios/getUsuarioById/3
+### AGREGAR USUARIO
+POST http://localhost:3000/usuarios/createUsuario
+Cookie:  token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc3VhcmlvSWQiOjgsIlJvbCI6ImFkbWluaXN0cmFkb3IiLCJOb21icmVzIjoiSnVhbiBKb3NlIiwiaWF0IjoxNzIzMjQwNTEyLCJleHAiOjE3MjMzMjY5MTJ9.kfQSPm2FzQmdOuSoCNyrFXDEh2Pz4AgTfBiIhq1X_Ds
+Content-Type: application/json
+
+{
+    "nombres": "Usuario",
+    "apellidos": "Prueba eliminación",
+    "rol": "cliente",
+    "correo": "userprueba@cliente.com",
+    "clave": "user"
+    
+}
+
+### ACTUALIZAR INFO BASICA USUARIO
+PUT http://localhost:3000/usuarios/updateInfoUsuario/IuQaXJER2NSGIYSv6OsK
+Cookie:  token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc3VhcmlvSWQiOjgsIlJvbCI6ImFkbWluaXN0cmFkb3IiLCJOb21icmVzIjoiSnVhbiBKb3NlIiwiaWF0IjoxNzIzMjQwNTEyLCJleHAiOjE3MjMzMjY5MTJ9.kfQSPm2FzQmdOuSoCNyrFXDEh2Pz4AgTfBiIhq1X_Ds
+Content-Type: application/json
+
+{
+    "nombres": "Jose Luis",
+    "apellidos": "Marin",
+    "rol": "cliente"
+}
+
+### ACTUALIZAR INFO ACCESO USUARIO
+PUT http://localhost:3000/usuarios/updateInfoAccesoUsuario/RQQLBwe47qR4oGowujmO
+Cookie:  token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc3VhcmlvSWQiOjgsIlJvbCI6ImFkbWluaXN0cmFkb3IiLCJOb21icmVzIjoiSnVhbiBKb3NlIiwiaWF0IjoxNzIzMjQwNTEyLCJleHAiOjE3MjMzMjY5MTJ9.kfQSPm2FzQmdOuSoCNyrFXDEh2Pz4AgTfBiIhq1X_Ds
+Content-Type: application/json
+
+{
+    "correo": "lizz@cliente.com",
+    "clave": "lizz"
+}
+
+### ELIMINAR USUARIO
+DELETE http://localhost:3000/usuarios/deleteUsuario/R11vuNdOt8OpBtrROANT
+Cookie:  token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc3VhcmlvSWQiOjgsIlJvbCI6ImFkbWluaXN0cmFkb3IiLCJOb21icmVzIjoiSnVhbiBKb3NlIiwiaWF0IjoxNzIzMjQwNTEyLCJleHAiOjE3MjMzMjY5MTJ9.kfQSPm2FzQmdOuSoCNyrFXDEh2Pz4AgTfBiIhq1X_Ds

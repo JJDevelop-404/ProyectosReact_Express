@@ -1,13 +1,10 @@
 import express, { json } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import { config } from 'dotenv';
 
-import {routerProductos}  from './src/router/Productos.js';
-import {routerUsuarios}  from './src/router/Usuarios.js';
-import { getConnection } from './src/conexion/conexion.js';
-
-config();
+import {routerProductos}  from './router/Productos.js';
+import {routerUsuarios}  from './router/Usuarios.js';
+import { getConnection } from './conexion/conexion.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -16,11 +13,11 @@ const port = process.env.PORT || 3000;
 await getConnection();
 
 //Esto es para permitir las cookies y acceso desde cualquier sitio
-app.use(cors({credentials: true, origin: true}));
+app.options('*', cors({credentials: true, origin: true})); // Habilita preflight request para todas las rutas
+app.use(cors({credentials: true, origin: true, }));
 app.use(cookieParser())
 app.use(json());
 
-app.use('/images/productos', express.static('./src/public/images/productos'));
 app.use('/productos', routerProductos);
 app.use('/usuarios', routerUsuarios);
 
@@ -30,6 +27,6 @@ app.use((req, res) => {
     res.status(404).json({ Error: "Ruta no encontrada" });
 });
 
-app.listen(port, "0.0.0.0", () => {
+app.listen(port, () => {
     console.log(`\n\nServidor para Tienda Virtual Zapatillas corriendo en el puerto: ${port}`);
 });

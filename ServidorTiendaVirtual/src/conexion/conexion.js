@@ -4,13 +4,21 @@
 import mariadb from 'mariadb';
 import { exec } from 'child_process';
 import fs from 'fs';
-import { error } from 'console';
+
+const objConexionDBNube = {
+    host: 'bd9t3sm993e3xqhg4hj4-mysql.services.clever-cloud.com',
+    user:'uldi6dadnndjq2pf',
+    password: 'p7GNa6kQ1cam0GTzuec5',
+    database: 'bd9t3sm993e3xqhg4hj4',
+    port: '3306',
+}
 
 export const pool = mariadb.createPool({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'ShoesShop'
+    database: 'shoesshop',
+    port: '3306',
 });
 
 let tryConections = 1;
@@ -22,15 +30,19 @@ export const getConnection = async () => {
         console.log("Conexión a la base de datos exitosa");
         return connection;
     } catch (error) {
+        
         console.log("Base de datos no encendida...\n Intento de conexion #" + tryConections);
         tryConections++;
-        if (tryConections <= 3) {
-            await startsDatabase();
-            return getConnection();
-        } else {
-            console.log("\n\nPOR FAVOR, ENCIENDA LA BASE DE DATOS DE MANERA MANUAL\n\n");
-            throw new Error("Maximo numero de intentos de reconexión alcanzado");
-        }
+        console.log(error);
+        return tryConections <= 3 ? getConnection(): console.log("No fue posible acceder a la base de datos"); 
+        
+        // if (tryConections <= 3) {
+        //     await startsDatabase();
+        //     return getConnection();
+        // } else {
+        //     console.log("\n\nPOR FAVOR, ENCIENDA LA BASE DE DATOS DE MANERA MANUAL\n\n");
+        //     throw new Error("Maximo numero de intentos de reconexión alcanzado");
+        // }
     }
 }
 

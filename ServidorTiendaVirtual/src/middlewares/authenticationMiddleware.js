@@ -1,4 +1,4 @@
-import { verifyToken } from "../helpers/generateToken.js";
+import { verifyToken } from "../config/generateToken.js";
 //Middleware para el manejo de autenticación de usuario y permisos
 
 export const userAuth = async (req, res, next) => {
@@ -10,11 +10,11 @@ export const userAuth = async (req, res, next) => {
     try {
         if (token) {
 
-            const isAuth = verifyToken(token);
+            const isAuth = verifyToken(token); //Verificamos que el token sea valido
             if (isAuth) {
                 console.log("Usuario autorizado");
-                req.user = isAuth;
                 console.log(isAuth);
+                req.user = isAuth; //Al req le agregamos el usuario que viene en el token
                 next();
             }else{
                 console.log("Usuario no autorizado");
@@ -30,10 +30,11 @@ export const userAuth = async (req, res, next) => {
     }
 };
 
+//Funcion para verificar el rol
 export const userAuthRole = (rolesPermitidos) => {
     return (req, res, next) => {
         console.log("\n\nFuncion: authorizationRole()");
-        console.log(req.user.Rol);
+        console.log(req.user.Rol); //Obtenemos el rol que asi llega
         if(rolesPermitidos.includes(req.user.Rol.toLowerCase())){
             console.log("Usuario con permisos");
             next();
