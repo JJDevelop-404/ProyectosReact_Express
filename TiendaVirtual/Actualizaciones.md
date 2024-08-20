@@ -38,3 +38,5 @@ como sweetalert2 para las alertas personalizadas y demás
 3. Nuevos archivos para manejo de: encriptacion, formatearNumeros y las alertas.
 
 4. Cambios principalmente esteticos y en el hook de auth.
+
+5. Se agrega con vercel para subida.
