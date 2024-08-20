@@ -1,8 +1,12 @@
-.component-tabla-listar {
-    margin: 3vh;
+.container-tabla-listar-component {
+    padding-bottom: 20px;
 }
 
-.component-tabla-listar .title-table-list{
+.component-tabla-listar {
+    margin: 4vh;
+}
+
+.component-tabla-listar .title-table-list {
     font-family: 'Tilt Neon';
     color: #000;
     font-size: 6vh;
@@ -11,7 +15,6 @@
 }
 
 .component-tabla-listar .container-tabla-listar {
-    /* border: 2px solid red; */
     overflow-y: hidden;
     border-radius: 10px !important;
     margin: 10px 0;
@@ -23,7 +26,7 @@
 }
 
 .component-tabla-listar .container-tabla-listar .tabla-listar tbody td {
-    padding: 3px 0 !important;
+    padding: 10px 0 !important;
     align-items: center;
 }
 

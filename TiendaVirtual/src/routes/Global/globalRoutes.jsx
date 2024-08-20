@@ -1,14 +1,12 @@
 import App from "../../App";
-import FormCreateEdit from "../../components/FormCreateEdit/FormCreateEdit";
-import CrearUsuario from "../../pages/Admin/Usuarios/CrearUsuario";
-import ModificarUsuario from "../../pages/Admin/Usuarios/ModificarUsuario";
+import NotFound from "../../pages/globalPages/Errores/NotFound";
 import Login from "../../pages/globalPages/Login/Login";
-import PageError from "../../pages/globalPages/PageError/PageError";
+
 
 export const globalRoutes = [
     {
         path: '*',
-        element: <PageError />
+        element: <NotFound />
     },
     {
         path: '/',

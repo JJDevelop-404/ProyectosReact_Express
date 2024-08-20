@@ -5,6 +5,7 @@
 body {
   background-color: #C5CAC4 !important;
   font-family: 'Belanosima', sans-serif;
+  height: 100vh;
 }
 
 
@@ -30,12 +31,11 @@ body {
 /* Esto es para darle estilo a los label del formulario */
 .form-label {
   width: 100%;
-  font-size: 20px;
+  font-size: 15px;
   position: absolute;
   text-align: left;
   top: 17px;
   left: 0;
-  font-size: 15px;
   color: white;
   pointer-events: none;
   transition: .7s;
@@ -46,10 +46,11 @@ body {
   font-size: 15px;
   color: white;
   margin-top: 20px;
-  padding: 10px;
+  padding: 15px 7px;
+  padding-bottom: 3px;
   border: none;
   border-radius: 0;
-  border-bottom: 1px solid white;
+  border-bottom: 0.3px solid white;
   outline: none;
   background: transparent;
 }
@@ -58,9 +59,11 @@ body {
 .form-control:-webkit-autofill,
 .form-control:-webkit-autofill:hover,
 .form-control:-webkit-autofill:focus,
-.form-control:-webkit-autofill:active {
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: white;
+.form-control:-webkit-autofill:active,
+input:-internal-edge-excel-like-autofill-previewed{
+  color: white !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: white !important;
 }
 
 /* Esto es para cuando se haga click en un input, el label se ponga encima */
@@ -69,7 +72,7 @@ body {
   top: -10px;
   left: 0;
   color: gray;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 /* Para desactivar el coso azul de los input */
@@ -111,22 +114,23 @@ body {
 
 /* Mensaje de bien */
 .ok {
-  font-size: 20px;
+  font-size: 15px;
   color: lightgreen;
 }
 
 /* Mensaje de error */
 .error {
-  font-size: 20px;
+  font-size: 15px;
   color: red;
 }
 
 .error-msj {
   display: block;
   text-align: left;
-  font-family: sans-serif;
+  font-family: 'Tilt Neon';
   font-size: 13px;
-  margin-left: 10px;
+  padding-top: 5px;
+  margin-left: 6px;
   color: red;
 
 }

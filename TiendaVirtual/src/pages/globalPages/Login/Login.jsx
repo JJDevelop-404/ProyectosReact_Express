@@ -3,17 +3,18 @@ import { useFormik } from 'formik'; // Para el manejo de formularios
 import { useState } from 'react';
 import * as Yup from 'yup'; // Para validar los datos ingresados
 import { faCheck, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../../auth/AuthProvider/AuthProvider';
 import { login } from '../../../API/APIUsuarios';
-import './style/Login.css';
+import { alertaFallaServidor, alertaToast, alertaToastFuncionAsync } from '../../../Utils/alertas';
+import Swal from 'sweetalert2';
+import './styles/Login.css';
 
 export default function Login() {
 
-    const { isAuthenticated, setIsAuthenticated, setRol } = useAuth();
+    const { isAuthenticated, setIsAuthenticated } = useAuth();
 
     const [inputActivo, setInputActivo] = useState(''); // Para el manejo del mensaje de error de los inputs
-    const navigate = useNavigate();
 
     const formik = useFormik({
         initialValues: {
@@ -28,16 +29,23 @@ export default function Login() {
                 clave: formData.clave
             }
 
-            login(usuario)
-                .then(response => {
-                    if (response) {
-                        sessionStorage.setItem("User", JSON.stringify(response));
-                        // console.log(response);
+            alertaToastFuncionAsync({
+                titulo: 'Verificando...',
+                funcionAsync: () => login(usuario)
+                    .then((response) => {
+                        console.log(response);
+                        sessionStorage.setItem('User', JSON.stringify(response));
                         setIsAuthenticated(true);
-                    } else {
-                        alert("Usuario o contraseña incorrectos");
-                    }
-                });
+                        Swal.close();
+                    }).catch((error) => {
+                        console.log(error);
+                        if(error.status === 404){
+                            alertaToast({position: 'bottom', titulo: 'Usuario o clave incorrectos', icon: 'error'});
+                        }else{
+                            alertaFallaServidor({status: error.status, mensaje: error.message});
+                        }
+                    }),
+            })
 
         }
     });

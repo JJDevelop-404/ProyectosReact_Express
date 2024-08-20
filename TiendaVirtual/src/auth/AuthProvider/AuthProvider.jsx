@@ -1,9 +1,10 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { logout } from "../../API/APIUsuarios";
+import { decrypt } from "../../Utils/encriptacion";
 
 const AuthContext = createContext({ // Crea un contexto de autenticación
     isAuthenticated: false,
-    setIsAuthenticated: ()=>{},
+    setIsAuthenticated: () => { },
     Nombre: "",
     Rol: ""
 });
@@ -16,18 +17,19 @@ export function AuthProvider({ children }) { // Proveedor de autenticación
     const [isAuthenticated, setIsAuthenticated] = useState(
         sessionStorage.getItem("User") ? true : false
     );
-
-    if(!isAuthenticated){
-        sessionStorage.clear();
-        logout();
-    }
+    
 
     const userData = useMemo(() => {
+        if (!isAuthenticated) {
+            sessionStorage.clear();
+            logout();
+        }
+
         if (isAuthenticated) {
             const DataUsuario = JSON.parse(sessionStorage.getItem("User"));
             return {
-                Nombre: DataUsuario.Nombre,
-                Rol: DataUsuario.Rol.toLowerCase(),
+                Nombre: decrypt(DataUsuario.Nombre),
+                Rol: decrypt(DataUsuario.Rol),
             };
         }
         return {

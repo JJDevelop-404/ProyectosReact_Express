@@ -3,8 +3,9 @@ import * as Yup from 'yup';
 import { useState } from 'react';
 import { AgregarProducto, ModificarProducto } from '../../../API/APIProductos';
 import FormCreateEdit from '../../../components/FormCreateEdit/FormCreateEdit';
-import './styles/CrearProducto.css';
 import { useNavigate } from 'react-router-dom';
+import { alertaCargandoProceso } from '../../../Utils/alertas';
+import './styles/CrearProducto.css';
 
 export default function CrearProducto({ producto, accion = producto ? 'modificar' : 'crear' }) {
 
@@ -28,26 +29,24 @@ export default function CrearProducto({ producto, accion = producto ? 'modificar
         switch (accion) {
           case 'crear': {
             console.log('Crear');
-            AgregarProducto(newProducto)
-              .then((response) => {
-                if (response) {
-                  alert("Producto Creado");
-                  navigate('/admin/productos');
-                }
-              })
+            alertaCargandoProceso({
+              titulo: 'Agregando Producto',
+              messageHtml: 'Espere un momento..',
+              funcionAsync: ()=> AgregarProducto(newProducto),
+              segundaFuncion: () => navigate('/admin/productos')
+            })
             break;
           }
           case 'modificar': {
             console.log('Modificar');
-            ModificarProducto(newProducto, producto.productoId).then((response) => {
-              if (response) {
-                alert("Producto Modificado");
-                navigate('/admin/productos');
 
-              }
-            }).catch((error) => {
-              console.log(error);
+            alertaCargandoProceso({
+              titulo: 'Actualizando Producto',
+              messageHtml: 'Espere un momento..',
+              funcionAsync: () => ModificarProducto(newProducto, producto.productoId),
+              segundaFuncion: () => navigate('/admin/productos')
             })
+
             break;
           }
         }
@@ -67,6 +66,7 @@ export default function CrearProducto({ producto, accion = producto ? 'modificar
         nameEntity={'Producto'}
         lstNameLabels={lstNameLabels} lstInputsFileImage={lstInputsFileImage}
         formik={formik} dataEntity={producto ? producto : null}
+        redirectBack={'/admin/productos'}
       />
     </div>
   );
@@ -85,7 +85,13 @@ export default function CrearProducto({ producto, accion = producto ? 'modificar
       nombre: Yup.string().required("Este campo es obligatorio"),
       descripcion: Yup.string().required("Este campo es obligatorio"),
       precio: Yup.number().typeError("Este campo debe contener valores numericos").required("Este campo es obligatorio"),
-      fileUrl_imagen: Yup.string().required("Este campo es obligatorio"),
-    };
+      fileUrl_imagen: Yup.mixed() //Esto es para limitar el tipo de archivo que se puede subir
+        .required("Este campo es obligatorio")
+        .test("fileFormat", "Formato de archivo no soportado", (value) => {
+          const supportedFormats = ["image/jpg", "image/jpeg", "image/png"];
+          // console.log(value);
+          return value.toString().includes('http') || (value && supportedFormats.includes(value.type));
+        })
+    }
   }
 }

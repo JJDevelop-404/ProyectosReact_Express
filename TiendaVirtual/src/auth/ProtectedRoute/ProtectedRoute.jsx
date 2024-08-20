@@ -2,9 +2,15 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../AuthProvider/AuthProvider";
 
-export default function ProtectedRoute( {RedirectTo = '/'}) {
+export function ProtectedRouteMesero({ RedirectTo = '/' }) {
 
     const { isAuthenticated } = useAuth();
-    
-    return isAuthenticated ? <Outlet/> : <Navigate to={RedirectTo} />
+
+    return isAuthenticated ? <Outlet /> : <Navigate to={RedirectTo} />
+}
+
+export function ProtectedRouteAdmin({ RedirectTo = '/' }) {
+    const { isAuthenticated, Rol } = useAuth();
+
+    return isAuthenticated && Rol.includes('administrador') ? <Outlet /> : <Navigate to={RedirectTo} />
 }

@@ -29,3 +29,12 @@ como sweetalert2 para las alertas personalizadas y demás
 4. Se ajusta funcion de CrearProducto y ModificarProducto.
 
 5. Algunos ajustes de estilos extra y nuevas fuentes agregadas de google fonts.
+
+# Actualización 0.0.1.1
+1. Se cambia el manejo de subida de fotos para productos.
+
+2. Ajustes en navbar, card, tabla listar.
+
+3. Nuevos archivos para manejo de: encriptacion, formatearNumeros y las alertas.
+
+4. Cambios principalmente esteticos y en el hook de auth.

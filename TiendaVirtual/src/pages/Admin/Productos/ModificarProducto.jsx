@@ -1,33 +1,28 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CrearProducto from "./CrearProducto";
+import { alertaToast } from "../../../Utils/alertas";
 
 export default function ModificarProducto() {
-
-    const titulo = {
-        EncabezadoFormulario: 'Modificar Producto',
-        BotonSubmit: 'Guardar Cambios',
-    }
-
+    const navigate = useNavigate();
     const location = useLocation(); //El useLocation funciona para obtener lo que se manda desde un navigate
-    const producto = location.state; //Esto es para obtener el producto que se envia desde el componente ListarProductos en el navigate
+    let producto = location.state; //Esto es para obtener el producto que se envia desde el componente ListarProductos en el navigate
 
-    const dataProducto = {
-        productoId: producto?.ProductoId,
-        nombre: producto?.Nombre,
-        descripcion: producto?.Descripcion,
-        precio: producto?.Precio,
-        fileUrl_imagen: producto?.URLImagen
-    }
-
-    console.log(dataProducto);
-
-    if (producto !== null) {
-        return (
-            <CrearProducto titulo={titulo} producto={dataProducto} accion={'modificar'} />
-        );
+    if (!producto) {
+        alertaToast({ titulo: 'No se recibio un producto', funcion: () => navigate('/admin/productos') });
     } else {
-        return <Navigate to='/admin/productos' />
+        producto = {
+            productoId: producto.ProductoId,
+            nombre: producto.Nombre,
+            descripcion: producto.Descripcion,
+            precio: producto.Precio,
+            fileUrl_imagen: producto.URLImagen
+        }
     }
+
+    return (
+        <CrearProducto producto={producto} accion={'modificar'} />
+
+    );
 
 
 }

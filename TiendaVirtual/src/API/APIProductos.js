@@ -1,4 +1,4 @@
-import { api } from '../Utils/conection'; // Importamos la ruta raiz del backend
+import { api, errorReturn } from '../Utils/conection'; // Importamos la ruta raiz del backend
 
 // Funcion para obtener todos los productos 
 export const MostrarProductos = async () => {
@@ -7,6 +7,7 @@ export const MostrarProductos = async () => {
         return response.status === 200 ? response.data : [];
     } catch (error) {
         console.log(error); // En caso de error, lo mostramos en consola
+        throw errorReturn(error);
     }
 }
 
@@ -17,6 +18,7 @@ export const AgregarProducto = async (producto) => {
         return response.status === 201 ? response.data : null;
     } catch (error) {
         console.log(error); // En caso de error, lo mostramos en consola
+        throw errorReturn(error);
     }
 }
 
@@ -27,5 +29,6 @@ export const ModificarProducto = async (newProducto, id) => {
         return response.status === 201 ? response.data : null;
     } catch (error) {
         console.log(error); // En caso de error, lo mostramos en consola
+        throw errorReturn(error);
     }
 }

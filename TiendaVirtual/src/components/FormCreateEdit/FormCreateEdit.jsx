@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import './FormCreateEdit.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
+import './FormCreateEdit.css';
 
-export default function FormCreateEdit({ nameEntity, lstNameLabels, lstInputsFileImage, formik, dataEntity }) {
+export default function FormCreateEdit({ nameEntity, lstNameLabels, lstInputsFileImage, formik, dataEntity, redirectBack }) {
 
+  const navigate = useNavigate();
   //dataEntity is a object with the data of the entity is for modify
 
   //Structure lstInputsFileImage = [ [name, accept], ... ]
@@ -13,19 +15,17 @@ export default function FormCreateEdit({ nameEntity, lstNameLabels, lstInputsFil
   const lstPropsFormikFile = lstPropsFormik.filter(prop => prop.includes('file'));
   // console.log(lstPropsFormikFile);
   const [inputActive, setInputActive] = useState('');
-
-  const [image, setImage] = useState(dataEntity ? lstPropsFormikFile.map(prop => dataEntity[prop]).toString() : []);
-
   //This variable is used for show the image in screen
   const [contentUpload, setContentUpload] = useState(dataEntity ? lstPropsFormikFile.map(prop => dataEntity[prop]).toString() : null);
   // console.log(contentUpload);
 
   //This function is for show the image in screen when is dragged or selected
-  const onHandleDrag = (ev) => {
+  const onHandleDrag = (ev, formikValue) => {
+    
     if (ev.target.files[0]) {//Ask if exist a image
-
-      setImage(ev.target.files[0]); //We add the image to image
-
+      
+      formik.setFieldValue(formikValue, ev.target.files[0]); //We add the image to formik.values[image]
+      
       //If exist a image, we create a object of type FileReader
       const reader = new FileReader();
       /* This is for convert the image in a binary and can show */
@@ -42,7 +42,6 @@ export default function FormCreateEdit({ nameEntity, lstNameLabels, lstInputsFil
 
   function onHandleSubmit(ev) {
     ev.preventDefault();
-    lstPropsFormikFile.map((propFile) => formik.values[propFile] = image);
     formik.handleSubmit();
   }
 
@@ -50,9 +49,9 @@ export default function FormCreateEdit({ nameEntity, lstNameLabels, lstInputsFil
     <>
       <div className='form-create-edit-component'>
         <div className="container-form-create-edit bg-dark">
-          <h2 className='text-light text-center bg-primary'>  {dataEntity ? `Modificar ${nameEntity}` : `Agregar ${nameEntity}`} </h2>
 
-          <form className='form-create-edit p-5' onSubmit={(ev) => onHandleSubmit(ev)}>
+          <h2 className='form-title'>  {dataEntity ? `Modificar ${nameEntity}` : `Agregar ${nameEntity}`} </h2>
+          <form className='form-create-edit' onSubmit={(ev) => onHandleSubmit(ev)}>
 
             {lstNameLabels && lstNameLabels.map((label, index) => (
               <div key={index} className='form-group'>
@@ -74,10 +73,10 @@ export default function FormCreateEdit({ nameEntity, lstNameLabels, lstInputsFil
                   <input type='file' className='form-control form-control-sm' name={lstPropsFormikFile[index]} required={!formik.values[lstPropsFormikFile[index]]} accept={inputFile[1]}
                     onFocus={() => setInputActive(lstPropsFormikFile[index])}
                     onBlur={() => setInputActive('')}
-                    onChange={(ev) => { formik.handleChange(ev); onHandleDrag(ev); }}
+                    onChange={(ev) => { formik.handleChange(ev); onHandleDrag(ev, lstPropsFormikFile[index]); }}
                   />
 
-                  {/* {console.log(formik.values)} */}
+                  {/* {console.log([lstPropsFormikFile[index]])} */}
                   {/* <p className='text-danger'> {console.log(formik.values.fileImagen)} </p> */}
                   {/* <p className='text-danger'> { console.log(contentUpload[index])} </p> */}
 
@@ -91,7 +90,10 @@ export default function FormCreateEdit({ nameEntity, lstNameLabels, lstInputsFil
                 {inputActive === lstPropsFormikFile[index] && <span className="error-msj"> {formik.errors[lstPropsFormikFile[index]]} </span>}
               </div>
             ))}
-            <button type='submit' className='btn btn-success d-block'> {dataEntity ? 'Modificar' : 'Agregar'} {nameEntity} </button>
+            <div className="container-buttons-form">
+              <button type='submit' className='btn btn-success'> {dataEntity ? 'Modificar' : 'Agregar'} {nameEntity} </button>
+              <button type='button' className='btn btn-primary' onClick={() => navigate(redirectBack)}> Regresar </button>
+            </div>
           </form>
 
         </div>

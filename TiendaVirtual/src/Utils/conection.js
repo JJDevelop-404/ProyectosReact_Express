@@ -1,7 +1,17 @@
 import axios from 'axios';
-export const BACK_URL = "http://localhost:3000";
+// const BACK_URL = "https://servidor-shoesshop-jjdevelop-404-juan-jose-marin-projects.vercel.app/";
+const BACK_URL = "http://localhost:3000";
+
 
 export const api = axios.create({
     baseURL: BACK_URL,
     withCredentials: true
 })
+
+export const errorReturn = (error) => {
+    return {
+        error: true,
+        status: error.response?.status,
+        message: JSON.stringify(error.response?.data)
+    }
+}

@@ -1,27 +1,45 @@
-.form-label-file {
+.form-create-edit-component {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    height: 90vh;
+}
+
+.form-create-edit-component .container-form-create-edit {
+    margin: 2vh;
+    min-width: 350px;
+    max-width: 400px;
+    border-radius: 12px;
+}
+
+.form-create-edit-component .container-form-create-edit .form-title {
+    color: white;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 10px 20px;
+    text-align: center;
+    background-color: #191919;
+    border-radius: 10px 10px 0 0;
+}
+
+.form-create-edit-component .container-form-create-edit .form-create-edit {
+    width: 100% !important;
+    box-sizing: border-box;
+    padding-top: 0 !important;
+    padding: 20px 40px;
+}
+
+/* Estilos para el label del input tipo file */
+/* Label del input tipo file */
+.form-create-edit-component .form-label-file {
     display: block;
     color: white;
+    margin: 0 auto !important;
     text-align: left;
 }
 
-.form-title {
-    font-size: 30px;
-    margin-bottom: 30px;
-}
-
-
-.form-group.drag-drop-image {
-    display: inline-block;
-    margin-top: 25px;
-    margin-bottom: 5px;
-    height: 100px;
-    width: 120px;
-    border: 2px solid gray;
-    border-radius: 5px;
-    overflow: hidden;
-}
-
-.form-group.drag-drop-image .form-control[type="file"] {
+/* Esconder el input tipo file para darle estilos propios */
+.form-create-edit-component .form-group.drag-drop-image .form-control[type="file"] {
     position: absolute;
     border: none;
     outline: none;
@@ -33,17 +51,51 @@
     cursor: pointer;
 }
 
-.form-group.drag-drop-image:hover,
-.form-group.drag-drop-image-dragging {
+/* Contenedor el input tipo file */
+.form-create-edit-component .form-group.drag-drop-image {
+    display: inline-block;
+    margin: 0 auto;
+    margin: 2vh 0;
+    width: 150px;
+    height: 120px;
+    border: 2px solid gray;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+/* Para cuando se hace hover en el contenedor o se va a poner la imagen */
+.form-create-edit-component .form-group.drag-drop-image:hover,
+.form-create-edit-component .form-group.drag-drop-image-dragging {
     background-color: transparent;
     border: 2px dashed gray;
 }
 
-.form-group.drag-drop-image .text-upload {   
+/* Para el contenido del contenedor (la imagen o el texto) */
+.form-create-edit-component .form-group.drag-drop-image .text-upload {
     color: gray;
+    display: block;
+    text-align: center;
+    justify-content: center;
 }
 
-.form-group.drag-drop-image .img-drop{
-    width: 120px; /* Ancho deseado del contenedor */
-    height: 100px; /* Altura deseada del contenedor */
+/* Para la imagen */
+.form-create-edit-component .form-group.drag-drop-image .img-drop {
+    object-fit: contain;
+}
+
+/* Estilos para los botones del formulario */
+.form-create-edit-component .container-form-create-edit .form-create-edit .container-buttons-form {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 10px;
+
+}
+
+.form-create-edit-component .container-form-create-edit .form-create-edit .container-buttons-form .btn {
+    padding: 5px 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }

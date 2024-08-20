@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import { MostrarProductos } from "../../../API/APIProductos";
 import TablaListar from "../../../components/TablaListar/TablaListar";
+import { alertaToast } from "../../../Utils/alertas";
 import './styles/ListarProductos.css';
-import { useAuth } from "../../../auth/AuthProvider/AuthProvider";
 
 
 export default function ListarProductos() {
@@ -15,7 +15,7 @@ export default function ListarProductos() {
                     setProductos(response);
                 }
             }).catch((error) => {
-                alert("No se pudo traer los productos");
+                alertaToast({ titulo: 'Error al traer los productos', icon: 'error' });
                 console.log("Error al traer los productos ", error);
             })
     }, [])
