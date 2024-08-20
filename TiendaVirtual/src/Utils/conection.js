@@ -1,6 +1,6 @@
 import axios from 'axios';
 // const BACK_URL = "https://servidor-shoesshop-jjdevelop-404-juan-jose-marin-projects.vercel.app/";
-const BACK_URL = "http://localhost:3000";
+const BACK_URL = "https://servidor-shoesshop.vercel.app/";
 
 
 export const api = axios.create({
