@@ -10,7 +10,8 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 //Chequeamos la conexion a la base de datos
-await getConnection();
+//COMENTO BASE DE DATOS PORQUE SI NO ESTA CONECTADA NO ARRANCA EL SERVIDOR
+// await getConnection();
 
 //Esto es para permitir las cookies y acceso desde cualquier sitio
 app.options('*', cors({credentials: true, origin: true})); // Habilita preflight request para todas las rutas
