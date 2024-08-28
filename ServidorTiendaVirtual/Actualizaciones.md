@@ -38,4 +38,5 @@ _datos se guardarán en documentos_. Nueva carpeta llamada config, se elimina ca
 2. Se elimina por obvias razones la carpeta conexion que contiene la configuracion de conextividad a la base de datos MySQL.
 3. Se elimina la carpeta _helpers_ para crear la carpeta _config_ en la cual se encuentras los archivos de configuración de firebase y
     la generación del token.
+4. Falta y esta pendiente migrar toda la base de datos a firebase storage, también como los metodos crud de usuarios y productos
 
