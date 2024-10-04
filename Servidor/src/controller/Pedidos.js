@@ -62,14 +62,14 @@ export const getPedidos = async (req, res) => {
 
             console.log(lstPedido);
 
-            res.status(200).json(lstPedido);
+            return res.status(200).json(lstPedido);
         } else {
             console.log("Error en el servidor o servidor desconectado");
             res.statu(500).json({ Error: 'Error del servidor o servidor desconectado' });
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json('Error del servidor o servidor desconectado: ', error);
+        return res.status(500).json('Error del servidor o servidor desconectado: ', error);
     }
 }
 
@@ -94,7 +94,7 @@ export const getPedidosDelDia = async (req, res) => {
             'INNER JOIN productos Pr ON Pr.ProductoId = DPP.ProductoId ' +
             'LEFT JOIN usuarios U ON U.usuarioId = Pe.MeseroId ' +
             'INNER JOIN mesas M ON M.MesaId = Pe.MesaId ' +
-            'WHERE DATE(Pe.FechaPedido) = CURDATE() ' +
+            'WHERE DATE(Pe.FechaPedido) = CURDATE() AND Pe.Finalizado = 0 ' +
             'ORDER BY Pe.FechaPedido DESC');
         if (pedido) {
             castearPropiedadAFloatYRetornaSuma(pedido, 'PrecioTotal');
@@ -138,14 +138,14 @@ export const getPedidosDelDia = async (req, res) => {
 
             console.log(lstPedido);
 
-            res.status(200).json(lstPedido);
+            return res.status(200).json(lstPedido);
         } else {
             console.log("Error en el servidor o servidor desconectado");
             res.statu(500).json({ Error: 'Error del servidor o servidor desconectado' });
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json('Error del servidor o servidor desconectado: ', error);
+        return res.status(500).json('Error del servidor o servidor desconectado: ', error);
     }
 }
 
@@ -215,18 +215,18 @@ export const getPedidoXMeseroId = async (req, res) => {
                     index++;
                 }
                 console.log(JSON.stringify(lstPedido, null, 2));
-                res.status(200).json(lstPedido);
+                return res.status(200).json(lstPedido);
             } else {
                 console.log("No hay pedidos asociados a este mesero");
-                res.status(404).json({ Error: 'No hay pedidos asociados a este mesero' });
+                return res.status(404).json({ Error: 'No hay pedidos asociados a este mesero' });
             }
         } else {
             console.log("El usuario no existe o no es un mesero");
-            res.status(400).json({ Error: 'El usuario no existe o no es un mesero' });
+            return res.status(400).json({ Error: 'El usuario no existe o no es un mesero' });
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json('Error del servidor: ', error);
+        return res.status(500).json('Error del servidor: ', error);
     }
 }
 
@@ -264,31 +264,31 @@ export const createPedido = async (req, res) => {
                                 verificarCantidadInserciones(res, cantidadInserciones, lstProductos, "creado")
                             } else {
                                 console.log("No fue posible obtener el pedido asociado]");
-                                res.status(400).json({ Error: "No fue posible obtener el pedido asociado" });
+                                return res.status(400).json({ Error: "No fue posible obtener el pedido asociado" });
                             }
                         } else {
                             console.log("No fue posible crear el pedido");
-                            res.status(400).json({ Error: 'No se pudo crear el pedido' });
+                            return res.status(400).json({ Error: 'No se pudo crear el pedido' });
                         }
                     } else {
                         console.log("No fue posible actualizar el estado de la mesa");
-                        res.status(400).json({ Error: 'No fue posible actualizar el estado de la mesa' });
+                        return res.status(400).json({ Error: 'No fue posible actualizar el estado de la mesa' });
                     }
                 } else {
                     console.log("La mesa ya está ocupada");
-                    res.status(409).json({ Error: 'La mesa ya está ocupada' });
+                    return res.status(409).json({ Error: 'La mesa ya está ocupada' });
                 }
             } else {
                 console.log("El mesero no existe");
-                res.status(400).json({ Error: 'El mesero no existe' });
+                return res.status(400).json({ Error: 'El mesero no existe' });
             }
         } else {
             console.log("No se recibieron datos");
-            res.status(400).json({ Error: 'No se recibieron datos' });
+            return res.status(400).json({ Error: 'No se recibieron datos' });
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json('Error del servidor: ', error);
+        return res.status(500).json('Error del servidor: ', error);
     }
 };
 
@@ -314,19 +314,19 @@ export const agregarNuevosProductosAlPedido = async (req, res) => {
                     verificarCantidadInserciones(res, cantidadInserciones, lstProductos, "agregado");
                 } else {
                     console.log("No se recibieron los productos a agregar al pedido");
-                    res.status(400).json({ Error: 'No se recibieron los productos a agregar al pedido' });
+                    return res.status(400).json({ Error: 'No se recibieron los productos a agregar al pedido' });
                 }
             } else {
                 console.log("El pedido no existe");
-                res.status(400).json({ Error: 'El pedido no existe' });
+                return res.status(400).json({ Error: 'El pedido no existe' });
             }
         } else {
             console.log("No se recibió el ID del pedido");
-            res.status(400).json({ Error: 'No se recibió el ID del pedido' });
+            return res.status(400).json({ Error: 'No se recibió el ID del pedido' });
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json({ Error: 'Error del servidor: ', error });
+        return res.status(500).json({ Error: 'Error del servidor: ', error });
     }
 };
 //METODO PUT
@@ -390,26 +390,26 @@ export const updatePedido = async (req, res) => {
 
                     if (cantidadInserciones === (lstIdEliminado.length + lstIdAgregado.length + lstIdActualizar.length)) {
                         console.log("Pedido actualizado correctamente");
-                        res.status(201).json({ Message: "Pedido actualizado correctamente" });
+                        return res.status(201).json({ Message: "Pedido actualizado correctamente" });
                     } else {
                         console.log("No se pudo actualizar el pedido");
-                        res.status(400).json({ Error: "No se pudo actualizar el pedido" });
+                        return res.status(400).json({ Error: "No se pudo actualizar el pedido" });
                     }
 
 
                 } else {
                     console.log("No hay productos asociados a este pedido");
-                    res.status(404).json({ Error: 'No hay productos asociados a este pedido' });
+                    return res.status(404).json({ Error: 'No hay productos asociados a este pedido' });
                 }
             } else {
-                res.status(400).json({ Error: 'No se recibieron los datos necesarios' });
+                return res.status(400).json({ Error: 'No se recibieron los datos necesarios' });
             }
         } else {
-            res.status(400).json({ Error: 'No se recibió el ID del pedido' });
+            return res.status(400).json({ Error: 'No se recibió el ID del pedido' });
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json({ Error: 'Error del servidor: ', error });
+        return res.status(500).json({ Error: 'Error del servidor: ', error });
     }
 };
 
@@ -423,18 +423,18 @@ export const finalizarPedido = async (req, res) => {
             const isUpdate = await pool.query('UPDATE Pedidos SET Finalizado = 1 WHERE PedidoId = ?', [PedidoId]);
             if (isUpdate.affectedRows === 1) {
                 console.log("Pedido finalizado correctamente");
-                res.status(201).json({ Exito: 'Pedido finalizado correctamente' });
+                return res.status(201).json({ Exito: 'Pedido finalizado correctamente' });
             } else {
                 console.log('Error al editar el pedido o el pedido no existe');
-                res.status(409).json({ Error: 'Error al editar el pedido o el pedido no existe' });
+                return res.status(409).json({ Error: 'Error al editar el pedido o el pedido no existe' });
             }
         } else {
             console.log('No se recibió el ID del pedido');
-            res.status(400).json({ Error: 'No se recibió el ID del pedido' });
+            return res.status(400).json({ Error: 'No se recibió el ID del pedido' });
         }
     } catch (error) {
         console.log('Error del servidor', error);
-        res.status(500).json({ Error: 'Error del servidor', error });
+        return res.status(500).json({ Error: 'Error del servidor', error });
     }
 };
 
@@ -446,16 +446,16 @@ export const deletePedido = async (req, res) => {
         if (PedidoId) {
             const isDelete = await pool.query('DELETE FROM Pedidos WHERE PedidoId = ?', [PedidoId]);
             if (isDelete.affectedRows === 1) { //Siempre debe ser 1 fila afectada
-                res.status(200).json({ Message: 'Pedido eliminado correctamente' });
+                return res.status(200).json({ Message: 'Pedido eliminado correctamente' });
             } else {
-                res.status(400).json({ Error: 'No se pudo eliminar el pedido' });
+                return res.status(400).json({ Error: 'No se pudo eliminar el pedido' });
             }
         } else {
-            res.status(400).json({ Error: 'No se recibió el ID del pedido' });
+            return res.status(400).json({ Error: 'No se recibió el ID del pedido' });
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json({ Error: "Error del servidor: ", error });
+        return res.status(500).json({ Error: "Error del servidor: ", error });
     }
 };
 
@@ -467,13 +467,13 @@ const verificarCantidadInserciones = (res, cantidadInserciones, lstProductos, ti
     // console.log(cantidadInserciones, lstProductos.length);
     if (cantidadInserciones === lstProductos.length) {//Debe ser IGUAL SIEMPRE al length de la lista
         console.log(`Pedido ${tipoPeticion} correctamente`);
-        res.status(201).json({ Message: `Pedido ${tipoPeticion} correctamente` });
+        return res.status(201).json({ Message: `Pedido ${tipoPeticion} correctamente` });
     } else if (cantidadInserciones === 0) {
         console.log("No se insertaron productos al pedido");
-        res.status(400).json({ Error: 'No se insertaron productos al pedido' });
+        return res.status(400).json({ Error: 'No se insertaron productos al pedido' });
     } else {
         console.log("No se insertaron todos los productos algunos al pedido PERO SI algunos");
-        res.status(400).json({ Error: 'No se insertaron todos los productos al pedido PERO SI algunos ' });
+        return res.status(400).json({ Error: 'No se insertaron todos los productos al pedido PERO SI algunos ' });
     }
 }
 

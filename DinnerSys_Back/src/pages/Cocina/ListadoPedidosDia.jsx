@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import { getPedidosCocina } from '../../API/Pedidos';
 import { alertError } from '../../components/Tabla';
-import '../Mesero/StylesMesero/PedidosRealizados.css';
-import './ListarPedidosDia.css';
 import { liberarPedido } from '../../API/Pedidos.js';
 import { alertaCrearEditar } from '../../components/FormCrearEditar';
+// import '../Mesero/StylesMesero/PedidosRealizados.css';
+import './ListarPedidosDia.css';
 
 export default function ListadoPedidosDia() {
 

@@ -9,10 +9,10 @@ export const getMesas = async (req, res) => {
     try {
         const Mesas = await pool.query('SELECT * FROM Mesas');
         console.log(Mesas);
-        res.status(200).json(Mesas);
+        return res.status(200).json(Mesas);
     } catch (error) {
         console.log(error);
-        res.status(500).json('Error del servidor', error);
+        return res.status(500).json('Error del servidor', error);
     }
 }
 
@@ -25,10 +25,10 @@ export const createMesa = async (req, res) => {
     try {
         await pool.query('INSERT INTO Mesas (MesaId) VALUES (NULL)');
         console.log("Mesa creada correctamente");
-        res.status(201).json({ Message: 'Mesa creada correctamente' });
+        return res.status(201).json({ Message: 'Mesa creada correctamente' });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ Error: 'Error del servidor ', error });
+        return res.status(500).json({ Error: 'Error del servidor ', error });
     }
 }
 
@@ -49,19 +49,19 @@ export const liberarMesa = async (req, res) => {
                 const isUpdate = await pool.query('UPDATE Mesas SET Estado = 0 WHERE MesaId = ?', [MesaId]);                
                 if (isUpdate.affectedRows === 1) {
                     console.log("Mesa liberada correctamente");
-                    res.status(201).json({ Exito: 'Mesa liberada correctamente' });
+                    return res.status(201).json({ Exito: 'Mesa liberada correctamente' });
                 } else {
                     console.log("No se pudo liberar la mesa");
-                    res.status(400).json({ Error: 'No se pudo liberar la mesa' });
+                    return res.status(400).json({ Error: 'No se pudo liberar la mesa' });
                 }
             }else{
-                res.status(409).json({ Error: 'La mesa no esta ocupada, por ende no se puede liberar, porque ya esta libre' });
+                return res.status(409).json({ Error: 'La mesa no esta ocupada, por ende no se puede liberar, porque ya esta libre' });
             }
         } else {
-            res.status(400).json({ Error: 'No se recibieron datos' });
+            return res.status(400).json({ Error: 'No se recibieron datos' });
         }
     } catch (error) {
-        res.status(500).json({ Error: 'Error del servidor ', error });
+        return res.status(500).json({ Error: 'Error del servidor ', error });
     }
 }
 
@@ -77,13 +77,13 @@ export const deleteMesa = async (req, res) => {
         const isDelete = await pool.query('DELETE FROM Mesas WHERE MesaId = ?', [MesaId]);
         if (isDelete.affectedRows === 1) {
             console.log("Mesa eliminada correctamente");
-            res.status(200).json({ Message: 'Mesa eliminada correctamente' });
+            return res.status(200).json({ Message: 'Mesa eliminada correctamente' });
         } else {
             console.log("No fue posible eliminar la mesa");
-            res.status(400).json({ Error: `La mesa con el id ${MesaId} no existe` });
+            return res.status(400).json({ Error: `La mesa con el id ${MesaId} no existe` });
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json({ Error: 'Error del servidor ', error });
+        return res.status(500).json({ Error: 'Error del servidor ', error });
     }
 }

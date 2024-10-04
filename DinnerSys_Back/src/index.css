@@ -1,14 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@229&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Madimi+One&display=swap'); /* Font como animado, servira mejor para encabezados y asi */
+@import url('https://fonts.googleapis.com/css2?family=Madimi+One&display=swap');
+/* Font como animado, servira mejor para encabezados y asi */
 
 body {
   height: auto !important;
   margin-bottom: 50px !important;
   font-size: 20px !important;
   font-family: "Nunito" !important;
-  background-color: #232323 !important;
-  color: whitesmoke !important;
+  background-color: #e8e7e1ff !important;
+  color: #000 !important;
 }
 
 /* Clase del boton */
@@ -17,10 +18,10 @@ body {
   font-size: 18px;
   padding: 2px 10px;
   border-radius: 9px;
-  background-color: rgba(222, 184, 135, 0.13);
+  background-color: rgb(150, 75, 0, 0.7);
   /* color de fuente */
-  color: lightgray;
-  border: 3px solid #715d42;
+  color: #FFF;
+  border: 3px solid rgb(150, 75, 0);
   position: relative;
   z-index: 1;
   overflow: hidden;
@@ -28,28 +29,22 @@ body {
   outline: none !important;
 }
 
-.btnFormularios:hover {
+.btnFormularios:hover, .btnFormularios:focus {
   transform: scale(1.06);
   text-shadow: 0 0 2px black;
-  box-shadow: 0 0 5px burlywood,
+  box-shadow: 0 0 5px rgb(150, 75, 0),
     0 0 90px #715d42;
   font-style: oblique;
   font-weight: bold;
-  color: black;
-  border: 3px solid burlywood;
+  /* color: black; */
+  border: 3px solid rgb(150, 75, 0);
 }
 
-.btnFormularios:focus{
-  transform: scale(1.05);
-  border: .5px solid white;
-  text-shadow: 1px 0 0 gray;
-  box-shadow: 0 0 5px burlywood;
-  background-color: rgba(222, 184, 135, 0.2) ;
-}
+
 
 .btnFormularios::after {
   content: "";
-  background: burlywood;
+  background: rgb(150, 75, 0);
   /* color de fondo hover */
   position: absolute;
   z-index: -1;
@@ -86,7 +81,7 @@ body {
 }
 
 /* Estilos para los formularios */
-.container-formCrear{
+.container-formCrear {
   margin: 0 auto !important;
   max-width: 500px;
   justify-content: center;
@@ -94,7 +89,7 @@ body {
   /* border: 2px solid red; */
 }
 
-.msj-error{
+.msj-error {
   display: block;
   text-align: left;
   padding: 0 !important;

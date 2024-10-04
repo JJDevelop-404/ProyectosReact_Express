@@ -1,7 +1,7 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
+import { useRef } from 'react';
 import './Navbar.css';
-import { useRef, useState } from 'react';
 
 export default function Navbar() {
     const { isAuthenticated, setIsAuthenticated, UserId, Rol } = useAuth();
@@ -14,7 +14,7 @@ export default function Navbar() {
 
     const handleLinkClick = () => {
         event.preventDefault();
-        if(!auto_collapse.current.classList.contains('collapsed')){
+        if (!auto_collapse.current.classList.contains('collapsed')) {
             auto_collapse.current.click();
         }
     };
@@ -79,6 +79,29 @@ export default function Navbar() {
                                     <Link to={`/mesero/${UserId}/pedidosrealizados`} className="nav-link" onClick={handleLinkClick}> Pedidos Realizados </Link>
                                 </li>
                             </ul>
+                            <ul className='navbar-nav sys-log'>
+                                <li className="nav-item">
+                                    <button className='nav-link cerrar-sesion' onClick={() => onHandleSubmit()}> Cerrar Sesión </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <section>
+                    <Outlet></Outlet>
+                </section>
+            </>
+        )
+    } else if (isAuthenticated && Rol === "cocina") {
+        return (
+            <>
+                <nav className="navbar navbar-expand-lg ">
+                    <div className="container-fluid">
+                        <Link to={`/cocina`} className="navbar-brand"> Cocina </Link>
+                        <button ref={auto_collapse} className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                        <div className="collapse navbar-collapse" id="navbarNav">
                             <ul className='navbar-nav sys-log'>
                                 <li className="nav-item">
                                     <button className='nav-link cerrar-sesion' onClick={() => onHandleSubmit()}> Cerrar Sesión </button>

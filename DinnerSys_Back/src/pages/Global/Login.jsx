@@ -5,7 +5,7 @@ import { VerifyLoggin } from '../../API/Usuarios';
 import { useAuth } from '../../auth/AuthProvider';
 
 export default function Login() {
-  const { isAuthenticated, setIsAuthenticated, UserId, setUserId, Rol, setRol } = useAuth();
+  const { isAuthenticated, setIsAuthenticated, UserId, Rol } = useAuth();
 
   const navigate = useNavigate();
   const [Usercorreo, setUserCorreo] = useState('');

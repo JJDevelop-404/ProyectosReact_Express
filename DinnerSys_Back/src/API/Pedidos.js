@@ -1,11 +1,9 @@
 import axios from "axios";
-import { BACK_URL } from "../utils/Constants";
-
 
 //GetPedidos --> Obtener todos los pedidos
 export const getPedidos = async () => { 
     try {
-        const pedido = await axios.get(`${BACK_URL}/pedidos/getPedidos`);
+        const pedido = await axios.get(`${import.meta.env.VITE_BACK_URL}/pedidos/getPedidos`);
         return pedido.status === 200 ? pedido.data : null;
     } catch (error) {
         console.log(error);
@@ -15,7 +13,7 @@ export const getPedidos = async () => {
 //GetPedidosCocina --> Obtener todos los pedidos del día
 export const getPedidosCocina = async () => { 
     try {
-        const lstPedidosDia = await axios.get(`${BACK_URL}/pedidos/getPedidosDia`);
+        const lstPedidosDia = await axios.get(`${import.meta.env.VITE_BACK_URL}/pedidos/getPedidosDia`);
         return lstPedidosDia.status === 200 ? lstPedidosDia.data : null;
     } catch (error) {
         console.log(error);
@@ -25,7 +23,7 @@ export const getPedidosCocina = async () => {
 //GetPedidosXMeseroId --> Obtener todos los pedidos de un mesero en el dia actual
 export const getPedidosXMeseroId = async (meseroId) => {
     try {
-        const lstPedidosXMesa = await axios.get(`${BACK_URL}/pedidos/getPedidosXMeseroId/${meseroId}`);
+        const lstPedidosXMesa = await axios.get(`${import.meta.env.VITE_BACK_URL}/pedidos/getPedidosXMeseroId/${meseroId}`);
         return lstPedidosXMesa.status === 200 ? lstPedidosXMesa.data : null;
     } catch (error) {
         console.log(error);
@@ -35,7 +33,7 @@ export const getPedidosXMeseroId = async (meseroId) => {
 //nuevoPedido --> Crear un nuevo pedido
 export const nuevoPedido = async (MesaId, MeseroId, lstProductos) => { 
     try {
-        const isInsert = await axios.post(`${BACK_URL}/pedidos/createPedido`, { MesaId, MeseroId, lstProductos });
+        const isInsert = await axios.post(`${import.meta.env.VITE_BACK_URL}/pedidos/createPedido`, { MesaId, MeseroId, lstProductos });
         return isInsert.status === 201 ? true : false;
     } catch (error) {
         console.log(error);
@@ -45,7 +43,7 @@ export const nuevoPedido = async (MesaId, MeseroId, lstProductos) => {
 //modificarPedido --> Actualizar un pedido
 export const modificarPedido = async (pedidoId, lstProductos) => { 
     try {
-        const isUpdate = await axios.put(`${BACK_URL}/pedidos/updatePedido/${pedidoId}`, { lstProductos });
+        const isUpdate = await axios.put(`${import.meta.env.VITE_BACK_URL}/pedidos/updatePedido/${pedidoId}`, { lstProductos });
         return isUpdate.status === 201 ? true : false;
     } catch (error) {
         console.log(error);
@@ -54,7 +52,7 @@ export const modificarPedido = async (pedidoId, lstProductos) => {
 
 export const liberarPedido = async (pedidoId) => { 
     try {
-        const isLiberado = await axios.put(`${BACK_URL}/pedidos/finalizarPedido/${pedidoId}`);
+        const isLiberado = await axios.put(`${import.meta.env.VITE_BACK_URL}/pedidos/finalizarPedido/${pedidoId}`);
         return isLiberado.status === 201 ? true : false;
     } catch (error) {
         console.log(error);

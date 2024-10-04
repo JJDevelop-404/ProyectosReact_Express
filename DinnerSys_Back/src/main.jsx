@@ -22,7 +22,6 @@ import { routesAdmin } from './Rutas/rutasAdministrador';
 import { routesCocina } from './Rutas/rutasCocina';
 
 let rutas = [{ path: '/', element: <Navbar />, children: [].concat(routesGlobals, routesAdmin, routesMesero, routesCocina) }];
-// let rutas = [].concat(routesGlobals, routesAdmin, routesMesero);
 
 rutas = createBrowserRouter(rutas);
 

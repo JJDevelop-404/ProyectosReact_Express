@@ -10,14 +10,14 @@ export const getProductos = async (req, res) => {
             + ' LEFT JOIN Categorias C ON C.CategoriaId = P.Categoria WHERE P.Inactivo = 0 OR P.Categoria IS NULL;');
         if (Productos.length > 0) {
             console.log("Productos: ", Productos);
-            res.status(200).json(Productos);
+            return res.status(200).json(Productos);
         } else {
             console.log("No hay productos");
-            res.status(200).json({ Error: 'No hay ningun producto' });
+            return res.status(200).json({ Error: 'No hay ningun producto' });
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json({ Error: 'Error del servidor' });
+        return res.status(500).json({ Error: 'Error del servidor' });
     }
 }
 
@@ -33,17 +33,17 @@ export const getProductoById = async (req, res) => {
             console.log('Respuesta consulta producto: ', producto);
             if (producto) {
                 console.log('Producto encontrado: ', producto.rows);
-                res.status(200).json(producto);
+                return res.status(200).json(producto);
             } else {
-                res.status(404).json({ mensaje: 'No se encontro un producto con el ID ' + ProductoId + ' que has proporcionado.' });
+                return res.status(404).json({ mensaje: 'No se encontro un producto con el ID ' + ProductoId + ' que has proporcionado.' });
             }
         } else {
-            res.status(400).json({ mensaje: 'El ID proporcionado no es un numero entero positivo valido.' });
+            return res.status(400).json({ mensaje: 'El ID proporcionado no es un numero entero positivo valido.' });
         }
 
     } catch (error) {
         console.error('Error del servidor: ', error);
-        res.status(500).json({ mensaje: 'Error del servidor' });
+        return res.status(500).json({ mensaje: 'Error del servidor' });
     }
 };
 
@@ -64,26 +64,26 @@ export const createProducto = async (req, res) => {
                         [Nombre, Descripcion, Precio, isCategoria.CategoriaId]);
                     if (isInsert.affectedRows === 1) {//Si se inserto correctamente
                         console.log("Producto creado correctamente");
-                        res.status(201).json({ mensaje: 'Producto creado correctamente' });
+                        return res.status(201).json({ mensaje: 'Producto creado correctamente' });
                     } else {
                         console.log("Error al crear el producto");
-                        res.status(409).json({ error: 'Error al crear el producto', error });
+                        return res.status(409).json({ error: 'Error al crear el producto', error });
                     }
                 }else{
-                    res.status(404).json({ error: 'La categoria no existe' });
+                    return res.status(404).json({ error: 'La categoria no existe' });
                 }
             } else {
                 console.log("El Precio debe ser mayor a 100");
-                res.status(400).json({ error: "El Precio debe ser mayor a 100" });
+                return res.status(400).json({ error: "El Precio debe ser mayor a 100" });
             }
         } else {
             console.log("Ausencia de datos");
-            res.status(400).json({ error: "Ausencia de datos" });
+            return res.status(400).json({ error: "Ausencia de datos" });
         }
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ Error: 'Error en el servidor', error });
+        return res.status(500).json({ Error: 'Error en el servidor', error });
     }
 };
 
@@ -106,23 +106,23 @@ export const updateProducto = async (req, res) => {
 
                 if (isUpdate.affectedRows === 1) {//Si se actualizo correctamente
                     console.log("Producto actualizado correctamente");
-                    res.status(201).json({ mensaje: 'Producto actualizado correctamente' });
+                    return res.status(201).json({ mensaje: 'Producto actualizado correctamente' });
                 } else {
                     console.log("El producto a actualizar no existe");
-                    res.status(404).json({ error: 'El producto a actualizar no existe' });
+                    return res.status(404).json({ error: 'El producto a actualizar no existe' });
                 }
             } else {
                 console.log("La categoria no existe");
-                res.status(404).json({ error: 'La categoria no existe' });
+                return res.status(404).json({ error: 'La categoria no existe' });
             }
 
         } else {
             console.log("El Precio debe ser mayor a 100");
-            res.status(400).json({ error: "El precio debe ser mayor a 99" })
+            return res.status(400).json({ error: "El precio debe ser mayor a 99" })
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json({ Error: 'Error del servidor ', error });
+        return res.status(500).json({ Error: 'Error del servidor ', error });
     }
 }
 
@@ -135,13 +135,13 @@ export const deleteProducto = async (req, res) => {
         const isDelete = await pool.query('UPDATE Productos SET Inactivo = 1 WHERE ProductoId = ?', [ProductoId]);
         if (isDelete.affectedRows === 1) {
             console.log("Producto eliminado correctamente");
-            res.status(201).json({ Message: 'Producto eliminado correctamente' });
+            return res.status(201).json({ Message: 'Producto eliminado correctamente' });
         } else {
             console.log("Error, el producto no existe");
-            res.status(404).json({ Error: 'Error, el producto no existe' });
+            return res.status(404).json({ Error: 'Error, el producto no existe' });
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json({ Error: 'Error del servidor ', error });
+        return res.status(500).json({ Error: 'Error del servidor ', error });
     }
 }

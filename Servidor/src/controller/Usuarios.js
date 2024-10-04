@@ -22,17 +22,17 @@ export const verificarCredenciales = async (req, res) => {
                 }
                 console.log(response);
                 console.log("Usuario encontrado, todo correcto");
-                res.status(200).json(response);
+                return res.status(200).json(response);
             } else {
-                res.status(404).json({ Error: 'Contraseña incorrecta' });
+                return res.status(404).json({ Error: 'Contraseña incorrecta' });
             }
         } else {
-            res.status(404).json({ Error: 'Usuario no encontrado' });
+            return res.status(404).json({ Error: 'Usuario no encontrado' });
         }
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({ Error: 'Error del servidor' });
+        return res.status(500).json({ Error: 'Error del servidor' });
     }
 }
 
@@ -43,10 +43,10 @@ export const getUsuarios = async (req, res) => {
     try {
         const usuarios = await pool.query('SELECT U.usuarioId, U.Cedula, U.Nombres, U.Apellidos, U.TipoUsuario FROM usuarios U WHERE U.Inactivo = 0;');
         console.log(usuarios);
-        res.status(200).json(usuarios);
+        return res.status(200).json(usuarios);
     } catch (error) {
         console.log(error);
-        res.status(500).json({ Error: 'Error del servidor' });
+        return res.status(500).json({ Error: 'Error del servidor' });
     }
 }
 
@@ -57,10 +57,10 @@ export const getUsuarioById = async (req, res) => {
         const id = req.params.id;
         const usuario = await pool.query('SELECT * FROM usuarios WHERE usuarioId = ?', [id]);
         console.log(usuario);
-        res.status(200).json(usuario);
+        return res.status(200).json(usuario);
     } catch (error) {
         console.log(error);
-        res.status(500).json({ Error: 'Error del servidor' });
+        return res.status(500).json({ Error: 'Error del servidor' });
     }
 }
 
@@ -70,10 +70,10 @@ export const getMeseros = async (req, res) => {
     try {
         const Meseros = await pool.query('SELECT * FROM usuarios WHERE UPPER(TipoUsuario) LIKE "%MESERO"');
         console.log(Meseros);
-        res.status(200).json(Meseros);
+        return res.status(200).json(Meseros);
     } catch (error) {
         console.log(error);
-        res.status(500).json({ Error: 'Error del servidor' });
+        return res.status(500).json({ Error: 'Error del servidor' });
     }
 }
 
@@ -87,14 +87,14 @@ export const createUsuario = async (req, res) => {
             await pool.query('INSERT INTO usuarios (Cedula, Nombres, Apellidos, TipoUsuario) VALUES (?,?,?,?)',
                 [Cedula, Nombres, Apellidos, TipoUsuario]);
             console.log("Usuario creado correctamente");
-            res.status(201).json('Usuario creado');
+            return res.status(201).json('Usuario creado');
         } else {
             console.log("Datos incompletos o ingresados erroneamente");
-            res.status(400).json({ Error: 'Datos incompletos o ingresados erroneamente' });
+            return res.status(400).json({ Error: 'Datos incompletos o ingresados erroneamente' });
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json({ Error: 'Error del servidor' });
+        return res.status(500).json({ Error: 'Error del servidor' });
     }
 }
 
@@ -113,18 +113,18 @@ export const updateUsuario = async (req, res) => {
             // console.log(result.affectedRows);//Para saber cuantas filas fueron afectadas, siempre debe decir 1
             if (result.affectedRows === 1) {
                 console.log("Usuario actualizado correctamente");
-                res.status(201).json({ Message: 'Usuario actualizado correctamente' });
+                return res.status(201).json({ Message: 'Usuario actualizado correctamente' });
             } else {
                 console.log("No fue posible actualizar el usuario porque NO existe");
-                res.status(400).json({ Error: `El usuario con el id ${UsuarioId} no existe` });
+                return res.status(400).json({ Error: `El usuario con el id ${UsuarioId} no existe` });
             }
         } else {
             console.log("No se recibieron datos");
-            res.status(400).json({ Error: 'No se recibieron datos' });
+            return res.status(400).json({ Error: 'No se recibieron datos' });
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json({ Error: 'Error del servidor' });
+        return res.status(500).json({ Error: 'Error del servidor' });
     }
 }
 
@@ -136,13 +136,13 @@ export const deleteUsuario = async (req, res) => {
         const response = await pool.query('UPDATE usuarios SET Inactivo = 1 WHERE usuarioId = ? ', UsuarioId);
         if (response.affectedRows === 1) {//Tiene que ser siempre 1
             console.log("Usuario eliminado correctamente || ", response.affectedRows, "--> filas afectadas");
-            res.status(201).json({ Message: 'Usuario eliminado correctamente' });
+            return res.status(201).json({ Message: 'Usuario eliminado correctamente' });
         } else {
             console.log("No fue posible eliminar el usuario");
-            res.status(400).json({ Error: 'No fue posible eliminar el usuario' });
+            return res.status(400).json({ Error: 'No fue posible eliminar el usuario' });
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json({ Error: 'Error del servidor' });
+        return res.status(500).json({ Error: 'Error del servidor' });
     }
 }

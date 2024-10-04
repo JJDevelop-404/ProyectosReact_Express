@@ -24,7 +24,8 @@
     como ya modificamos todos los nav-items con el navbar-nav, pues
     este contendra el background de nuestro navbar-brand y en celular 
     sería toda la barra de navegación */
-    background-color: #111;
+    background-color: rgb(166, 98, 30);
+
     /* border: 2px solid red !important; */
     &:focus,
     &:active,
@@ -48,7 +49,7 @@
     margin: 0 !important;
     padding: 0 !important;
     color: #FFF !important;
-    background-color: #191919 !important;
+    background-color: rgb(173, 115, 57) !important;
 }
 
 /* Este es para manejar la animacion de cierre y apertura del menú desplegable */
@@ -109,11 +110,11 @@ En pc se ve en la izquierda del todo, y en celular se ve en la mitad */
 /* Para el boton cerrar sesión */
 .nav-link.cerrar-sesion {
     /* text-align: left !important; */
-    background-color: #121212 !important;
+    background-color: rgb(166, 98, 30) !important;
     width: 100% !important;
 
     /* float: right !important; */
     &:hover {
-        background-color: #111 !important;
+        background-color: rgb(132, 66, 0) !important;
     }
 }

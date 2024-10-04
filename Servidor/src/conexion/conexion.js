@@ -6,4 +6,5 @@ export const pool = mariadb.createPool({
     password: '',
     database: 'DinnerSys',
     port: 3306,
+    connectionLimit: 20
 });

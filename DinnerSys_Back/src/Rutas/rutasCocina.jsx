@@ -1,14 +1,14 @@
-import { ProtectedRouteCocina } from "../PRouteContent/ProtectedRoute";
 import ListadoPedidosDia from "../pages/Cocina/ListadoPedidosDia";
+import { ProtectedRouteCocina } from "../PRouteContent/ProtectedRoute";
 
 export let routesCocina = ([
     {
-        path: "/",
-        component: <ProtectedRouteCocina/>,
+        path: "/Cocina",
+        element: <ProtectedRouteCocina />,
         children: [
             {
-                path: "/cocina",
-                element: <ListadoPedidosDia/>
+                path: "/Cocina",
+                element: <ListadoPedidosDia />
             }
         ]
     }

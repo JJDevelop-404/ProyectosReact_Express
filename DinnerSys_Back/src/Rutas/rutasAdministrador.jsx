@@ -14,7 +14,7 @@ import Producto from "../pages/Administrador/gestionProductos/Producto";
 
 export let routesAdmin = ([
     {
-        path: "/",
+        path: "/Admin",
         element: <ProtectedRouteAdmin />,
         children: [
             {

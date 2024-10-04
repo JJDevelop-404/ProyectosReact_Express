@@ -13,8 +13,8 @@
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    background-color: #7c6951;
-    border: 3.5px solid rgba(222, 184, 135, 0.5);
+    background-color: rgb(173, 115, 57);
+    border: 3.5px solid rgb(102, 51, 0);
 }
 
 /* Para acomodar bien y centrar el icono */
@@ -22,9 +22,9 @@
     position: relative;
     margin-top: 10px;
     justify-content: center;
-    color: darkgray;
+    color: #FFF;
     font-size: 108px;
-    -webkit-text-stroke: 3px rgba(255, 255, 255, 0.7);
+    -webkit-text-stroke: 3px rgb(102, 51, 0);
 }
 
 /* Acomodamos el formulario a nuestro gusto */
@@ -34,7 +34,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background-color: #212121;
+    background-color: rgb(242, 109, 19, .16);
     display: flex;
     flex-direction: column;
     padding: 0 27px;
@@ -42,7 +42,7 @@
     max-width: 370px;
     /* Limita el ancho máximo del formulario */
     text-align: center;
-    border: 3px solid darkgray;
+    border: 3px solid rgb(102, 51, 0);
     border-radius: 45px;
 }
 
@@ -54,14 +54,14 @@
     margin-bottom: 40px;
     /* El import de este tipo de letra está en el index.css */
     font-family: 'Pixelify Sans', cursive;
-    color: rgb(245, 239, 239);
+    color: #FFF;
     font-weight: bold;
     font-size: 32px;
     text-wrap: nowrap;
     text-align: center;
     text-shadow: 4px 0 0 rgb(0, 0, 0, 0.3);
     padding: 3px 17px;
-    background-color: rgba(123, 104, 81, 0.632);
+    background-color: rgb(102, 51, 0);
     border-radius: 12px;
 }
 
@@ -82,11 +82,11 @@
     display: inline;
     padding: 0px 10px;
     font-size: 17px;
-    color: darkgray;
+    color: black;
     margin-bottom: 55px;
     border: none;
     outline: none;
-    border-bottom: 1.5px solid lightgray;
+    border-bottom: 1.5px solid rgb(46, 23, 0);
     background: transparent;
 }
 
@@ -97,7 +97,7 @@
     left: 0;
     padding: 0px 6px;
     font-size: 17px;
-    color: burlywood;
+    color: rgb(102, 51, 0);
     pointer-events: none;
     transition: .5s all linear;
 }
@@ -128,5 +128,4 @@
 .botonCen .btnFormularios {
     font-weight: bold;
     font-size: 18px;
-
 }

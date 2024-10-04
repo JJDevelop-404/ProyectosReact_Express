@@ -123,7 +123,7 @@ export default function Pedido() {
           })
       } else if (lstProductosModificar && lstProductosModificar.length > 0 && PedidoId) {
         //Vamos a editar un pedido
-        
+
         modificarPedido(PedidoId, lstProductos)
           .then((response) => {
             response ? alertaCrearEditar('Pedido Modificado', 'success', () => navigate(`/Mesero/${MeseroId}/pedidosRealizados`))
@@ -157,7 +157,7 @@ export default function Pedido() {
           }
         </div>
 
-
+        {/* Inicia listado productos dentro del contenedor pedido */}
         <div className='seccion-productos'>
           {productosFiltrados.map((producto) => (
             <div key={producto.ProductoId} className='listado-productos'>
